@@ -1,0 +1,31 @@
+{
+  "profile": {
+    "title": "个人资料",
+    "joined": "加入于",
+    "rank_gold": "黄金段位",
+    "streak": "连续登录",
+    "days": "天",
+    "total_exp": "总经验值",
+    "tournament": "锦标赛",
+    "gold": "黄金",
+    "achievements": "成就",
+    "medals": "奖牌",
+    "account_settings": "帐户设置",
+    "edit_profile": "编辑个人资料",
+    "change_password": "更改密码",
+    "notifications": "通知设置",
+    "language": "语言",
+    "logout": "登出",
+    "logout_confirm": "您确定要登出吗？",
+    "success_profile": "✅ 个人资料更新成功！",
+    "success_password": "✅ 密码更改成功！",
+    "success_noti": "✅ 通知设置已保存！",
+    "success_lang": "✅ 语言切换至："
+  },
+  "language_modal": {
+    "title": "语言",
+    "subtitle": "选择显示语言",
+    "cancel": "取消",
+    "apply": "应用"
+  }
+}

@@ -1,4 +1,4 @@
-﻿from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import datetime
 
@@ -23,6 +23,7 @@ class UserResponse(BaseModel):
     id: str
     email: str
     full_name: str
+    role: str = "student"
     grade: Optional[str] = None
     avatar_url: Optional[str] = None
     subscription_type: str = "free"

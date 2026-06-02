@@ -1,4 +1,4 @@
-﻿from datetime import datetime
+from datetime import datetime
 from bson import ObjectId
 from fastapi import HTTPException, status
 from core.database import get_database
@@ -17,6 +17,7 @@ async def register_user(email: str, password: str, full_name: str) -> dict:
         "email": email,
         "password_hash": hash_password(password),
         "full_name": full_name,
+        "role": "admin" if "admin" in email.lower() else "student",
         "grade": None,
         "avatar_url": None,
         "subscription_type": "free",

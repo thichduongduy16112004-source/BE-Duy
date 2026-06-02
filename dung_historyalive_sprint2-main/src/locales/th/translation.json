@@ -1,0 +1,31 @@
+{
+  "profile": {
+    "title": "โปรไฟล์",
+    "joined": "เข้าร่วมเมื่อ",
+    "rank_gold": "ระดับทอง",
+    "streak": "ต่อเนื่อง",
+    "days": "วัน",
+    "total_exp": "EXP รวม",
+    "tournament": "ทัวร์นาเมนต์",
+    "gold": "ทอง",
+    "achievements": "ความสำเร็จ",
+    "medals": "เหรียญ",
+    "account_settings": "การตั้งค่าบัญชี",
+    "edit_profile": "แก้ไขโปรไฟล์",
+    "change_password": "เปลี่ยนรหัสผ่าน",
+    "notifications": "การตั้งค่าการแจ้งเตือน",
+    "language": "ภาษา",
+    "logout": "ออกจากระบบ",
+    "logout_confirm": "คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ?",
+    "success_profile": "✅ อัปเดตโปรไฟล์สำเร็จ!",
+    "success_password": "✅ เปลี่ยนรหัสผ่านสำเร็จ!",
+    "success_noti": "✅ บันทึกการตั้งค่าการแจ้งเตือนแล้ว!",
+    "success_lang": "✅ เปลี่ยนภาษาเป็น:"
+  },
+  "language_modal": {
+    "title": "ภาษา",
+    "subtitle": "เลือกภาษาที่แสดง",
+    "cancel": "ยกเลิก",
+    "apply": "นำไปใช้"
+  }
+}

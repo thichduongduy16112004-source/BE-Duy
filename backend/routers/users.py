@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends
 from models.user import UserUpdate, UserOnboarding
 from core.security import get_current_user
 from core.database import get_database
@@ -12,6 +12,7 @@ async def get_me(current_user: dict = Depends(get_current_user)):
         "id": current_user["_id"],
         "email": current_user["email"],
         "full_name": current_user["full_name"],
+        "role": current_user.get("role", "student"),
         "grade": current_user.get("grade"),
         "avatar_url": current_user.get("avatar_url"),
         "subscription_type": current_user.get("subscription_type", "free"),

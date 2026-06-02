@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException
 
 router = APIRouter(prefix="/characters", tags=["Characters"])
 
@@ -11,6 +11,7 @@ CHARACTERS = [
     {"id": "le-loi", "name": "Lê Lợi", "era": "Thế kỷ 15 (1385 - 1433)", "role": "Lãnh đạo khởi nghĩa Lam Sơn, lập ra nhà Lê", "description": "Người anh hùng áo vải đất Lam Sơn, giải phóng đất nước khỏi ách đô hộ nhà Minh.", "grade": ["cap2", "cap3"]},
     {"id": "quang-trung", "name": "Nguyễn Huệ — Quang Trung", "era": "Thế kỷ 18 (1753 - 1792)", "role": "Hoàng đế Tây Sơn, đánh bại 29 vạn quân Thanh", "description": "Vị anh hùng áo vải Tây Sơn, người đại phá quân Thanh trong trận Đống Đa lịch sử.", "grade": ["cap2", "cap3"]},
     {"id": "ho-chi-minh", "name": "Hồ Chí Minh", "era": "Thế kỷ 20 (1890 - 1969)", "role": "Chủ tịch nước, lãnh tụ cách mạng Việt Nam", "description": "Người sáng lập nước Việt Nam Dân chủ Cộng hòa, lãnh đạo nhân dân giành độc lập.", "grade": ["cap2", "cap3"]},
+    {"id": "nguyen-trai", "name": "Nguyễn Trãi", "era": "Thế kỷ XV (1380 - 1442)", "role": "Khai quốc công thần nhà Hậu Lê, nhà văn hóa kiệt xuất", "description": "Người dâng Bình Ngô Sách cứu nước, tác giả Bình Ngô Đại Cáo.", "grade": ["cap2", "cap3"]},
 ]
 
 @router.get("/")

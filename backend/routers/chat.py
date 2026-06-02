@@ -23,10 +23,10 @@ async def start_chat(body: StartChatRequest, current_user: dict = Depends(get_cu
     
     # Kiểm tra giới hạn free
     if current_user.get("subscription_type", "free") == "free":
-        if current_user.get("daily_chat_count", 0) >= 3:
+        if current_user.get("daily_chat_count", 0) >= 8:
             raise HTTPException(
                 status_code=429,
-                detail="Bạn đã dùng hết 3 lượt chat miễn phí hôm nay. Nâng cấp Premium để chat không giới hạn!"
+                detail="Bạn đã dùng hết 8 lượt chat miễn phí hôm nay. Nâng cấp Premium để chat không giới hạn!"
             )
     
     character = find_character(body.character_id)

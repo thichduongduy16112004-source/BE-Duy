@@ -1,0 +1,31 @@
+{
+  "profile": {
+    "title": "Perfil",
+    "joined": "Miembro desde",
+    "rank_gold": "Rango Oro",
+    "streak": "Racha",
+    "days": "días",
+    "total_exp": "EXP Total",
+    "tournament": "Torneo",
+    "gold": "Oro",
+    "achievements": "Logros",
+    "medals": "medallas",
+    "account_settings": "Configuración de la cuenta",
+    "edit_profile": "Editar perfil",
+    "change_password": "Cambiar contraseña",
+    "notifications": "Configuración de notificaciones",
+    "language": "Idioma",
+    "logout": "Cerrar sesión",
+    "logout_confirm": "¿Estás seguro de que quieres cerrar sesión?",
+    "success_profile": "✅ ¡Perfil actualizado exitosamente!",
+    "success_password": "✅ ¡Contraseña cambiada exitosamente!",
+    "success_noti": "✅ ¡Configuración de notificaciones guardada!",
+    "success_lang": "✅ Idioma cambiado a:"
+  },
+  "language_modal": {
+    "title": "Idioma",
+    "subtitle": "Elegir idioma para mostrar",
+    "cancel": "Cancelar",
+    "apply": "Aplicar"
+  }
+}

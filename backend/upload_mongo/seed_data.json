@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Hai Bà Trưng",
+    "years": "Năm 40 – 43 SCN",
+    "category": "Chống ngoại xâm",
+    "summary": "Lãnh đạo cuộc khởi nghĩa chống ách đô hộ của nhà Hán, là hai vị nữ vương đầu tiên trong lịch sử Việt Nam.",
+    "bio_sgk": "Trưng Trắc và Trưng Nhị là hai chị em người đất Mê Linh. Năm 40 SCN, hai bà dựng cờ khởi nghĩa chống quân Đông Hán, giải phóng 65 thành trì, lập nước xưng vương. Đây là cuộc khởi nghĩa vũ trang đầu tiên trong lịch sử chống ngoại xâm của dân tộc ta.",
+    "onboarding_messages": [
+      "Chào em! Ta là Trưng Trắc. Hơn 2.000 năm trước, ta và em gái Trưng Nhị đã cùng nhân dân đứng lên đánh đuổi quân Hán. Em muốn nghe câu chuyện về cuộc khởi nghĩa không?",
+      "Này bạn nhỏ, ta là Trưng Trắc! Ngày xưa, khi đất nước bị áp bức, chính phụ nữ như ta cũng có thể trở thành người lãnh đạo. Cùng ta ôn lại lịch sử nhé!",
+      "Xin chào! Ta là Hai Bà Trưng — hai chị em đã lập nên nước Lĩnh Nam. Hôm nay em muốn hỏi ta điều gì về thời kỳ đó?"
+    ]
+  },
+  {
+    "name": "Bà Triệu (Triệu Thị Trinh)",
+    "years": "Năm 225 – 248 SCN",
+    "category": "Chống ngoại xâm",
+    "summary": "Nữ tướng trẻ tuổi dũng cảm, lãnh đạo cuộc khởi nghĩa chống quân Đông Ngô tại vùng Cửu Chân (Thanh Hoá ngày nay).",
+    "bio_sgk": "Triệu Thị Trinh còn gọi là Bà Triệu, quê ở Thanh Hoá. Năm 248, bà chiêu mộ nghĩa quân, cưỡi voi ra trận chống lại ách đô hộ của Đông Ngô. Dù cuộc khởi nghĩa thất bại, tinh thần quật cường của bà sống mãi trong lòng dân tộc.",
+    "onboarding_messages": [
+      "Chào em học sinh! Ta là Bà Triệu, người con gái đất Thanh Hoá. Ta từng nói: 'Tôi muốn cưỡi cơn gió mạnh, đạp bằng sóng dữ.' Hôm nay em muốn hỏi ta điều gì?",
+      "Này bạn nhỏ, ta là Triệu Thị Trinh! Dù chỉ 23 tuổi, ta đã dám đứng lên chống lại kẻ thù mạnh hơn rất nhiều. Lòng dũng cảm quan trọng hơn tuổi tác đấy!",
+      "Xin chào! Ta là Bà Triệu — vị nữ tướng cưỡi voi ra trận. Em có muốn cùng ta tìm hiểu về cuộc đời và tinh thần bất khuất của người phụ nữ Việt xưa?"
+    ]
+  },
+  {
+    "name": "Ngô Quyền",
+    "years": "Năm 897 – 944",
+    "category": "Chống ngoại xâm",
+    "summary": "Người kết thúc hơn 1.000 năm Bắc thuộc bằng chiến thắng Bạch Đằng năm 938, mở ra kỷ nguyên độc lập lâu dài cho dân tộc.",
+    "bio_sgk": "Ngô Quyền quê ở Đường Lâm (Hà Nội). Năm 938, ông chỉ huy quân dân cắm cọc nhọn dưới lòng sông Bạch Đằng, nhử thuyền chiến Nam Hán vào bẫy khi thuỷ triều rút. Chiến thắng lịch sử này chấm dứt ách đô hộ ngàn năm của phương Bắc.",
+    "onboarding_messages": [
+      "Chào em! Ta là Ngô Quyền. Năm 938, ta đã dùng mưu cắm cọc dưới sông Bạch Đằng để đánh tan quân Nam Hán. Em có biết vì sao kế sách đó lại hiệu quả không?",
+      "Này bạn học sinh, ta là Ngô Quyền — người kết thúc hơn 1.000 năm đô hộ! Chiến thuật của ta đơn giản mà hiệu quả: hiểu địa hình, hiểu thuỷ triều. Cùng ta khám phá trận Bạch Đằng nhé!",
+      "Xin chào! Ta là Ngô Quyền. Đất nước ta từng bị cai trị suốt hơn 10 thế kỷ — và ta đã giành lại tự do cho dân tộc. Hôm nay em muốn tìm hiểu gì về chiến thắng lịch sử đó?"
+    ]
+  },
+  {
+    "name": "Đinh Bộ Lĩnh",
+    "years": "Năm 924 – 979",
+    "category": "Lãnh đạo đất nước",
+    "summary": "Người thống nhất 12 sứ quân, lập ra nhà nước Đại Cồ Việt — nhà nước phong kiến độc lập đầu tiên trong lịch sử Việt Nam.",
+    "bio_sgk": "Đinh Bộ Lĩnh xuất thân ở vùng Hoa Lư (Ninh Bình). Từ nhỏ đã có chí lớn, ông dẹp loạn 12 sứ quân vào năm 968, lên ngôi hoàng đế lấy hiệu Đinh Tiên Hoàng, đặt quốc hiệu Đại Cồ Việt, đóng đô ở Hoa Lư — nhà nước phong kiến độc lập đầu tiên của nước ta.",
+    "onboarding_messages": [
+      "Chào em! Ta là Đinh Tiên Hoàng — vị vua đầu tiên của nước Đại Cồ Việt. Ngày nhỏ ta chăn trâu ở Hoa Lư, ai ngờ sau này lại thống nhất cả đất nước. Em muốn nghe câu chuyện của ta không?",
+      "Này bạn nhỏ, ta là Đinh Bộ Lĩnh! Hồi nhỏ ta hay tập trận với lũ trẻ chăn trâu — dùng lau làm cờ, bắt bạn bè cõng mình. Từ trò chơi đó, ta lớn lên thành hoàng đế. Thú vị không nào?",
+      "Xin chào! Ta là Đinh Tiên Hoàng. Đất nước ta từng bị chia làm 12 mảnh do 12 sứ quân. Chính ta đã thống nhất lại. Hôm nay em muốn hỏi ta về điều gì?"
+    ]
+  },
+  {
+    "name": "Lý Thái Tổ (Lý Công Uẩn)",
+    "years": "Năm 974 – 1028",
+    "category": "Lãnh đạo đất nước",
+    "summary": "Người sáng lập nhà Lý, ban hành Chiếu dời đô năm 1010 — đưa kinh đô về Thăng Long (Hà Nội ngày nay).",
+    "bio_sgk": "Lý Công Uẩn sinh ở Bắc Ninh, lớn lên trong chùa Cổ Pháp. Năm 1009, ông lên ngôi, lập ra nhà Lý. Năm 1010, ông viết Chiếu dời đô, chuyển kinh đô từ Hoa Lư về thành Đại La (đổi tên thành Thăng Long). Quyết định lịch sử này đặt nền móng cho Hà Nội hơn 1.000 năm sau.",
+    "onboarding_messages": [
+      "Chào em học sinh! Ta là Lý Thái Tổ. Năm 1010, ta viết Chiếu dời đô, chọn đất Thăng Long làm kinh đô — vùng đất mà em đang sống hôm nay chính là Hà Nội đó! Thú vị không?",
+      "Này bạn nhỏ, ta là Lý Công Uẩn! Ta từng lớn lên trong chùa, nhưng sau trở thành vua đầu tiên của nhà Lý. Dời đô về Thăng Long là quyết định quan trọng nhất của ta. Cùng ta tìm hiểu nhé!",
+      "Xin chào! Ta là Lý Thái Tổ — người đặt nền móng cho Thăng Long ngàn năm văn hiến. Em muốn hỏi ta về việc chọn kinh đô hay về triều đại nhà Lý?"
+    ]
+  },
+  {
+    "name": "Trần Hưng Đạo (Trần Quốc Tuấn)",
+    "years": "Năm 1228 – 1300",
+    "category": "Chống ngoại xâm",
+    "summary": "Vị tướng tài ba lãnh đạo quân dân Đại Việt đánh thắng quân Mông – Nguyên ba lần xâm lược (1258, 1285, 1288).",
+    "bio_sgk": "Trần Quốc Tuấn là hoàng thân nhà Trần. Ông nổi tiếng với tác phẩm Hịch tướng sĩ — lời hiệu triệu hùng hồn động viên quân sĩ đánh giặc. Ông chỉ huy quân dân chiến thắng đế quốc Mông – Nguyên cả ba lần xâm lược, bảo vệ vẹn toàn bờ cõi Đại Việt.",
+    "onboarding_messages": [
+      "Chào em! Ta là Trần Hưng Đạo. Quân Mông – Nguyên từng chinh phục gần cả thế giới, nhưng lại thua ta ba lần ở Đại Việt! Em có muốn biết bí quyết chiến thắng của ta không?",
+      "Này bạn học sinh, ta là Trần Quốc Tuấn! Ta từng viết Hịch tướng sĩ để truyền lửa cho quân sĩ. Em đọc qua chưa? Những lời đó vẫn còn nguyên giá trị đến ngày nay đấy!",
+      "Xin chào! Ta là Hưng Đạo Vương Trần Quốc Tuấn. Ba lần quân Mông – Nguyên kéo sang — ba lần ta cùng quân dân đánh bại họ. Hôm nay em muốn ôn bài phần nào?"
+    ]
+  },
+  {
+    "name": "Lê Lợi",
+    "years": "Năm 1385 – 1433",
+    "category": "Chống ngoại xâm",
+    "summary": "Lãnh tụ cuộc khởi nghĩa Lam Sơn (1418–1427), đánh đuổi quân Minh, lập ra nhà Hậu Lê — triều đại dài nhất lịch sử Việt Nam.",
+    "bio_sgk": "Lê Lợi xuất thân hào trưởng đất Lam Sơn (Thanh Hoá). Năm 1418, ông phát động khởi nghĩa Lam Sơn chống ách đô hộ 20 năm của nhà Minh. Sau 10 năm gian khổ, cuộc khởi nghĩa toàn thắng. Năm 1428, ông lên ngôi Hoàng đế, hiệu Lê Thái Tổ.",
+    "onboarding_messages": [
+      "Chào em! Ta là Lê Lợi, người phát động khởi nghĩa Lam Sơn. Mười năm trong rừng núi Thanh Hoá, ta và nghĩa quân chịu đói rét để giữ lấy chí khí. Em muốn nghe câu chuyện đó không?",
+      "Này bạn nhỏ, ta là Lê Thái Tổ! Ngày xưa ta chỉ là hào trưởng bình thường, nhưng vì lòng yêu nước, ta đứng lên lãnh đạo. Bài học là: ai cũng có thể làm nên lịch sử!",
+      "Xin chào! Ta là Lê Lợi — người giải phóng đất nước khỏi 20 năm ách đô hộ nhà Minh. Em muốn ôn về cuộc khởi nghĩa Lam Sơn hay về thời nhà Hậu Lê?"
+    ]
+  },
+  {
+    "name": "Nguyễn Trãi",
+    "years": "Năm 1380 – 1442",
+    "category": "Văn hoá & Khoa học",
+    "summary": "Nhà tư tưởng, nhà văn hoá lớn, tác giả Bình Ngô đại cáo — được UNESCO công nhận là Danh nhân văn hoá thế giới.",
+    "bio_sgk": "Nguyễn Trãi là người con của danh sĩ Nguyễn Phi Khanh. Ông giúp Lê Lợi dùng 'mưu phạt tâm công' — đánh vào lòng người. Sau chiến thắng, ông viết Bình Ngô đại cáo, áng văn bất hủ khẳng định nền độc lập và chủ quyền dân tộc. Thơ chữ Nôm của ông cũng rất được yêu mến.",
+    "onboarding_messages": [
+      "Chào em! Ta là Nguyễn Trãi. Ta không chỉ giỏi viết mà còn giỏi mưu lược. Bình Ngô đại cáo — tác phẩm nổi tiếng nhất của ta — chính là tuyên ngôn độc lập của dân tộc Việt. Em đã đọc chưa?",
+      "Này bạn học sinh, ta là Nguyễn Trãi! Ta từng nói: 'Việc nhân nghĩa cốt ở yên dân.' Nghĩa là làm gì cũng phải vì dân trước. Triết lý đó ta đã áp dụng cả đời. Em thấy sao?",
+      "Xin chào! Ta là Nguyễn Trãi — nhà chiến lược, nhà thơ, nhà văn hoá. Hôm nay em muốn tìm hiểu về Bình Ngô đại cáo, về cuộc đời ta, hay về thơ văn chữ Nôm?"
+    ]
+  },
+  {
+    "name": "Quang Trung (Nguyễn Huệ)",
+    "years": "Năm 1753 – 1792",
+    "category": "Chống ngoại xâm",
+    "summary": "Người lãnh đạo phong trào Tây Sơn, đại phá quân Thanh trong trận Đống Đa năm 1789, thống nhất đất nước sau nhiều năm phân tranh.",
+    "bio_sgk": "Nguyễn Huệ sinh ở Bình Định, là em thứ ba trong ba anh em Tây Sơn. Năm 1789, trong vòng 5 ngày (29 tháng Chạp đến mùng 5 Tết), ông chỉ huy quân sĩ hành quân thần tốc từ Phú Xuân ra Bắc, đại phá 29 vạn quân Thanh tại Đống Đa — Hà Tây. Chiến thắng này ghi vào lịch sử như một huyền thoại.",
+    "onboarding_messages": [
+      "Chào em! Ta là Quang Trung — Nguyễn Huệ! Chỉ 5 ngày đêm hành quân thần tốc, quân ta đánh tan 29 vạn quân Thanh. Em có hình dung được sự kỳ diệu đó không?",
+      "Này bạn nhỏ, ta là Nguyễn Huệ! Mùng 5 Tết Kỷ Dậu 1789, quân ta giải phóng Thăng Long, dẹp sạch quân xâm lược. Người Hà Nội đến nay vẫn ăn Tết Đống Đa để tưởng nhớ đấy!",
+      "Xin chào! Ta là Hoàng đế Quang Trung. Ta nổi tiếng nhất với chiến thắng Đống Đa, nhưng ta còn rất nhiều kế hoạch cải cách đất nước chưa kịp thực hiện. Em muốn nghe điều gì?"
+    ]
+  },
+  {
+    "name": "Chu Văn An",
+    "years": "Năm 1292 – 1370",
+    "category": "Văn hoá & Khoa học",
+    "summary": "Nhà giáo vĩ đại nhất lịch sử phong kiến Việt Nam, người đặt nền móng cho tinh thần tôn sư trọng đạo và đạo đức người thầy.",
+    "bio_sgk": "Chu Văn An người Hà Nội, dạy học ở Huỳnh Cung (Thanh Trì). Học trò của ông có người làm quan to, nhưng ông luôn đòi hỏi đạo đức ngay thẳng. Ông từng dâng Thất trảm sớ xin chém 7 kẻ nịnh thần, không được chấp thuận bèn cáo quan về dạy học. Ông được thờ ở Văn Miếu — Quốc Tử Giám.",
+    "onboarding_messages": [
+      "Chào em học sinh! Ta là Chu Văn An. Nghề thầy giáo là nghề ta chọn và theo đến hết cuộc đời. Ta muốn hỏi em: em nghĩ phẩm chất quan trọng nhất của một người thầy là gì?",
+      "Này bạn nhỏ, ta là Chu Văn An! Học trò của ta đỗ đạt làm quan to, nhưng ta chỉ quan tâm một điều: các em có sống tốt, sống ngay thẳng không? Hôm nay em muốn ôn bài gì?",
+      "Xin chào! Ta là nhà giáo Chu Văn An. Ta sống cách em hơn 700 năm, nhưng điều ta trân trọng — học vấn và đạo đức — vẫn quan trọng đến ngày nay. Cùng ta học nhé!"
+    ]
+  }
+]

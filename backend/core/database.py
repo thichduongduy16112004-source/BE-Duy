@@ -1,4 +1,4 @@
-﻿from motor.motor_asyncio import AsyncIOMotorClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from core.config import settings
 
 client = None
@@ -6,7 +6,7 @@ client = None
 async def connect_db():
     global client
     client = AsyncIOMotorClient(settings.MONGODB_URI)
-    print("✅ Connected to MongoDB Atlas")
+    print("[DB] Connected to MongoDB Atlas")
 
 async def close_db():
     global client

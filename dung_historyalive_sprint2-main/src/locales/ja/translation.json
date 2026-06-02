@@ -1,0 +1,31 @@
+{
+  "profile": {
+    "title": "プロフィール",
+    "joined": "参加日",
+    "rank_gold": "ゴールドランク",
+    "streak": "連続",
+    "days": "日",
+    "total_exp": "総EXP",
+    "tournament": "トーナメント",
+    "gold": "ゴールド",
+    "achievements": "実績",
+    "medals": "メダル",
+    "account_settings": "アカウント設定",
+    "edit_profile": "プロフィールを編集",
+    "change_password": "パスワードを変更",
+    "notifications": "通知設定",
+    "language": "言語",
+    "logout": "ログアウト",
+    "logout_confirm": "ログアウトしますか？",
+    "success_profile": "✅ プロフィールが更新されました！",
+    "success_password": "✅ パスワードが変更されました！",
+    "success_noti": "✅ 通知設定が保存されました！",
+    "success_lang": "✅ 言語が変更されました："
+  },
+  "language_modal": {
+    "title": "言語",
+    "subtitle": "表示言語を選択",
+    "cancel": "キャンセル",
+    "apply": "適用"
+  }
+}
