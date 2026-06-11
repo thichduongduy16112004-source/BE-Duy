@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router";
 import { useApp, API_URL } from "../store";
 import { motion } from "motion/react";
 import { Eye, EyeOff, CheckCircle2, Circle } from "lucide-react";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 import explorerImg from "../../imports/explorer.jpg";
 
@@ -17,6 +18,33 @@ export default function RegisterScreen() {
   const [showPw, setShowPw] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [err, setErr] = useState("");
+
+  const handleGoogleSuccess = async (credential: string) => {
+    setErr("");
+    try {
+      const res = await fetch(`${API_URL}/auth/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        return setErr(data.detail || "Đăng ký bằng Google không thành công");
+      }
+
+      localStorage.setItem("ha_token", data.access_token);
+      setUser(data.user);
+      
+      if (data.is_new || !data.user.onboarding_completed) {
+        nav("/onboarding/name");
+      } else {
+        nav("/home");
+      }
+    } catch (error) {
+      setErr("Lỗi kết nối đến máy chủ khi đăng ký bằng Google. Vui lòng thử lại!");
+    }
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -244,6 +272,21 @@ export default function RegisterScreen() {
                 Bắt đầu ngay! 🚀
               </motion.button>
             </form>
+
+            {/* Divider */}
+            <div className="flex items-center gap-3 my-5">
+              <div className="flex-1 h-px" style={{ background: "rgba(217,119,6,0.15)" }} />
+              <span style={{ color: "#a8a29e", fontSize: 11, fontFamily: '"Inter", sans-serif' }}>hoặc</span>
+              <div className="flex-1 h-px" style={{ background: "rgba(217,119,6,0.15)" }} />
+            </div>
+
+            {/* Google button */}
+            <div className="w-full flex justify-center mt-2">
+              <GoogleLoginButton 
+                onSuccess={handleGoogleSuccess} 
+                onError={() => setErr("Lỗi đăng ký tài khoản Google.")} 
+              />
+            </div>
 
             <p className="text-center mt-6" style={{ color: "#a8a29e", fontSize: 13 }}>
               Đã có tài khoản?{" "}

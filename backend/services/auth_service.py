@@ -99,3 +99,46 @@ async def refresh_access_token(refresh_token: str) -> str:
 async def logout_user(refresh_token: str):
     db = get_database()
     await db["sessions"].delete_one({"refresh_token": refresh_token})
+
+async def register_oauth_user(email: str, full_name: str, avatar_url: str = None) -> dict:
+    db = get_database()
+    user_id = str(ObjectId())
+    
+    # Generate unique username
+    base_username = email.split("@")[0]
+    username = base_username
+    counter = 1
+    while True:
+        existing = await db["users"].find_one({"username": username})
+        if not existing:
+            break
+        username = f"{base_username}_{counter}"
+        counter += 1
+
+    user_doc = {
+        "_id": user_id,
+        "username": username,
+        "email": email,
+        "password_hash": "", # OAuth users don't have password initially
+        "full_name": full_name or username,
+        "role": "admin" if "admin" in email.lower() else "student",
+        "grade": None,
+        "avatar_url": avatar_url,
+        "subscription_type": "free",
+        "daily_chat_count": 0,
+        "onboarding_completed": False,
+        "selected_character": None,
+        "study_minutes": 15,
+        "xp": 0,
+        "streak": 1,
+        "gems": 50,
+        "hearts": 5,
+        "completed_lessons": [],
+        "achievements": [],
+        "is_new_user": True,
+        "trial_end_date": None,
+        "last_active": datetime.utcnow(),
+        "created_at": datetime.utcnow(),
+    }
+    await db["users"].insert_one(user_doc)
+    return user_doc

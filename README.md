@@ -1,133 +1,176 @@
-# History Alive - Cổng Học Tập Lịch Sử Tương Tác ⚔️📜
+# History Alive - Nền Tảng Học Tập Lịch Sử Tương Tác ⚔️📜
 
-Chào mừng bạn đến với **History Alive**, một nền tảng học tập lịch sử Việt Nam hiện đại, trực quan và đầy cảm hứng. Hệ thống bao gồm ứng dụng học tập dành cho học sinh (Student Web), cổng thông tin phân tích dành cho giáo viên/quản trị viên (Admin Portal) và hệ thống máy chủ dịch vụ thông minh (FastAPI Backend).
+Chào mừng bạn đến với **History Alive**, một nền tảng học tập lịch sử Việt Nam trực quan, sinh động và đầy cảm hứng. Dự án được cấu trúc dưới dạng Monorepo chứa ứng dụng dành cho học sinh (Student Web), cổng thông tin quản lý (Admin Portal), và hệ thống dịch vụ dữ liệu thông minh (FastAPI Backend).
 
 ---
 
-## 🏛️ Kiến trúc Dự án (Architecture)
+## 🏛️ Kiến Trúc Hệ Thống (Architecture)
 
-Dự án được cấu trúc dưới dạng monorepo chứa 3 thành phần chính:
+Dự án được phân chia thành 3 phần chính nằm trong cùng một repository:
 
-```
+```text
 history_alive/
-├── backend/               # FastAPI Backend (Python)
-├── frontend/              # Ứng dụng dành cho học sinh (React + Vite)
-└── historyalive-admin/    # Cổng thông tin Quản trị viên (React + Vite)
+├── backend/               # FastAPI Backend Service (Python)
+├── frontend/              # Ứng dụng học tập cho học sinh (React + Vite, Port 5173)
+├── historyalive-admin/    # Cổng thông tin cho quản trị viên (React + Vite, Port 5175)
+└── scratch/               # Kịch bản kiểm thử tích hợp tự động (Integration Tests)
 ```
 
-### 1. Backend Service (`backend/`)
-* **Công nghệ:** FastAPI (Python), MongoDB Atlas (database), Pydantic v2 (validation).
-* **Tính năng:**
-  * Xác thực người dùng (JWT Authentication) hỗ trợ đăng nhập linh hoạt bằng cả Email hoặc Username.
-  * Quản lý tiến trình học tập, XP, Streak, bảng xếp hạng và Onboarding.
-  * API CRUD bài học (lessons) và câu hỏi trắc nghiệm (quizzes) phục vụ học tập.
-  * Tích hợp hội thoại và tương tác với các nhân vật lịch sử AI (persona-chat).
-
-### 2. Student Web App (`frontend/`)
-* **Công nghệ:** React 19, Vite, Tailwind CSS, Lucide Icons, Framer Motion.
-* **Giao diện:** Thiết kế theo phong cách DuoLingo trực quan, sinh động với các Mascot đáng yêu, hiệu ứng âm thanh và chuyển cảnh mượt mà.
-* **Tính năng:** Học bài lịch sử theo checkpoint, tham gia đố vui trắc nghiệm, tích lũy XP tăng cấp, trò chuyện với trợ lý AI lịch sử, và quản lý hồ sơ cá nhân (cập nhật thông tin & đổi mật khẩu bảo mật).
-
-### 3. Admin Web App (`historyalive-admin/`)
-* **Công nghệ:** React 19, Vite, Tailwind CSS, Recharts (vẽ biểu đồ báo cáo).
-* **Giao diện:** Tông màu tối (Dark Mode) sang trọng, huyền bí với các điểm nhấn kim loại vàng lịch sử.
-* **Tính năng:** Xem báo cáo thống kê hoạt động hệ thống, quản lý danh sách học viên (phân quyền Admin/Student, xóa tài khoản học sinh), và quản lý kho dữ liệu bài học (CRUD bài học & ngân hàng câu hỏi).
+1. **Backend Service (`backend/`):** FastAPI, MongoDB Atlas, Pydantic v2. Hỗ trợ xác thực JWT (đăng nhập bằng Email/Username), lưu trữ tiến trình, Streak, bảng xếp hạng, Google OAuth2, và dịch vụ gửi email SMTP (BackgroundTasks).
+2. **Student Web App (`frontend/`):** React 19, Vite, Tailwind CSS. Giao diện thiết kế theo phong cách học tập DuoLingo (Gamification), tích hợp Mascot đáng yêu, hiệu ứng âm thanh sống động và cổng kết nối Google Identity Services.
+3. **Admin Web App (`historyalive-admin/`):** React 19, Vite, Tailwind CSS, Recharts. Giao diện Dark Mode huyền bí sang trọng, hỗ trợ quản lý học sinh (phân quyền, xóa tài khoản), xem biểu đồ báo cáo và CRUD bài học/ngân hàng câu hỏi.
 
 ---
 
-## 🛠️ Yêu cầu Hệ thống (Prerequisites)
+## ⚙️ Hướng Dẫn Cấu Hình Môi Trường (`.env`)
 
-* **Node.js:** Phiên bản 18.x trở lên.
-* **Python:** Phiên bản 3.10.x trở lên.
-* **Database:** Cơ sở dữ liệu MongoDB (cục bộ hoặc MongoDB Atlas đám mây).
+Để chạy đầy đủ các tính năng (Google Login, Gửi Email), bạn cần cấu hình tệp môi trường `.env` trong thư mục `backend/`. 
+
+Hãy sao chép tệp mẫu `backend/.env.example` thành `backend/.env` và điền các thông tin sau:
+
+```ini
+# Kết nối Cơ sở dữ liệu MongoDB Atlas
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/history_alive
+
+# Cấu hình Token bảo mật JWT
+JWT_SECRET=your_jwt_access_secret_key_here
+JWT_REFRESH_SECRET=your_jwt_refresh_secret_key_here
+
+# Khóa API OpenAI (Phục vụ chatbot tương tác nhân vật AI)
+OPENAI_API_KEY=your_openai_api_key_here
+
+# 1. Cấu hình Google Client ID (Cho đăng nhập Google thật)
+# Để trống hoặc điền "mock-google-id" để sử dụng chế độ Mock Login trong môi trường dev
+GOOGLE_CLIENT_ID=your_google_client_id_here
+GOOGLE_CLIENT_SECRET=your_google_client_secret_here
+
+# 2. Cấu hình Email SMTP (Cho gửi email xác nhận thật)
+# Để trống SMTP_USER và SMTP_PASSWORD để tự động chạy MOCK MODE (ghi nhận email ra màn hình console)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_gmail_sender@gmail.com
+SMTP_PASSWORD=your_gmail_app_password
+```
+
+> [!TIP]
+> **Cách tạo mật khẩu ứng dụng Gmail (App Password):**
+> 1. Truy cập trang Tài khoản Google của bạn -> mục **Bảo mật** (Security).
+> 2. Bật **Xác minh 2 bước** (2-Step Verification) nếu chưa bật.
+> 3. Tìm kiếm cụm từ **Mật khẩu ứng dụng** (App Passwords) ở thanh tìm kiếm phía trên.
+> 4. Chọn ứng dụng "Thư" và thiết bị của bạn để tạo chuỗi mã 16 ký tự. Sao chép chuỗi mã này dán vào biến `SMTP_PASSWORD` trong `.env`.
 
 ---
 
-## 🚀 Hướng Dẫn Khởi Chạy Nhanh (Quick Start)
+## 🚀 Hướng Dẫn Khởi Chạy Từng Phần (Step-by-Step)
 
-Hãy làm theo các bước dưới đây để chạy thử nghiệm toàn bộ hệ thống cục bộ:
+Thành viên trong nhóm thực hiện mở 3 cửa sổ Terminal độc lập để chạy các dịch vụ:
 
-### Bước 1: Khởi động FastAPI Backend
-1. Di chuyển vào thư mục backend:
+### Bước 1: Khởi Động FastAPI Backend (Port 8000)
+1. Mở terminal và di chuyển vào thư mục backend:
    ```powershell
    cd D:\AntiGravity\history_alive\backend
    ```
-2. Tạo môi trường ảo Python và kích hoạt:
-   ```powershell
-   python -m venv venv
-   # Trên Windows (PowerShell):
-   .\venv\Scripts\Activate.ps1
-   # Trên macOS/Linux:
-   source venv/bin/activate
-   ```
+2. Tạo và kích hoạt môi trường ảo Python (Virtual Environment):
+   * **Trên Windows (PowerShell):**
+     ```powershell
+     python -m venv venv
+     .\venv\Scripts\Activate.ps1
+     ```
+   * **Trên macOS/Linux:**
+     ```bash
+     python3 -m venv venv
+     source venv/bin/activate
+     ```
 3. Cài đặt các thư viện cần thiết:
    ```powershell
    pip install -r requirements.txt
    ```
-4. Cấu hình tệp môi trường `.env` trong thư mục `backend/` (nếu chưa có):
-   ```ini
-   MONGODB_URL=mongodb+str://... # Hoặc mongodb://localhost:27017/history_alive
-   JWT_SECRET=your_jwt_access_secret_key
-   JWT_REFRESH_SECRET=your_jwt_refresh_secret_key
-   ```
-5. Chạy server ở chế độ tự động reload (cổng mặc định 8000):
+4. Khởi chạy Server ở chế độ tự động tải lại (Hot-Reload) tại cổng 8000:
    ```powershell
    uvicorn main:app --reload --port 8000
    ```
+   *Khi khởi chạy thành công, tài liệu API Swagger sẽ xuất hiện tại:* `http://127.0.0.1:8000/docs`
 
-### Bước 2: Khởi động Ứng dụng Học sinh (Student Web)
+### Bước 2: Khởi Động Web Học Sinh - Student App (Port 5173)
 1. Mở một terminal mới và di chuyển vào thư mục frontend:
    ```powershell
    cd D:\AntiGravity\history_alive\frontend
    ```
-2. Cài đặt các package Node.js:
+2. Cài đặt các gói thư viện Node.js:
    ```powershell
    npm install
    ```
-3. Chạy ứng dụng học sinh ở chế độ phát triển (sẽ chạy tại cổng **5173** hoặc **5174** nếu bị trùng):
+3. Chạy ứng dụng học sinh ở chế độ phát triển:
    ```powershell
    npx vite --port 5173
    ```
-4. Truy cập giao diện tại: `http://localhost:5173/`
+4. Truy cập giao diện học sinh tại địa chỉ: `http://localhost:5173/`
 
-### Bước 3: Khởi động Cổng Quản trị (Admin Portal)
+### Bước 3: Khởi Động Web Quản Trị - Admin Portal (Port 5175)
 1. Mở một terminal mới và di chuyển vào thư mục admin:
    ```powershell
    cd D:\AntiGravity\history_alive\historyalive-admin
    ```
-2. Cài đặt các package Node.js:
+2. Cài đặt các gói thư viện Node.js:
    ```powershell
    npm install
    ```
-3. Chạy ứng dụng admin ở chế độ phát triển (sẽ chạy tại cổng **5175**):
+3. Chạy cổng thông tin quản trị ở chế độ phát triển tại cổng 5175:
    ```powershell
    npx vite --port 5175
    ```
-4. Truy cập giao diện tại: `http://localhost:5175/`
+4. Truy cập giao diện quản trị viên tại địa chỉ: `http://localhost:5175/`
 
 ---
 
-## 🧪 Quy Trình Kiểm Thử & Xác Minh (Testing)
+## 🧪 Quy Trình Kiểm Thử & Nghiệm Thu (Testing & Verification)
 
-### 1. Kiểm thử Tự động phía Backend (E2E Integration Test)
-Chúng tôi cung cấp một kịch bản kiểm thử tích hợp tự động để kiểm tra các luồng xác thực, thay đổi hồ sơ cá nhân và đổi mật khẩu của Backend.
-* Chạy kịch bản test bằng Python (đảm bảo Backend đang chạy ở cổng 8000):
+Để đảm bảo các chức năng bảo mật, đăng ký và gửi email hoạt động ổn định, dự án cung cấp đầy đủ các kịch bản kiểm thử tự động và thủ công.
+
+### 1. Kiểm Thử Tự Động Phía Backend (Integration Tests)
+
+Đảm bảo server Backend của bạn đang chạy ở cổng 8000 (`http://localhost:8000`). Chạy các kịch bản kiểm thử bằng Python tại thư mục gốc của dự án:
+
+* **Kịch bản 1: Kiểm thử luồng Đăng nhập Google & Gửi Email SMTP**
   ```powershell
-  python D:\AntiGravity\history_alive\backend\scratch\test_profile_and_password.py
+  python D:\AntiGravity\history_alive\scratch\test_google_auth_and_email.py
   ```
-* Kịch bản sẽ tự động chạy 9 trường hợp kiểm thử bao gồm: đăng ký, cập nhật hồ sơ với dữ liệu mới, ngăn chặn trùng email, đổi mật khẩu không hợp lệ (sai mật khẩu cũ, mật khẩu mới trùng mật khẩu cũ, mật khẩu mới không đủ chữ hoa/số), và đăng nhập lại thành công với mật khẩu mới.
+  *Kịch bản này tự động thực thi 7 ca kiểm thử:*
+  1. Đăng ký tài khoản thường (xác minh tự động gửi Email Chào mừng).
+  2. Đăng nhập Google SSO lần đầu (xác minh tự động tạo tài khoản Google và gửi Email Chào mừng).
+  3. Đăng nhập Google lần sau (xác minh không gửi trùng email chào mừng).
+  4. Đặt mật khẩu lần đầu cho tài khoản Google (xác minh bỏ qua yêu cầu nhập `old_password` cũ).
+  5. Đổi mật khẩu lần sau khi đã có mật khẩu (xác minh yêu cầu mật khẩu cũ đúng).
+  6. Bảo mật mật khẩu mới và gửi Email Cảnh báo đổi mật khẩu.
+  7. Kiểm tra đăng nhập lại bằng mật khẩu mới vừa thiết lập.
 
-### 2. Kiểm thử Thủ công trên Giao diện Web
-1. **Đăng ký tài khoản học sinh mới:** Truy cập `http://localhost:5173/register` để tạo tài khoản.
-2. **Onboarding:** Chọn các tuỳ chọn lớp học, đặt tên hiển thị và thời lượng học tập. Các tùy chọn này sẽ tự động lưu và đồng bộ lên MongoDB.
-3. **Cập nhật hồ sơ & hiển thị email:**
-   * Vào mục **Hồ sơ (Profile)**. Đảm bảo ô Email hiển thị chính xác email bạn vừa đăng ký thay vì email sample.
-   * Nhấn **Chỉnh sửa hồ sơ**, thay đổi Họ tên, Ngày sinh hoặc Số điện thoại. Nhấn lưu và tải lại trang để kiểm tra dữ liệu đã đồng bộ thực tế từ server.
-4. **Thay đổi mật khẩu:**
-   * Nhấn nút **Cài đặt** (icon bánh răng) ở góc phải màn hình hồ sơ.
-   * Chọn mục **Đổi mật khẩu** để mở form nhập mật khẩu cũ và xác nhận mật khẩu mới 2 lần.
-   * Thử nghiệm nhập sai mật khẩu cũ hoặc nhập 2 mật khẩu mới không khớp để kiểm tra thông báo cảnh báo.
-5. **Kiểm tra quyền truy cập Admin:**
-   * Sau khi đăng ký tài khoản học sinh, hãy truy cập Cổng Admin (`http://localhost:5175/`).
-   * Thử đăng nhập bằng tài khoản học sinh vừa tạo. Bạn sẽ nhận được thông báo lỗi từ chối truy cập: *"Tài khoản không có quyền truy cập trang quản trị!"*.
-   * Để cấp quyền Admin, bạn hãy cập nhật quyền trực tiếp trong database MongoDB Atlas (sửa trường `role` của user từ `"student"` thành `"admin"`), sau đó đăng nhập lại tại trang Admin để quản lý dữ liệu.
+* **Kịch bản 2: Kiểm thử Hồ sơ & Các quy tắc Mật khẩu thường**
+  ```powershell
+  python D:\AntiGravity\history_alive\scratch\test_profile_and_password.py
+  ```
+  *Kịch bản này kiểm tra:* Đăng ký, cập nhật thông tin cá nhân (Họ tên, Ngày sinh, Số điện thoại), chặn trùng lặp email trên server, kiểm tra độ mạnh của mật khẩu (độ dài >= 8, chứa ít nhất 1 chữ viết hoa và 1 chữ số), chặn mật khẩu mới trùng mật khẩu cũ.
+
+---
+
+### 2. Kiểm Thử Thủ Công Trên Giao Diện Web (Manual Verification)
+
+#### A. Kiểm thử Đăng nhập & Đăng ký nhanh bằng Google
+1. Truy cập trang đăng ký hoặc đăng nhập học sinh (`http://localhost:5173/login`).
+2. Nhấn nút **"Tiếp tục với Google"** chính thức.
+3. **Bypass Kiểm thử nhanh:** Trên môi trường dev, nếu bạn không cấu hình Google Client ID thật, bạn có thể nhập tài khoản kiểm thử bất kỳ. Nếu sử dụng test tự động, nút Google sẽ gửi credential giả lập lên server, backend tự tạo tài khoản với đuôi email `@gmail.com` và hoàn tất Onboarding bình thường.
+
+#### B. Kiểm thử Hồ sơ Cá nhân & Email đồng bộ
+1. Đăng nhập và đi tới trang **Hồ sơ** (Profile).
+2. Kiểm tra phần hiển thị **Email**: Đảm bảo email đồng bộ đúng với tài khoản bạn đã đăng nhập chứ không hiển thị email mẫu (`...@kidmail.com`) như trước.
+3. Nhấn **Chỉnh sửa hồ sơ**, thay đổi các thông tin: Họ tên, Ngày sinh, Số điện thoại và nhấn Lưu. Tải lại trang để xác minh dữ liệu đã đồng bộ thực tế từ MongoDB Atlas lên giao diện.
+
+#### C. Kiểm thử Đổi mật khẩu bảo mật (Modal DuoLingo)
+1. Ở trang Hồ sơ, nhấn vào biểu tượng bánh răng **Cài đặt** ở góc phải -> Chọn **Đổi mật khẩu**.
+2. **Đối với tài khoản Google chưa có mật khẩu:** Màn hình hiển thị form tạo mật khẩu mới. Nhập 2 lần mật khẩu mới giống nhau để lưu. (Hãy kiểm tra email hoặc console backend xem email cảnh báo đổi mật khẩu có được gửi/in ra không).
+3. **Đối với tài khoản thường hoặc tài khoản Google đã có mật khẩu:** Form sẽ yêu cầu nhập đủ: Mật khẩu cũ, Mật khẩu mới và Xác nhận mật khẩu mới.
+4. Nhập sai mật khẩu cũ hoặc nhập 2 mật khẩu mới không khớp để kiểm tra thông báo cảnh báo client-side và lỗi chặn từ server.
+
+#### D. Kiểm thử Bảo mật & Phân quyền trang Admin
+1. Đăng nhập bằng tài khoản học sinh thông thường tại Cổng Admin (`http://localhost:5175/`). Giao diện sẽ hiển thị thông báo lỗi từ chối truy cập: *"Tài khoản không có quyền truy cập trang quản trị!"*.
+2. Để kiểm thử giao diện quản trị viên: Truy cập database MongoDB Atlas cục bộ hoặc đám mây của bạn, tìm tài khoản học sinh đó và sửa trường `role` từ `"student"` thành `"admin"`.
+3. Quay lại trang Admin và đăng nhập lại. Lúc này bạn sẽ truy cập thành công giao diện Dark Mode cao cấp để quản lý học sinh và ngân hàng bài học lịch sử.

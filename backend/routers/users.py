@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 from models.user import UserUpdate, UserOnboarding, ChangePasswordRequest
 from core.security import get_current_user, verify_password, hash_password
 from core.database import get_database
 from datetime import datetime
+from services.email_service import EmailService
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -74,22 +75,25 @@ async def get_stats(current_user: dict = Depends(get_current_user)):
     }
 
 @router.post("/me/change-password")
-async def change_password(body: ChangePasswordRequest, current_user: dict = Depends(get_current_user)):
-    if not verify_password(body.old_password, current_user["password_hash"]):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Mật khẩu cũ không chính xác"
-        )
-    
-    if verify_password(body.new_password, current_user["password_hash"]):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Mật khẩu mới không được giống mật khẩu cũ"
-        )
+async def change_password(body: ChangePasswordRequest, background_tasks: BackgroundTasks, current_user: dict = Depends(get_current_user)):
+    db_pass_hash = current_user.get("password_hash")
+    if db_pass_hash:
+        if not verify_password(body.old_password, db_pass_hash):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Mật khẩu cũ không chính xác"
+            )
+        
+        if verify_password(body.new_password, db_pass_hash):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Mật khẩu mới không được giống mật khẩu cũ"
+            )
 
     db = get_database()
     await db["users"].update_one(
         {"_id": current_user["_id"]},
         {"$set": {"password_hash": hash_password(body.new_password)}}
     )
+    background_tasks.add_task(EmailService.send_password_change_email, current_user["email"], current_user.get("full_name", current_user["username"]))
     return {"message": "Đổi mật khẩu thành công ✅"}

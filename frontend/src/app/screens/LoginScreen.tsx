@@ -4,6 +4,7 @@ import { useApp, API_URL } from "../store";
 import { motion, AnimatePresence } from "motion/react";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import explorerImg from "../../imports/explorer.jpg";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const FLOATS = [
   { sym: "📜", x: 12, y: 18 },
@@ -21,6 +22,28 @@ export default function LoginScreen() {
   const [showPw, setShowPw] = useState(false);
   const [err, setErr] = useState("");
   const [focused, setFocused] = useState<"user" | "pw" | null>(null);
+
+  const handleGoogleSuccess = async (credential: string) => {
+    setErr("");
+    try {
+      const res = await fetch(`${API_URL}/auth/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        return setErr(data.detail || "Đăng nhập Google không thành công");
+      }
+
+      localStorage.setItem("ha_token", data.access_token);
+      setUser(data.user);
+      nav("/home");
+    } catch (error) {
+      setErr("Lỗi kết nối đến máy chủ khi đăng nhập Google. Vui lòng thử lại!");
+    }
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -293,27 +316,12 @@ export default function LoginScreen() {
             </div>
 
             {/* Google button */}
-            <motion.button
-              whileHover={{ y: -1, boxShadow: "0 4px 16px rgba(0,0,0,0.1)" }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                setUser({ ...user, username: "google_user" });
-                nav("/home"); // Google login luôn về home
-              }}
-              className="w-full py-3.5 rounded-2xl flex items-center justify-center gap-2.5 transition-all"
-              style={{
-                background: "rgba(255,255,255,0.85)",
-                border: "1.5px solid rgba(240,180,41,0.2)",
-                color: "#57534e",
-                fontSize: 13,
-                fontFamily: '"Inter", sans-serif',
-                fontWeight: 500,
-                boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-              }}
-            >
-              <span style={{ fontSize: 16 }}>🌐</span>
-              <span>Tiếp tục với Google</span>
-            </motion.button>
+            <div className="w-full flex justify-center mt-2">
+              <GoogleLoginButton 
+                onSuccess={handleGoogleSuccess} 
+                onError={() => setErr("Lỗi đăng nhập tài khoản Google.")} 
+              />
+            </div>
 
             <p className="text-center mt-6" style={{ color: "#9a8060", fontSize: 13, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>
               Chưa có tài khoản?{" "}
