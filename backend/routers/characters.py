@@ -15,7 +15,10 @@ CHARACTERS = [
 ]
 
 @router.get("/")
-async def get_characters():
+async def get_characters(grade: str = None):
+    if grade:
+        filtered = [c for c in CHARACTERS if grade in c.get("grade", [])]
+        return {"characters": filtered, "total": len(filtered)}
     return {"characters": CHARACTERS, "total": len(CHARACTERS)}
 
 @router.get("/{character_id}")

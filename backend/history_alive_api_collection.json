@@ -1,0 +1,268 @@
+{
+  "info": {
+    "_postman_id": "c1a2d3e4-f5a6-7b8c-9d0e-1f2a3b4c5d6e",
+    "name": "History Alive API v2",
+    "description": "Postman Collection for History Alive backend API, fully aligned with Frontend schemas and custom password validation rules.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test_student@gmail.com\",\n  \"username\": \"viet_su_gia\",\n  \"password\": \"SecurePass123\",\n  \"full_name\": \"Nguyễn Gia Bảo\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Đăng ký tài khoản mới. Mật khẩu phải dài tối thiểu 8 ký tự, có ít nhất một chữ hoa và một chữ số."
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test_student@gmail.com\",\n  \"password\": \"SecurePass123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Đăng nhập và lấy access_token / refresh_token."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get Profile Me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            },
+            "description": "Lấy thông tin người dùng hiện tại (đã map theo các trường của Frontend)."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Nguyễn Gia Bảo (Updated)\",\n  \"avatar\": \"bao\",\n  \"studyMinutes\": 30,\n  \"xp\": 150,\n  \"gems\": 60\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            },
+            "description": "Cập nhật thông tin profile của người dùng hiện tại."
+          },
+          "response": []
+        },
+        {
+          "name": "Onboarding",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"grade\": \"grade8\",\n  \"mascotId\": \"bao\",\n  \"name\": \"Sử Gia Nhí\",\n  \"studyMinutes\": 15\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me/onboarding",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "onboarding"
+              ]
+            },
+            "description": "Hoàn tất onboarding người dùng mới (chọn lớp, đặt tên, chọn linh vật)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Characters",
+      "item": [
+        {
+          "name": "Get Characters List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/characters/?grade=cap2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "characters",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "grade",
+                  "value": "cap2",
+                  "description": "Lọc nhân vật theo cấp học (ví dụ: cap2, cap3)"
+                }
+              ]
+            },
+            "description": "Lấy danh sách nhân vật lịch sử, hỗ trợ lọc theo cấp học (`grade=cap2` hoặc `grade=cap3`)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Character By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/characters/ngo-quyen",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "characters",
+                "ngo-quyen"
+              ]
+            },
+            "description": "Lấy thông tin chi tiết của một nhân vật lịch sử cụ thể."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "your_access_token_here",
+      "type": "string"
+    }
+  ]
+}

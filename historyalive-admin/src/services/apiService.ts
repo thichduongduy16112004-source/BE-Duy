@@ -108,7 +108,7 @@ export const apiService = {
   async login(email: string, password: string) {
     const data = await request('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ identity: email, password }),
     });
     
     // Fetch profile to verify role

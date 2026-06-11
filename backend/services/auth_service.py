@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 from core.database import get_database
 from core.security import hash_password, verify_password, create_access_token, create_refresh_token
 
-async def register_user(email: str, password: str, full_name: str) -> dict:
+async def register_user(email: str, password: str, full_name: str, username: str = None) -> dict:
     db = get_database()
     # Kiểm tra email đã tồn tại chưa
     existing = await db["users"].find_one({"email": email})
@@ -12,11 +12,15 @@ async def register_user(email: str, password: str, full_name: str) -> dict:
         raise HTTPException(status_code=400, detail="Email đã được sử dụng")
     
     user_id = str(ObjectId())
+    if not username:
+        username = email.split("@")[0]
+
     user_doc = {
         "_id": user_id,
+        "username": username,
         "email": email,
         "password_hash": hash_password(password),
-        "full_name": full_name,
+        "full_name": full_name or username,
         "role": "admin" if "admin" in email.lower() else "student",
         "grade": None,
         "avatar_url": None,
@@ -24,6 +28,15 @@ async def register_user(email: str, password: str, full_name: str) -> dict:
         "daily_chat_count": 0,
         "onboarding_completed": False,
         "selected_character": None,
+        "study_minutes": 15,
+        "xp": 0,
+        "streak": 1,
+        "gems": 50,
+        "hearts": 5,
+        "completed_lessons": [],
+        "achievements": [],
+        "is_new_user": True,
+        "trial_end_date": None,
         "last_active": datetime.utcnow(),
         "created_at": datetime.utcnow(),
     }
@@ -42,11 +55,16 @@ async def register_user(email: str, password: str, full_name: str) -> dict:
     
     return {"access_token": access_token, "refresh_token": refresh_token, "user": user_doc}
 
-async def login_user(email: str, password: str) -> dict:
+async def login_user(identity: str, password: str) -> dict:
     db = get_database()
-    user = await db["users"].find_one({"email": email})
+    user = await db["users"].find_one({
+        "$or": [
+            {"email": identity},
+            {"username": identity}
+        ]
+    })
     if not user or not verify_password(password, user["password_hash"]):
-        raise HTTPException(status_code=401, detail="Email hoặc mật khẩu không đúng")
+        raise HTTPException(status_code=401, detail="Tài khoản hoặc mật khẩu không đúng")
     
     access_token = create_access_token({"sub": user["_id"]})
     refresh_token = create_refresh_token({"sub": user["_id"]})

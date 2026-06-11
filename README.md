@@ -1,131 +1,133 @@
-# History Alive - Hệ Thống Học Lịch Sử & Quản Trị Toàn Diện
+# History Alive - Cổng Học Tập Lịch Sử Tương Tác ⚔️📜
 
-Dự án **History Alive** là một hệ sinh thái học tập lịch sử Việt Nam tương tác cao, kết hợp giữa ứng dụng học viên nhập vai AI, trang quản trị hệ thống (Admin Portal) độc lập và hệ thống Backend FastAPI + CSDL MongoDB Atlas.
+Chào mừng bạn đến với **History Alive**, một nền tảng học tập lịch sử Việt Nam hiện đại, trực quan và đầy cảm hứng. Hệ thống bao gồm ứng dụng học tập dành cho học sinh (Student Web), cổng thông tin phân tích dành cho giáo viên/quản trị viên (Admin Portal) và hệ thống máy chủ dịch vụ thông minh (FastAPI Backend).
 
 ---
 
-## 📁 Cấu Trúc Tổng Thể Dự Án
+## 🏛️ Kiến trúc Dự án (Architecture)
 
-Thư mục chính chứa 3 thành phần cốt lõi:
+Dự án được cấu trúc dưới dạng monorepo chứa 3 thành phần chính:
 
-```text
-history-alive/
-├── backend/                       # FastAPI Backend API Server
-├── dung_historyalive_sprint2-main/ # Student Web App (Vite + React + TS)
-└── historyalive-admin/            # Admin Web Portal (Vite + React + TS)
+```
+history_alive/
+├── backend/               # FastAPI Backend (Python)
+├── frontend/              # Ứng dụng dành cho học sinh (React + Vite)
+└── historyalive-admin/    # Cổng thông tin Quản trị viên (React + Vite)
 ```
 
----
+### 1. Backend Service (`backend/`)
+* **Công nghệ:** FastAPI (Python), MongoDB Atlas (database), Pydantic v2 (validation).
+* **Tính năng:**
+  * Xác thực người dùng (JWT Authentication) hỗ trợ đăng nhập linh hoạt bằng cả Email hoặc Username.
+  * Quản lý tiến trình học tập, XP, Streak, bảng xếp hạng và Onboarding.
+  * API CRUD bài học (lessons) và câu hỏi trắc nghiệm (quizzes) phục vụ học tập.
+  * Tích hợp hội thoại và tương tác với các nhân vật lịch sử AI (persona-chat).
 
-## 🚀 Các Thành Phần Chi Tiết
+### 2. Student Web App (`frontend/`)
+* **Công nghệ:** React 19, Vite, Tailwind CSS, Lucide Icons, Framer Motion.
+* **Giao diện:** Thiết kế theo phong cách DuoLingo trực quan, sinh động với các Mascot đáng yêu, hiệu ứng âm thanh và chuyển cảnh mượt mà.
+* **Tính năng:** Học bài lịch sử theo checkpoint, tham gia đố vui trắc nghiệm, tích lũy XP tăng cấp, trò chuyện với trợ lý AI lịch sử, và quản lý hồ sơ cá nhân (cập nhật thông tin & đổi mật khẩu bảo mật).
 
-### 1. Backend Server (`backend/` - Port 8000)
-Được xây dựng bằng **FastAPI**, kết nối phi tuần tự (async) với **MongoDB Atlas** qua thư viện `motor`.
-*   **Authentication & RBAC:** Cơ chế đăng ký/đăng nhập cấp cặp JWT Token (`access_token` & `refresh_token`), mã hóa mật khẩu bằng `bcrypt`. Hỗ trợ phân quyền người dùng (`role = "admin"` hoặc `"student"`).
-*   **Auto-Role Promotion:** Hỗ trợ kiểm thử cục bộ bằng cách tự động gán quyền `role: "admin"` cho bất kỳ email đăng ký nào chứa từ khóa `"admin"`.
-*   **AI Chat SSE Streaming:** Tương tác nhập vai với 8 nhân vật lịch sử Việt Nam qua Server-Sent Events (SSE) để truyền dữ liệu thời gian thực.
-*   **Admin APIs:** Các endpoint được bảo vệ bằng quyền truy cập admin để quản lý học viên, xem thống kê biểu đồ và thực hiện CRUD bài học, câu hỏi trắc nghiệm (quiz).
-*   **DB Lifespan Seeding:** Tự động chèn 2 bài học mặc định (Lý Thường Kiệt P1 & P2) kèm bộ câu hỏi ôn tập khi máy chủ khởi động nếu CSDL trống.
-
-### 2. Ứng Dụng Học Viên (`dung_historyalive_sprint2-main/` - Port 5173)
-Giao diện ứng dụng di động giả lập chạy trên nền web (Vite + React + TS) tối ưu trải nghiệm người dùng học sinh.
-*   **Bản Đồ Checkpoint Động (Home Map):** Vẽ Timeline zigzag động dựa trên danh sách bài học lấy trực tiếp từ API `/lessons` của Backend thay vì dữ liệu cứng.
-*   **Màn Hình Học Video & Quiz Động:** Lấy đúng link nhúng video và các câu hỏi trắc nghiệm tương ứng từ cơ sở dữ liệu để học sinh trả lời, tính điểm thưởng EXP.
-*   **Tương Tác Chat Nhập Vai:** Học sinh chọn trò chuyện trực tiếp với nhân vật lịch sử (mặc định là Nguyễn Trãi) và nhận flashcard ôn tập tự động khi kết thúc.
-*   **Nút Admin Portal:** Nút màu vàng kim nổi bật xuất hiện ở cuối trang Hồ Sơ, chỉ hiển thị nếu tài khoản đăng nhập có `role === "admin"`, dẫn trực tiếp tới Cổng quản trị `5174`.
-
-### 3. Cổng Quản Trị Hệ Thống (`historyalive-admin/` - Port 5174)
-Một ứng dụng Frontend riêng biệt (Vite + React + TS) thiết kế cao cấp dành riêng cho Quản trị viên điều hành.
-*   **Login Guard:** Chặn học sinh đăng nhập, chỉ cho phép tài khoản Admin có token hợp lệ đi qua.
-*   **Bảng Điều Khiển Tổng Quan (Dashboard Overview):** Tích hợp biểu đồ trực quan (Recharts) thể hiện lượng đăng ký học viên mới và số lượt chat AI, kèm theo các thẻ chỉ số (KPIs) thời gian thực.
-*   **Quản Lý Học Viên (Users Tab):** Bảng quản lý tài khoản người dùng, hỗ trợ chuyển đổi quyền trực tiếp (Make Admin / Student) và xóa vĩnh viễn tài khoản.
-*   **Biên Tập Bài Học Động (Lessons CRUD):** Trình quản lý bài học trực quan dạng lưới, hỗ trợ mở Modal thêm mới và cập nhật nội dung bài học, thay đổi video YouTube và quản lý bộ câu hỏi quiz đi kèm một cách linh hoạt.
+### 3. Admin Web App (`historyalive-admin/`)
+* **Công nghệ:** React 19, Vite, Tailwind CSS, Recharts (vẽ biểu đồ báo cáo).
+* **Giao diện:** Tông màu tối (Dark Mode) sang trọng, huyền bí với các điểm nhấn kim loại vàng lịch sử.
+* **Tính năng:** Xem báo cáo thống kê hoạt động hệ thống, quản lý danh sách học viên (phân quyền Admin/Student, xóa tài khoản học sinh), và quản lý kho dữ liệu bài học (CRUD bài học & ngân hàng câu hỏi).
 
 ---
 
-## ⚙️ Hướng Dẫn Cài Đặt & Khởi Chạy
+## 🛠️ Yêu cầu Hệ thống (Prerequisites)
 
-### 1. Chuẩn Bị
-Đảm bảo máy tính của bạn đã cài đặt:
-*   [Python 3.10+](https://www.python.org/)
-*   [Node.js (LTS)](https://nodejs.org/) & NPM
-
----
-
-### 2. Thiết Lập & Khởi Chạy Backend
-
-1.  Di chuyển vào thư mục `backend`:
-    ```bash
-    cd backend
-    ```
-2.  Cài đặt dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-3.  Tạo file cấu hình `.env` dựa theo mẫu `.env.example`:
-    ```env
-    MONGODB_URI=mongodb+srv://thichduongduy:16112004@cluster0.7gukzfv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-    JWT_SECRET=supersecret123
-    JWT_REFRESH_SECRET=supersecret456
-    OPENAI_API_KEY=mock-key
-    ```
-4.  Khởi chạy Server:
-    ```bash
-    python -m uvicorn main:app --reload --port 8000
-    ```
-    *   **Tài liệu tương tác API (Swagger UI):** [http://localhost:8000/docs](http://localhost:8000/docs)
+* **Node.js:** Phiên bản 18.x trở lên.
+* **Python:** Phiên bản 3.10.x trở lên.
+* **Database:** Cơ sở dữ liệu MongoDB (cục bộ hoặc MongoDB Atlas đám mây).
 
 ---
 
-### 3. Thiết Lập & Khởi Chạy App Học Viên
+## 🚀 Hướng Dẫn Khởi Chạy Nhanh (Quick Start)
 
-1.  Di chuyển vào thư mục `dung_historyalive_sprint2-main`:
-    ```bash
-    cd dung_historyalive_sprint2-main
-    ```
-2.  Cài đặt dependencies:
-    ```bash
-    npm install
-    ```
-3.  Khởi chạy chế độ Development:
-    ```bash
-    npm run dev
-    ```
-    *   **Ứng dụng chạy tại:** [http://localhost:5173](http://localhost:5173)
+Hãy làm theo các bước dưới đây để chạy thử nghiệm toàn bộ hệ thống cục bộ:
+
+### Bước 1: Khởi động FastAPI Backend
+1. Di chuyển vào thư mục backend:
+   ```powershell
+   cd D:\AntiGravity\history_alive\backend
+   ```
+2. Tạo môi trường ảo Python và kích hoạt:
+   ```powershell
+   python -m venv venv
+   # Trên Windows (PowerShell):
+   .\venv\Scripts\Activate.ps1
+   # Trên macOS/Linux:
+   source venv/bin/activate
+   ```
+3. Cài đặt các thư viện cần thiết:
+   ```powershell
+   pip install -r requirements.txt
+   ```
+4. Cấu hình tệp môi trường `.env` trong thư mục `backend/` (nếu chưa có):
+   ```ini
+   MONGODB_URL=mongodb+str://... # Hoặc mongodb://localhost:27017/history_alive
+   JWT_SECRET=your_jwt_access_secret_key
+   JWT_REFRESH_SECRET=your_jwt_refresh_secret_key
+   ```
+5. Chạy server ở chế độ tự động reload (cổng mặc định 8000):
+   ```powershell
+   uvicorn main:app --reload --port 8000
+   ```
+
+### Bước 2: Khởi động Ứng dụng Học sinh (Student Web)
+1. Mở một terminal mới và di chuyển vào thư mục frontend:
+   ```powershell
+   cd D:\AntiGravity\history_alive\frontend
+   ```
+2. Cài đặt các package Node.js:
+   ```powershell
+   npm install
+   ```
+3. Chạy ứng dụng học sinh ở chế độ phát triển (sẽ chạy tại cổng **5173** hoặc **5174** nếu bị trùng):
+   ```powershell
+   npx vite --port 5173
+   ```
+4. Truy cập giao diện tại: `http://localhost:5173/`
+
+### Bước 3: Khởi động Cổng Quản trị (Admin Portal)
+1. Mở một terminal mới và di chuyển vào thư mục admin:
+   ```powershell
+   cd D:\AntiGravity\history_alive\historyalive-admin
+   ```
+2. Cài đặt các package Node.js:
+   ```powershell
+   npm install
+   ```
+3. Chạy ứng dụng admin ở chế độ phát triển (sẽ chạy tại cổng **5175**):
+   ```powershell
+   npx vite --port 5175
+   ```
+4. Truy cập giao diện tại: `http://localhost:5175/`
 
 ---
 
-### 4. Thiết Lập & Khởi Chạy Cổng Quản Trị (Admin Portal)
+## 🧪 Quy Trình Kiểm Thử & Xác Minh (Testing)
 
-1.  Di chuyển vào thư mục `historyalive-admin`:
-    ```bash
-    cd historyalive-admin
-    ```
-2.  Cài đặt dependencies:
-    ```bash
-    npm install
-    ```
-3.  Khởi chạy chế độ Development:
-    ```bash
-    npm run dev
-    ```
-    *   **Cổng Admin chạy tại:** [http://localhost:5174](http://localhost:5174)
+### 1. Kiểm thử Tự động phía Backend (E2E Integration Test)
+Chúng tôi cung cấp một kịch bản kiểm thử tích hợp tự động để kiểm tra các luồng xác thực, thay đổi hồ sơ cá nhân và đổi mật khẩu của Backend.
+* Chạy kịch bản test bằng Python (đảm bảo Backend đang chạy ở cổng 8000):
+  ```powershell
+  python D:\AntiGravity\history_alive\backend\scratch\test_profile_and_password.py
+  ```
+* Kịch bản sẽ tự động chạy 9 trường hợp kiểm thử bao gồm: đăng ký, cập nhật hồ sơ với dữ liệu mới, ngăn chặn trùng email, đổi mật khẩu không hợp lệ (sai mật khẩu cũ, mật khẩu mới trùng mật khẩu cũ, mật khẩu mới không đủ chữ hoa/số), và đăng nhập lại thành công với mật khẩu mới.
 
----
-
-## 🧪 Kiểm Thử Hệ Thống (E2E Integration Test)
-
-Bạn có thể tự động chạy kiểm thử tích hợp toàn diện của hệ thống Backend API bằng cách chạy script E2E:
-
-```bash
-python C:\Users\Admin\.gemini\antigravity\brain\a2c752b9-9199-4644-a5c4-5fd7e06f0bf7\scratch\validate_e2e.py
-```
-
-Script này tự động:
-1.  Đăng ký và đăng nhập 1 học sinh & 1 admin mới.
-2.  Kiểm tra quyền truy cập (Chặn học sinh khỏi API Admin, Cho phép Admin).
-3.  Tạo bài học mới kèm câu hỏi trắc nghiệm qua API Admin.
-4.  Kiểm tra bài học xuất hiện trong danh sách công khai.
-5.  Xóa bài học kiểm tra tính năng dọn dẹp.
-6.  Promote tài khoản học sinh lên Admin và xác minh thành công.
-7.  Dọn dẹp các tài khoản rác vừa tạo khỏi CSDL.
+### 2. Kiểm thử Thủ công trên Giao diện Web
+1. **Đăng ký tài khoản học sinh mới:** Truy cập `http://localhost:5173/register` để tạo tài khoản.
+2. **Onboarding:** Chọn các tuỳ chọn lớp học, đặt tên hiển thị và thời lượng học tập. Các tùy chọn này sẽ tự động lưu và đồng bộ lên MongoDB.
+3. **Cập nhật hồ sơ & hiển thị email:**
+   * Vào mục **Hồ sơ (Profile)**. Đảm bảo ô Email hiển thị chính xác email bạn vừa đăng ký thay vì email sample.
+   * Nhấn **Chỉnh sửa hồ sơ**, thay đổi Họ tên, Ngày sinh hoặc Số điện thoại. Nhấn lưu và tải lại trang để kiểm tra dữ liệu đã đồng bộ thực tế từ server.
+4. **Thay đổi mật khẩu:**
+   * Nhấn nút **Cài đặt** (icon bánh răng) ở góc phải màn hình hồ sơ.
+   * Chọn mục **Đổi mật khẩu** để mở form nhập mật khẩu cũ và xác nhận mật khẩu mới 2 lần.
+   * Thử nghiệm nhập sai mật khẩu cũ hoặc nhập 2 mật khẩu mới không khớp để kiểm tra thông báo cảnh báo.
+5. **Kiểm tra quyền truy cập Admin:**
+   * Sau khi đăng ký tài khoản học sinh, hãy truy cập Cổng Admin (`http://localhost:5175/`).
+   * Thử đăng nhập bằng tài khoản học sinh vừa tạo. Bạn sẽ nhận được thông báo lỗi từ chối truy cập: *"Tài khoản không có quyền truy cập trang quản trị!"*.
+   * Để cấp quyền Admin, bạn hãy cập nhật quyền trực tiếp trong database MongoDB Atlas (sửa trường `role` của user từ `"student"` thành `"admin"`), sau đó đăng nhập lại tại trang Admin để quản lý dữ liệu.
