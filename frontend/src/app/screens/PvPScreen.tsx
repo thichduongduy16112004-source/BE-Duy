@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useSound } from "../hooks/useSound";
 import { useNavigate } from "react-router";
 import { ChevronLeft, Swords, Users, ShieldAlert, Zap } from "lucide-react";
 import { useApp } from "../store";
-
-const QUESTIONS = [
-  { q: "Trận Bạch Đằng năm 938 do ai lãnh đạo?", opts: ["Ngô Quyền", "Lý Công Uẩn", "Trần Hưng Đạo", "Lê Lợi"], ans: 0 },
-  { q: "Quốc hiệu nước ta thời Lý là gì?", opts: ["Đại Cồ Việt", "Đại Việt", "Đại Ngu", "Vạn Xuân"], ans: 1 },
-];
+import { useHearts } from "../hooks/useHearts";
+import { getArenaQuestions } from "../content/contentRepository";
 
 export default function PvPScreen() {
   const { playPop, playSuccess } = useSound();
-  const { user } = useApp();
+  const { user, loseHeart } = useApp();
+  const { hearts, isPremium } = useHearts();
   const nav = useNavigate();
+  const questions = useMemo(
+    () => getArenaQuestions({ grade: user.grade, completedLessonIds: user.completedLessons, limit: 5 }),
+    [user.grade, user.completedLessons],
+  );
   
   const [state, setState] = useState<"lobby" | "searching" | "playing" | "result">("lobby");
   const [qIndex, setQIndex] = useState(0);
@@ -44,7 +46,21 @@ export default function PvPScreen() {
   }, [state, timer, selectedAns]);
 
   const startMatch = () => {
+    if (!isPremium && hearts <= 0) {
+      alert("Bạn đã hết Năng lượng Chiến đấu (Sét)! Hãy chờ hồi năng lượng hoặc nâng cấp Pro để đánh không giới hạn nhé.");
+      return;
+    }
+
+    if (!isPremium) {
+      loseHeart();
+    }
+
     playPop();
+    setQIndex(0);
+    setMyScore(0);
+    setEnemyScore(0);
+    setTimer(10);
+    setSelectedAns(null);
     setState("searching");
   };
 
@@ -53,7 +69,7 @@ export default function PvPScreen() {
     setSelectedAns(index);
     playPop();
     
-    const isCorrect = index === QUESTIONS[qIndex].ans;
+    const isCorrect = index === questions[qIndex].ans;
     if (isCorrect) setMyScore(s => s + 1);
     
     // Simulate enemy answering
@@ -61,7 +77,7 @@ export default function PvPScreen() {
     if (enemyCorrect) setEnemyScore(s => s + 1);
 
     setTimeout(() => {
-      if (qIndex < QUESTIONS.length - 1) {
+      if (qIndex < questions.length - 1) {
         setQIndex(prev => prev + 1);
         setSelectedAns(null);
         setTimer(10);
@@ -84,9 +100,12 @@ export default function PvPScreen() {
             <Swords size={120} className="text-[#FF4B4B] mb-8" strokeWidth={1.5} />
           </motion.div>
           <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tight">Đấu Trường 1v1</h1>
-          <p className="text-gray-400 font-bold text-center max-w-sm mb-12">Đặt cược 50 Kim Cương và đối đầu với người chơi khác để giành lấy vinh quang!</p>
-          <button onClick={startMatch} className="w-full max-w-sm bg-[#FF4B4B] hover:bg-[#E53935] text-white py-5 rounded-[2rem] font-black text-2xl shadow-[0_6px_0_#C62828] transition-all hover:translate-y-1 hover:shadow-[0_0px_0_#C62828] flex items-center justify-center gap-3">
-            <Swords strokeWidth={3} /> TÌM ĐỐI THỦ
+          <p className="text-gray-400 font-bold text-center max-w-sm mb-12">Tiêu hao 1 Năng lượng (Sét) để đối đầu với người chơi khác và giành lấy vinh quang trên Bảng Xếp Hạng!</p>
+          <button onClick={startMatch} className="w-full max-w-sm bg-[#FF4B4B] hover:bg-[#E53935] text-white py-5 rounded-[2rem] font-black text-xl md:text-2xl shadow-[0_6px_0_#C62828] transition-all hover:translate-y-1 hover:shadow-[0_0px_0_#C62828] flex items-center justify-center gap-3">
+            <Swords strokeWidth={3} /> TÌM ĐỐI THỦ 
+            <div className="flex items-center gap-1 bg-black/20 px-3 py-1 rounded-xl text-sm">
+              <Zap size={18} className="text-[#FFC800] fill-current" /> -1
+            </div>
           </button>
         </div>
       </div>
@@ -128,7 +147,7 @@ export default function PvPScreen() {
     );
   }
 
-  const q = QUESTIONS[qIndex];
+  const q = questions[qIndex];
 
   return (
     <div className="min-h-screen bg-[#1E1E28] font-['Nunito',sans-serif] text-white flex flex-col">

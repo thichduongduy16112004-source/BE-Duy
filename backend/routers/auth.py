@@ -1,129 +1,123 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException, status
-from pydantic import BaseModel
-import httpx
-from bson import ObjectId
+from fastapi.responses import RedirectResponse
+from pydantic import BaseModel, Field
 from datetime import datetime
 
 from models.user import UserCreate, UserLogin
 from models.session import TokenResponse, RefreshRequest, LogoutRequest
-from services.auth_service import register_user, login_user, refresh_access_token, logout_user, register_oauth_user
-from services.email_service import EmailService
-from core.security import create_access_token, create_refresh_token
-from core.database import get_database
+from services.auth_service import (
+    register_user, 
+    login_user, 
+    refresh_access_token, 
+    logout_user, 
+    google_auth,
+    verify_email,
+    forgot_password,
+    reset_password,
+    resend_verification_email
+)
 from core.config import settings
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
+RANK_LABELS = {
+    "iron": "Hạng Sắt",
+    "bronze": "Hạng Đồng",
+    "silver": "Hạng Bạc",
+    "gold": "Hạng Vàng",
+}
+
+
+def serialize_datetime(value):
+    if isinstance(value, datetime):
+        return value.isoformat()
+    return value
+
+
 def format_user_response(user: dict) -> dict:
     sub_type = user.get("subscription_type", "free")
+    created_at = serialize_datetime(user.get("created_at"))
+    rank = user.get("rank") or "iron"
     return {
         "id": user["_id"],
         "username": user.get("username", user["email"].split("@")[0]),
         "email": user["email"],
         "name": user.get("full_name", ""),
-        "full_name": user.get("full_name", ""), # Support admin web
+        "full_name": user.get("full_name", ""),
         "role": user.get("role", "student"),
         "dob": user.get("dob"),
         "phone": user.get("phone"),
         "grade": user.get("grade"),
         "avatar": user.get("avatar_url"),
-        "avatar_url": user.get("avatar_url"), # Support admin web
+        "avatar_url": user.get("avatar_url"),
         "mascotId": user.get("selected_character"),
         "studyMinutes": user.get("study_minutes", 15),
         "xp": user.get("xp", 0),
-        "streak": user.get("streak", 1),
-        "gems": user.get("gems", 50),
+        "streak": user.get("streak", 0),
+        "gems": user.get("gems", 0),
         "hearts": user.get("hearts", 5),
         "completedLessons": user.get("completed_lessons", []),
         "achievements": user.get("achievements", []),
-        "isPremium": sub_type == "premium",
+        "rank": rank,
+        "rankLabel": RANK_LABELS.get(rank, RANK_LABELS["iron"]),
+        "lastStreakDate": user.get("last_streak_date"),
+        "joinedAt": created_at,
+        "activitySummary": user.get("activity_summary"),
+        "isPremium": sub_type in ["premium", "trial"],
         "planType": sub_type,
-        "subscription_type": sub_type, # Support admin web
-        "trialEndDate": user.get("trial_end_date").isoformat() if user.get("trial_end_date") else None,
-        "isNewUser": user.get("is_new_user", False),
-        "created_at": user["created_at"].isoformat() if isinstance(user["created_at"], datetime) else user["created_at"]
+        "subscription_type": sub_type,
+        "trialEndDate": serialize_datetime(user.get("trial_end_date")) if user.get("trial_end_date") else None,
+        "premiumEndDate": serialize_datetime(user.get("premium_end_date")) if user.get("premium_end_date") else None,
+        "isNewUser": user.get("is_new_user", user.get("isNewUser", False)),
+        "created_at": created_at,
     }
 
 @router.post("/register")
-async def register(body: UserCreate, background_tasks: BackgroundTasks):
+async def register(body: UserCreate):
     result = await register_user(body.email, body.password, body.full_name, body.username)
-    background_tasks.add_task(EmailService.send_welcome_email, body.email, body.full_name or body.username)
-    return {
-        "access_token": result["access_token"],
-        "refresh_token": result["refresh_token"],
-        "user": format_user_response(result["user"])
-    }
+    return result
+
+@router.get("/verify-email")
+async def verify_email_route(token: str):
+    await verify_email(token)
+    return RedirectResponse(url=f"{settings.FRONTEND_URL}/login?verified=true")
+
+class ResendVerificationRequest(BaseModel):
+    email: str
+
+@router.post("/resend-verification")
+async def resend_verification_route(body: ResendVerificationRequest):
+    result = await resend_verification_email(body.email)
+    return result
+
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str = Field(min_length=8)
+
+@router.post("/forgot-password")
+async def forgot_password_route(body: ForgotPasswordRequest):
+    result = await forgot_password(body.email)
+    return result
+
+@router.post("/reset-password")
+async def reset_password_route(body: ResetPasswordRequest):
+    result = await reset_password(body.token, body.new_password)
+    return result
 
 class GoogleLoginRequest(BaseModel):
     credential: str
 
 @router.post("/google")
-async def google_login(body: GoogleLoginRequest, background_tasks: BackgroundTasks):
-    if body.credential.startswith("mock-token-") and (settings.GOOGLE_CLIENT_ID == "mock-google-id" or settings.GOOGLE_CLIENT_ID == ""):
-        mock_id = body.credential.replace("mock-token-", "")
-        token_info = {
-            "email": f"google_user_{mock_id}@gmail.com",
-            "name": f"Google User {mock_id}",
-            "picture": "mieu",
-            "aud": "mock-google-id"
-        }
-    else:
-        async with httpx.AsyncClient() as client:
-            r = await client.get(
-                "https://oauth2.googleapis.com/tokeninfo",
-                params={"id_token": body.credential}
-            )
-            if r.status_code != 200:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Token Google không hợp lệ hoặc đã hết hạn"
-                )
-            token_info = r.json()
-
-    expected_aud = settings.GOOGLE_CLIENT_ID
-    if token_info.get("aud") != expected_aud and expected_aud != "mock-google-id":
-        if token_info.get("aud") != "mock-google-id":
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Token không thuộc ứng dụng này"
-            )
-
-    email = token_info.get("email")
-    if not email:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Không thể lấy email từ tài khoản Google"
-        )
-
-    db = get_database()
-    user = await db["users"].find_one({"email": email})
-    
-    is_new = False
-    if not user:
-        full_name = token_info.get("name", email.split("@")[0])
-        avatar_url = token_info.get("picture")
-        user = await register_oauth_user(email=email, full_name=full_name, avatar_url=avatar_url)
-        is_new = True
-        background_tasks.add_task(EmailService.send_welcome_email, email, full_name)
-
-    user_id = user["_id"]
-    access_token = create_access_token({"sub": user_id})
-    refresh_token = create_refresh_token({"sub": user_id})
-
-    await db["sessions"].insert_one({
-        "_id": str(ObjectId()),
-        "user_id": user_id,
-        "refresh_token": refresh_token,
-        "created_at": datetime.utcnow(),
-    })
-
-    await db["users"].update_one({"_id": user_id}, {"$set": {"last_active": datetime.utcnow()}})
-
+async def google_login(body: GoogleLoginRequest):
+    result = await google_auth(body.credential)
     return {
-        "access_token": access_token,
-        "refresh_token": refresh_token,
-        "user": format_user_response(user),
-        "is_new": is_new
+        "access_token": result["access_token"],
+        "refresh_token": result["refresh_token"],
+        "user": format_user_response(result["user"]),
+        "is_new": result["is_new_user"]
     }
 
 @router.post("/login")

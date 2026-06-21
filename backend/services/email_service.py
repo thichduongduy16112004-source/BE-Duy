@@ -1,16 +1,14 @@
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-import logging
+import resend
 from core.config import settings
+import logging
 
 logger = logging.getLogger("email_service")
 
 class EmailService:
     @staticmethod
     def _send_email(to_email: str, subject: str, html_content: str):
-        if not settings.SMTP_USER or not settings.SMTP_PASSWORD:
-            logger.warning("SMTP configuration is not set. Email is in MOCK MODE.")
+        if not settings.RESEND_API_KEY:
+            logger.warning("RESEND_API_KEY is not set. Email is in MOCK MODE.")
             try:
                 safe_subject = subject.encode('utf-8', errors='replace').decode('utf-8')
                 print("\n" + "="*80)
@@ -24,20 +22,15 @@ class EmailService:
             return
 
         try:
-            msg = MIMEMultipart("alternative")
-            msg["Subject"] = subject
-            msg["From"] = settings.SMTP_USER
-            msg["To"] = to_email
-
-            part = MIMEText(html_content, "html")
-            msg.attach(part)
-
-            server = smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT)
-            server.starttls()
-            server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
-            server.sendmail(settings.SMTP_USER, to_email, msg.as_string())
-            server.quit()
-            logger.info(f"Email sent successfully to {to_email}")
+            resend.api_key = settings.RESEND_API_KEY
+            params = {
+                "from": settings.EMAIL_FROM,
+                "to": [to_email],
+                "subject": subject,
+                "html": html_content
+            }
+            email_response = resend.Emails.send(params)
+            logger.info(f"Email sent successfully to {to_email}. ID: {email_response.get('id')}")
         except Exception as e:
             logger.error(f"Failed to send email to {to_email}: {e}")
             print(f"[EMAIL ERROR] Failed to send email to {to_email}: {e}")
@@ -122,7 +115,7 @@ class EmailService:
                     <p>Chúc mừng bạn đã đăng ký tài khoản thành công tại <strong>History Alive</strong> - cổng thông tin học tập lịch sử Việt Nam sinh động và trực quan!</p>
                     <p>Hãy bắt đầu hành trình học tập, vượt qua các thử thách lịch sử hào hùng của tổ tiên, trả lời các câu đố trắc nghiệm và trò chuyện cùng trợ lý nhân vật lịch sử AI thông thái nhé!</p>
                     <div style="text-align: center;">
-                        <a href="http://localhost:5174/" class="button">Bắt Đầu Học Ngay 🚀</a>
+                        <a href="http://localhost:5173/login?verified=true" class="button">Bắt Đầu Học Ngay 🚀</a>
                     </div>
                     <p>Nếu bạn gặp bất kỳ câu hỏi nào, xin vui lòng liên hệ với phụ huynh hoặc gửi phản hồi cho chúng tôi.</p>
                     <p>Thân ái,<br><strong>Đội ngũ History Alive 🏛️</strong></p>
@@ -130,6 +123,87 @@ class EmailService:
                 <div class="footer">
                     <p>© 2026 History Alive. Tất cả các quyền được bảo lưu.</p>
                 </div>
+            </div>
+        </body>
+        </html>
+        """
+        cls._send_email(to_email, subject, html_content)
+
+    @classmethod
+    def send_verification_email(cls, to_email: str, username: str, token: str):
+        subject = "Xác nhận tài khoản History Alive 🏛️"
+        verify_url = f"{settings.BACKEND_URL}/api/v1/auth/verify-email?token={token}"
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <style>
+                body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #faf5e8; margin: 0; padding: 0; }}
+                .container {{ max-width: 600px; margin: 30px auto; background-color: #ffffff; border: 2px solid #3b82f6; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; }}
+                .header {{ background: linear-gradient(135deg, #1e3a8a, #172554); color: #bfdbfe; padding: 30px; text-align: center; border-bottom: 3px solid #3b82f6; }}
+                .header h1 {{ margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 2px; }}
+                .content {{ padding: 40px 30px; color: #1e293b; line-height: 1.6; }}
+                .content h2 {{ color: #2563eb; font-size: 20px; font-weight: 800; margin-top: 0; }}
+                .button {{ display: inline-block; background: linear-gradient(135deg, #3b82f6, #2563eb); color: #ffffff !important; text-decoration: none; padding: 12px 30px; border-radius: 16px; font-weight: 900; box-shadow: 0 4px 0 #1d4ed8; margin: 20px 0; text-align: center; }}
+                .footer {{ background-color: #eff6ff; color: #64748b; padding: 20px; text-align: center; font-size: 12px; border-top: 1px solid rgba(59,130,246,0.15); }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header"><h1>HISTORY ALIVE</h1></div>
+                <div class="content">
+                    <h2>Xin chào, {username}! 👋</h2>
+                    <p>Cảm ơn bạn đã đăng ký tài khoản tại History Alive. Để hoàn tất việc đăng ký và bảo vệ tài khoản của bạn, vui lòng xác nhận địa chỉ email này.</p>
+                    <div style="text-align: center;">
+                        <a href="{verify_url}" class="button">Xác nhận Email</a>
+                    </div>
+                    <p>Hoặc sao chép và dán liên kết sau vào trình duyệt của bạn:</p>
+                    <p style="word-break: break-all; font-size: 12px; color: #64748b;">{verify_url}</p>
+                    <p>Nếu bạn không đăng ký tài khoản này, vui lòng bỏ qua email này.</p>
+                </div>
+                <div class="footer"><p>© 2026 History Alive. Tất cả các quyền được bảo lưu.</p></div>
+            </div>
+        </body>
+        </html>
+        """
+        cls._send_email(to_email, subject, html_content)
+
+    @classmethod
+    def send_password_reset_email(cls, to_email: str, token: str):
+        subject = "Yêu cầu khôi phục mật khẩu - History Alive 🏛️"
+        reset_url = f"{settings.FRONTEND_URL}/reset-password?token={token}"
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <style>
+                body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #faf5e8; margin: 0; padding: 0; }}
+                .container {{ max-width: 600px; margin: 30px auto; background-color: #ffffff; border: 2px solid #8b5cf6; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; }}
+                .header {{ background: linear-gradient(135deg, #4c1d95, #2e1065); color: #ddd6fe; padding: 30px; text-align: center; border-bottom: 3px solid #8b5cf6; }}
+                .header h1 {{ margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 2px; }}
+                .content {{ padding: 40px 30px; color: #1e293b; line-height: 1.6; }}
+                .content h2 {{ color: #7c3aed; font-size: 20px; font-weight: 800; margin-top: 0; }}
+                .button {{ display: inline-block; background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #ffffff !important; text-decoration: none; padding: 12px 30px; border-radius: 16px; font-weight: 900; box-shadow: 0 4px 0 #5b21b6; margin: 20px 0; text-align: center; }}
+                .footer {{ background-color: #f5f3ff; color: #64748b; padding: 20px; text-align: center; font-size: 12px; border-top: 1px solid rgba(139,92,246,0.15); }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header"><h1>HISTORY ALIVE</h1></div>
+                <div class="content">
+                    <h2>Yêu cầu khôi phục mật khẩu 🔑</h2>
+                    <p>Chúng tôi nhận được yêu cầu khôi phục mật khẩu cho tài khoản liên kết với địa chỉ email này.</p>
+                    <p>Để đặt lại mật khẩu mới, vui lòng nhấn vào nút bên dưới (liên kết này có hiệu lực trong vòng 24 giờ):</p>
+                    <div style="text-align: center;">
+                        <a href="{reset_url}" class="button">Đặt lại mật khẩu</a>
+                    </div>
+                    <p>Hoặc sao chép và dán liên kết sau vào trình duyệt của bạn:</p>
+                    <p style="word-break: break-all; font-size: 12px; color: #64748b;">{reset_url}</p>
+                    <p>Nếu bạn không thực hiện yêu cầu này, hãy phớt lờ email này và tài khoản của bạn sẽ an toàn.</p>
+                </div>
+                <div class="footer"><p>© 2026 History Alive. Tất cả các quyền được bảo lưu.</p></div>
             </div>
         </body>
         </html>

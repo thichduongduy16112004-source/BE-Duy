@@ -1,5 +1,8 @@
 from fastapi import APIRouter, HTTPException
 
+from core.database import get_database
+from core.serializers import serialize_doc, serialize_docs
+
 router = APIRouter(prefix="/characters", tags=["Characters"])
 
 CHARACTERS = [
@@ -14,16 +17,47 @@ CHARACTERS = [
     {"id": "nguyen-trai", "name": "Nguyễn Trãi", "era": "Thế kỷ XV (1380 - 1442)", "role": "Khai quốc công thần nhà Hậu Lê, nhà văn hóa kiệt xuất", "description": "Người dâng Bình Ngô Sách cứu nước, tác giả Bình Ngô Đại Cáo.", "grade": ["cap2", "cap3"]},
 ]
 
+
+def _legacy_character_to_contract(character: dict) -> dict:
+    return {
+        "character_id": character["id"],
+        "display_name": character["name"],
+        "era": character["era"],
+        "short_bio": character["description"],
+        "role": character["role"],
+        "grade": character.get("grade", []),
+        "status": "active",
+    }
+
+
 @router.get("/")
 async def get_characters(grade: str = None):
+    db = get_database()
+    cursor = db["characters"].find({"status": "active"}).sort("display_name", 1)
+    characters = serialize_docs(await cursor.to_list(length=200))
+
+    if not characters:
+        characters = [_legacy_character_to_contract(character) for character in CHARACTERS]
+
     if grade:
-        filtered = [c for c in CHARACTERS if grade in c.get("grade", [])]
-        return {"characters": filtered, "total": len(filtered)}
-    return {"characters": CHARACTERS, "total": len(CHARACTERS)}
+        characters = [character for character in characters if grade in character.get("grade", [])]
+
+    return {"characters": characters, "total": len(characters)}
+
 
 @router.get("/{character_id}")
 async def get_character(character_id: str):
-    char = next((c for c in CHARACTERS if c["id"] == character_id), None)
-    if not char:
+    db = get_database()
+    character = await db["characters"].find_one(
+        {
+            "$or": [{"character_id": character_id}, {"id": character_id}],
+            "status": {"$ne": "archived"},
+        }
+    )
+    if character:
+        return serialize_doc(character)
+
+    legacy_character = next((item for item in CHARACTERS if item["id"] == character_id), None)
+    if not legacy_character:
         raise HTTPException(status_code=404, detail="Không tìm thấy nhân vật")
-    return char
+    return _legacy_character_to_contract(legacy_character)

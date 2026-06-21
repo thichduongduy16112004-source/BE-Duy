@@ -2,16 +2,55 @@ from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 from models.user import UserUpdate, UserOnboarding, ChangePasswordRequest
 from core.security import get_current_user, verify_password, hash_password
 from core.database import get_database
-from datetime import datetime
+from datetime import datetime, timedelta
 from services.email_service import EmailService
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 from routers.auth import format_user_response
 
+
+def serialize_datetime(value):
+    if isinstance(value, datetime):
+        return value.isoformat()
+    return value
+
+
+async def build_activity_summary(user_id: str) -> dict:
+    db = get_database()
+    total_attempts = await db["quiz_attempts"].count_documents({"user_id": user_id})
+    total_completed_lessons = await db["user_progress"].count_documents({"user_id": user_id, "status": "completed"})
+    latest_attempt = await db["quiz_attempts"].find_one({"user_id": user_id}, sort=[("created_at", -1)])
+    recent_items = []
+
+    cursor = db["quiz_attempts"].find(
+        {"user_id": user_id},
+        {"lessonLegacyId": 1, "mode": 1, "correctAnswers": 1, "totalQuestions": 1, "completed": 1, "created_at": 1}
+    ).sort("created_at", -1).limit(7)
+
+    async for item in cursor:
+        recent_items.append({
+            "lessonId": item.get("lessonLegacyId"),
+            "mode": item.get("mode"),
+            "correctAnswers": item.get("correctAnswers", 0),
+            "totalQuestions": item.get("totalQuestions", 0),
+            "completed": item.get("completed", False),
+            "createdAt": serialize_datetime(item.get("created_at")),
+        })
+
+    return {
+        "totalAttempts": total_attempts,
+        "totalCompletedLessons": total_completed_lessons,
+        "latestActivityAt": serialize_datetime(latest_attempt.get("created_at")) if latest_attempt else None,
+        "recentItems": recent_items,
+    }
+
+
 @router.get("/me")
 async def get_me(current_user: dict = Depends(get_current_user)):
-    return format_user_response(current_user)
+    response = format_user_response(current_user)
+    response["activitySummary"] = await build_activity_summary(current_user["_id"])
+    return response
 
 @router.put("/me")
 async def update_me(body: UserUpdate, current_user: dict = Depends(get_current_user)):
@@ -25,10 +64,18 @@ async def update_me(body: UserUpdate, current_user: dict = Depends(get_current_u
             update_data["avatar_url"] = v
         elif k == "mascotId":
             update_data["selected_character"] = v
-        elif k == "planType":
-            update_data["subscription_type"] = v
         elif k == "studyMinutes":
             update_data["study_minutes"] = v
+        elif k == "planType":
+            update_data["subscription_type"] = v
+        elif k == "premiumEndDate":
+            update_data["premium_end_date"] = v
+        elif k == "completedLessons":
+            update_data["completed_lessons"] = v
+        elif k == "lastStreakDate":
+            update_data["last_streak_date"] = v
+        elif k == "isNewUser":
+            update_data["isNewUser"] = v
         else:
             update_data[k] = v
 
@@ -43,7 +90,32 @@ async def update_me(body: UserUpdate, current_user: dict = Depends(get_current_u
     if update_data:
         await db["users"].update_one({"_id": current_user["_id"]}, {"$set": update_data})
     updated = await db["users"].find_one({"_id": current_user["_id"]})
-    return format_user_response(updated)
+    response = format_user_response(updated)
+    response["activitySummary"] = await build_activity_summary(current_user["_id"])
+    return response
+
+@router.post("/me/trial")
+async def activate_trial(current_user: dict = Depends(get_current_user)):
+    db = get_database()
+    if current_user.get("trial_end_date"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Bạn đã từng sử dụng gói dùng thử, không thể đăng ký lại."
+        )
+    
+    now = datetime.utcnow()
+    trial_end = now + timedelta(days=3)
+    update_data = {
+        "trial_end_date": trial_end,
+        "subscription_type": "trial",
+        "isPremium": True
+    }
+    
+    await db["users"].update_one({"_id": current_user["_id"]}, {"$set": update_data})
+    updated = await db["users"].find_one({"_id": current_user["_id"]})
+    response = format_user_response(updated)
+    response["activitySummary"] = await build_activity_summary(current_user["_id"])
+    return response
 
 @router.put("/me/onboarding")
 async def onboarding(body: UserOnboarding, current_user: dict = Depends(get_current_user)):
@@ -65,7 +137,9 @@ async def onboarding(body: UserOnboarding, current_user: dict = Depends(get_curr
         {"$set": update_dict}
     )
     updated = await db["users"].find_one({"_id": current_user["_id"]})
-    return {"message": "Onboarding completed ✅", "user": format_user_response(updated)}
+    response = format_user_response(updated)
+    response["activitySummary"] = await build_activity_summary(current_user["_id"])
+    return {"message": "Onboarding completed ✅", "user": response}
 
 @router.get("/me/stats")
 async def get_stats(current_user: dict = Depends(get_current_user)):

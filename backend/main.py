@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from core.database import connect_db, close_db, get_database
-from routers import auth, users, characters, chat, flashcards, lessons, admin
+from routers import auth, users, characters, chat, flashcards, lessons, lesson_content, admin, quizzes, payments, progress
 from datetime import datetime
 
 scheduler = AsyncIOScheduler(timezone="Asia/Ho_Chi_Minh")
@@ -127,13 +127,22 @@ app = FastAPI(title="History Alive API", version="2.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:5175",
+        "http://localhost:5178",
+        "https://historyalive.id.vn",
+        "https://www.historyalive.id.vn",
+        "https://admin.historyalive.id.vn",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-for r in [auth.router, users.router, characters.router, chat.router, flashcards.router, lessons.router, admin.router]:
+for r in [auth.router, users.router, characters.router, chat.router, flashcards.router, lessons.router, lesson_content.router, admin.router, quizzes.router, payments.router, progress.router]:
     app.include_router(r, prefix="/api/v1")
 
 @app.get("/")

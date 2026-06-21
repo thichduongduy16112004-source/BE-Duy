@@ -242,6 +242,7 @@ export default function ChooseStudyTimeScreen() {
               />
               <input
                 type="range"
+                aria-label="Thời gian học"
                 min={5}
                 max={60}
                 step={5}

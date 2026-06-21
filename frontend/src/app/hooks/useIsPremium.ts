@@ -7,6 +7,9 @@ export function useIsPremium(): boolean {
   if (user.planType === "trial" && user.trialEndDate) {
     return new Date(user.trialEndDate) > new Date();
   }
+  if (user.planType === "premium" && user.premiumEndDate) {
+    return new Date(user.premiumEndDate) > new Date();
+  }
   return user.isPremium;
 }
 

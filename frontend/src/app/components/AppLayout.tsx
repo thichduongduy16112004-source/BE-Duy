@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router";
 import { useApp, MASCOTS } from "../store";
-import { Map, Target, Trophy, Award, BookOpen, User, LogOut, Flame, Gem, Heart, Zap, Menu, X, Crown, Bot, Volume2, VolumeX } from "lucide-react";
+import { Map, Target, Trophy, Award, BookOpen, User, LogOut, Flame, Gem, Heart, Zap, Menu, X, Crown, Bot, Volume2, VolumeX, Swords, GraduationCap } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import { useIsPremium } from "../hooks/useIsPremium";
@@ -10,11 +10,10 @@ import AnimatedMascot from "./AnimatedMascot";
 
 const NAV = [
   { to: "/home",         icon: Map,      label: "Học",          sub: "Chinh phục lịch sử" },
-  { to: "/missions",    icon: Target,   label: "Nhiệm Vụ",     sub: "Mục tiêu hàng ngày" },
-  { to: "/leaderboard", icon: Trophy,   label: "Xếp Hạng",     sub: "Bảng chiến tích" },
-  { to: "/achievements",icon: Award,    label: "Thành Tựu",    sub: "Huy hiệu của bạn" },
-  { to: "/collection",  icon: BookOpen, label: "Bộ Sưu Tập",   sub: "Tư liệu lịch sử" },
-  { to: "/profile",     icon: User,     label: "Hồ Sơ",        sub: "Thống kê cá nhân" },
+  { to: "/pvp",          icon: Swords,   label: "Đấu Trường",   sub: "Thi đấu 1v1" },
+  { to: "/flashcard",    icon: GraduationCap, label: "Luyện Thi", sub: "Thẻ ghi nhớ" },
+  { to: "/leaderboard",  icon: Trophy,   label: "Xếp Hạng",     sub: "Bảng chiến tích" },
+  { to: "/missions",     icon: Target,   label: "Nhiệm Vụ",     sub: "Mục tiêu hàng ngày" },
 ];
 
 export default function AppLayout() {
@@ -117,12 +116,43 @@ export default function AppLayout() {
                 )}
               </NavLink>
             ))}
+
+            {/* Subtle Premium Upsell */}
+            {!isPremium && (
+              <>
+                <div className="w-px h-4 mx-1" style={{ background: "rgba(240,180,41,0.2)" }} />
+                <motion.button
+                  whileHover={{ y: -1, scale: 1.02 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => { playPop(); nav("/premium"); }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all cursor-pointer"
+                  style={{
+                    background: "rgba(254,243,199,0.4)",
+                    color: "#d97706",
+                    border: "1px dashed rgba(240,180,41,0.4)",
+                  }}
+                  title="Tìm hiểu về gói Pro"
+                >
+                  <Crown className="w-3.5 h-3.5" />
+                  <span style={{
+                    fontFamily: "Inter, system-ui, sans-serif",
+                    fontWeight: 600,
+                    fontSize: 11,
+                    whiteSpace: "nowrap",
+                  }}>
+                    Trải nghiệm Pro
+                  </span>
+                </motion.button>
+              </>
+            )}
           </nav>
 
           {/* Right: HUD stats */}
           <div className="flex items-center gap-2 lg:gap-2.5 shrink-0">
-            <StatPill icon={<Flame className="w-3.5 h-3.5" style={{ color: "#ea580c" }} />} value={user.streak} label="ngày" color="#ea580c" />
-            <StatPill icon={<Gem className="w-3.5 h-3.5" style={{ color: "#0ea5e9" }} />} value={user.gems} color="#0ea5e9" />
+            <StatPill icon={<Flame className="w-3.5 h-3.5" style={{ color: "#ea580c" }} />} value={user.streak} color="#ea580c" />
+            <button onClick={() => { playPop(); nav("/store"); }} className="hover:scale-105 active:scale-95 transition-transform" title="Vào Cửa Hàng">
+              <StatPill icon={<Gem className="w-3.5 h-3.5" style={{ color: "#0ea5e9" }} />} value={user.gems} color="#0ea5e9" />
+            </button>
 
             {/* VIP PRO Badge */}
             {isPremium && (
@@ -132,30 +162,46 @@ export default function AppLayout() {
               </div>
             )}
 
-            {/* Hearts — clickable upsell */}
-            <div className="relative">
-              <button
-                onClick={() => { if (!isPremium) setHeartsTooltip(v => !v); }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+            {/* Hearts block removed as per user request */}
+            {/* Battery Upsell */}
+            <div className="relative hidden sm:block">
+              <div 
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full cursor-pointer hover:brightness-110 transition-all"
                 style={{
-                  background: isPremium ? "linear-gradient(135deg, #FFC800, #FF9600)" : (hearts <= 1 ? "rgba(244,63,94,0.12)" : "rgba(255,253,245,0.85)"),
-                  border: isPremium ? "none" : (hearts <= 1 ? "1px solid rgba(244,63,94,0.35)" : "1px solid rgba(240,180,41,0.18)"),
-                  boxShadow: isPremium ? "0 4px 12px rgba(255,150,0,0.3)" : "0 1px 4px rgba(0,0,0,0.07), 0 1px 0 rgba(255,255,255,0.8) inset",
+                  background: !isPremium && hearts === 0 ? "rgba(255,241,242,0.92)" : "rgba(255,253,245,0.85)",
+                  border: !isPremium && hearts === 0 ? "1px solid rgba(239,68,68,0.34)" : "1px solid rgba(240,180,41,0.18)",
+                  boxShadow: !isPremium && hearts === 0 ? "0 2px 12px rgba(239,68,68,0.16), 0 1px 0 rgba(255,255,255,0.8) inset" : "0 1px 4px rgba(0,0,0,0.07), 0 1px 0 rgba(255,255,255,0.8) inset",
                   backdropFilter: "blur(8px)",
                 }}
+                onClick={() => { playPop(); if (!isPremium) setHeartsTooltip(v => !v); }}
               >
-                <Heart className="w-3.5 h-3.5 fill-current" style={{ color: isPremium ? "#FFF" : "#f43f5e" }} />
-                <div className="flex items-center gap-1">
-                  <span style={{ color: isPremium ? "#FFF" : "#f43f5e", fontWeight: 900, fontSize: 13, fontFamily: '"Nunito", sans-serif' }}>
-                    {isPremium ? "Infinity" : hearts}
-                  </span>
-                  {!isPremium && !isFull && (
-                    <span className="text-[#f43f5e] font-black text-[11px] bg-red-100 px-1.5 py-0.5 rounded-md">
+                <div className="flex items-center gap-1.5" style={{ color: !isPremium && hearts === 0 ? "#ef4444" : "#d97706" }}>
+                  <div className="relative flex items-center justify-center drop-shadow-sm">
+                    <svg width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                      <rect x="0" y="0" width="21" height="14" rx="4" fill="url(#energyGrad)" opacity={!isPremium && hearts === 0 ? 0.42 : 1} />
+                      <rect x="2" y="2" width={!isPremium && hearts === 0 ? 3 : 17} height="10" rx="3" fill={!isPremium && hearts === 0 ? "#ef4444" : "rgba(255,255,255,0.22)"} />
+                      <path d="M22 4.5V9.5" stroke={!isPremium && hearts === 0 ? "#ef4444" : "#d97706"} strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M11.5 2.5L7.5 8H10.5L9.5 11.5L13.5 6H10.5L11.5 2.5Z" fill="white" />
+                      <defs>
+                        <linearGradient id="energyGrad" x1="0" y1="0" x2="21" y2="14" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#fbbf24" />
+                          <stop offset="1" stopColor="#d97706" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  {!isPremium && (
+                    <span style={{ fontWeight: 950, fontSize: 14, fontFamily: '"Inter", sans-serif', letterSpacing: "-0.02em", minWidth: 20 }}>
+                      {hearts}
+                    </span>
+                  )}
+                  {!isPremium && hearts < maxHearts && timeLeft > 0 && (
+                    <span style={{ fontWeight: 850, fontSize: 10, fontFamily: '"Inter", sans-serif', color: hearts === 0 ? "#ef4444" : "#a16207", minWidth: 34 }}>
                       {formatTime(timeLeft)}
                     </span>
                   )}
                 </div>
-              </button>
+              </div>
 
               {/* Tooltip upsell */}
               <AnimatePresence>
@@ -174,8 +220,8 @@ export default function AppLayout() {
                     {!isPremium && !isFull ? (
                       <div className="mb-3">
                         <div className="flex justify-between items-center text-xs text-[#c4a882] font-bold mb-1">
-                          <span>Đang hồi tim...</span>
-                          <span className="text-[#FFC800]">{formatTime(timeLeft)}</span>
+                          <span>{hearts <= 0 ? "Đang hồi từ 0 năng lượng" : `Đang hồi tới ${maxHearts}`}</span>
+                          <span className="text-[#FFC800]">+1 sau {formatTime(timeLeft)}</span>
                         </div>
                         <div className="w-full bg-[#3a2818] rounded-full h-2 overflow-hidden">
                           <div 
@@ -185,61 +231,25 @@ export default function AppLayout() {
                         </div>
                       </div>
                     ) : (
-                      <p className="text-[#58CC02] text-xs font-bold mb-3 text-center">Tim của bạn đã đầy!</p>
+                      <p className="text-[#58CC02] text-xs font-bold mb-3 text-center">Năng lượng đã đầy!</p>
                     )}
 
                     <p style={{ color: "#c4a882", fontSize: 11, fontFamily: '"Inter", sans-serif', marginBottom: 8, lineHeight: 1.5, textAlign: "center" }}>
-                      💡 Lên Pro để học không bao giờ lo hết tim!
+                      💡 Pro mở khóa năng lượng vô hạn để học không bị gián đoạn!
                     </p>
                     <button
-                      onClick={() => { setHeartsTooltip(false); nav("/premium"); }}
-                      className="w-full py-2 rounded-xl text-center"
-                      style={{ background: "linear-gradient(135deg, #d97706, #f0b429)", color: "#1c0800", fontSize: 11, fontWeight: 700, fontFamily: '"Cinzel", serif' }}
+                      onClick={() => { setHeartsTooltip(false); nav("/premium?from=out-of-hearts"); }}
+                      className="w-full py-2 rounded-xl text-center hover:scale-105 transition-transform"
+                      style={{ background: "linear-gradient(135deg, #d97706, #f0b429)", color: "#1c0800", fontSize: 11, fontWeight: 700, fontFamily: '"Rubik", "Inter", system-ui, sans-serif' }}
                     >
                       Tìm hiểu về Pro →
                     </button>
-                    <button onClick={() => setHeartsTooltip(false)} className="absolute top-2 right-2 w-5 h-5 flex items-center justify-center" style={{ color: "#4a3820" }}>
+                    <button onClick={() => setHeartsTooltip(false)} className="absolute top-2 right-2 w-5 h-5 flex items-center justify-center hover:bg-white/10 rounded-full" style={{ color: "#4a3820" }}>
                       <X className="w-3 h-3" />
                     </button>
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
-            <div className="hidden sm:block">
-              <div 
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full cursor-pointer hover:brightness-110 transition-all"
-                style={{
-                  background: "#4a3820",
-                  border: "1px solid rgba(240,180,41,0.2)",
-                  boxShadow: "0 1px 4px rgba(0,0,0,0.2) inset",
-                }}
-                onClick={() => playPop()}
-              >
-                <div className="flex items-center gap-1 mr-1">
-                  {[...Array(5)].map((_, i) => {
-                    // Mock progress logic for UI presentation
-                    const progress = 0; 
-                    const isFilled = i < progress;
-                    return (
-                      <div 
-                        key={i} 
-                        className="w-2.5 h-2.5 rounded-full transition-colors duration-300" 
-                        style={{ 
-                          background: isFilled ? "#FFC800" : "rgba(255,255,255,0.15)",
-                          boxShadow: isFilled ? "0 0 6px rgba(255,200,0,0.6)" : "none"
-                        }} 
-                      />
-                    );
-                  })}
-                </div>
-                <span style={{ color: "#FFC800", fontWeight: 800, fontSize: 13, fontFamily: '"Inter", sans-serif' }}>
-                  0/5
-                </span>
-                <div className="flex items-center gap-0.5 text-[#FFC800]">
-                  <Zap className="w-3.5 h-3.5 fill-current" />
-                  <span style={{ fontWeight: 800, fontSize: 12, fontFamily: '"Inter", sans-serif' }}>XP</span>
-                </div>
-              </div>
             </div>
 
             <div className="w-px h-5 hidden lg:block mx-1" style={{ background: "rgba(240,180,41,0.3)" }} />
@@ -247,16 +257,17 @@ export default function AppLayout() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => nav("/login")}
+              onClick={() => { playPop(); nav("/profile"); }}
               className="hidden lg:flex p-2 rounded-xl transition"
               style={{
-                color: "#a8a29e",
-                background: "rgba(240,180,41,0.08)",
-                border: "1px solid rgba(240,180,41,0.15)",
+                color: "#92400e",
+                background: "linear-gradient(135deg, #fef3c7, #fde68a)",
+                border: "1px solid rgba(240,180,41,0.4)",
+                boxShadow: "0 2px 8px rgba(217,119,6,0.15)",
               }}
-              title="Đăng xuất"
+              title="Hồ Sơ"
             >
-              <LogOut className="w-3.5 h-3.5" />
+              <User className="w-4 h-4" />
             </motion.button>
 
             {/* Mobile hamburger */}
@@ -332,7 +343,8 @@ export default function AppLayout() {
 
             {/* User row */}
             <div
-              className="mx-4 mb-4 px-4 py-3 rounded-2xl flex items-center justify-between gap-3"
+              className="mx-4 mb-4 px-4 py-3 rounded-2xl flex items-center justify-between gap-3 cursor-pointer hover:brightness-95 transition-all"
+              onClick={() => { playClick(); setMenuOpen(false); nav("/profile"); }}
               style={{
                 background: "linear-gradient(135deg, rgba(255,251,235,0.9), rgba(255,243,196,0.7))",
                 border: "1px solid rgba(240,180,41,0.25)",
@@ -378,7 +390,7 @@ export default function AppLayout() {
                   <button
                     onClick={() => { playClick(); setMenuOpen(false); nav("/premium"); }}
                     className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg"
-                    style={{ background: "linear-gradient(135deg, #d97706, #f0b429)", color: "#1c0800", fontSize: 10, fontWeight: 800, fontFamily: '"Cinzel", serif' }}
+                    style={{ background: "linear-gradient(135deg, #d97706, #f0b429)", color: "#1c0800", fontSize: 10, fontWeight: 800, fontFamily: '"Rubik", "Inter", system-ui, sans-serif' }}
                   >
                     <Crown className="w-3 h-3" />
                     Pro

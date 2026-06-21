@@ -1,0 +1,952 @@
+﻿[
+    {
+        "path":  "history_ai/.env",
+        "sha256":  "7E320B6D10501275076B2EC090802D660A0611AB669AA38B1596845693475284",
+        "size":  174
+    },
+    {
+        "path":  "history_ai/.gitignore",
+        "sha256":  "5CAF76C00F0EEA19E001935DB100E895C0C8E5C5135DFE45955AA6D472264B68",
+        "size":  345
+    },
+    {
+        "path":  "history_ai/ARCHITECTURE_ANALYSIS.md",
+        "sha256":  "001D3F373862AD143A5E83898A98AE9E2ED62D60D8EB2B68FF9D5CB9946BA4CB",
+        "size":  36344
+    },
+    {
+        "path":  "history_ai/source_manifest.json",
+        "sha256":  "F36BE233A103F23984777703075937F6DC912E7309C5BC8CD9DEA33BB435F9F5",
+        "size":  3914
+    },
+    {
+        "path":  "history_ai/backend/main.py",
+        "sha256":  "9EC1CA7B7B71C3D570942137C947F56ECCB4F57EB37F3399A2D5CFE047B8F680",
+        "size":  33276
+    },
+    {
+        "path":  "history_ai/backend/mongodb_loader.py",
+        "sha256":  "75AC869B6FA931DE1DB5911EC755C96372ADC9897786741C3E9A47642EC4F618",
+        "size":  4427
+    },
+    {
+        "path":  "history_ai/backend/requirements.txt",
+        "sha256":  "66DEEBA2C28887D794FF2F548DB58BC3220466D77D5A9470243419157488B13E",
+        "size":  97
+    },
+    {
+        "path":  "history_ai/backend/smoke_test.py",
+        "sha256":  "23866F5639E3D5D81E7CCBB8D80EE007ABF4E5276C1CDB62FF7943564F53E421",
+        "size":  31870
+    },
+    {
+        "path":  "history_ai/backend/__init__.py",
+        "sha256":  "97A8A95E405EED1ABE2A78B3AC4CF86F1C7DC5A019B4530195BB01345C1510EA",
+        "size":  54
+    },
+    {
+        "path":  "history_ai/frontend/next-env.d.ts",
+        "sha256":  "F4E8976C19FC926644D72610BF1058BD6BF52ADD97E46A02BC0B912A751625C0",
+        "size":  268
+    },
+    {
+        "path":  "history_ai/frontend/next.config.mjs",
+        "sha256":  "94154E081385522E44F1DBAE3BF7E167434AFA6F68314AB5F2DC2DD4E5E35E48",
+        "size":  585
+    },
+    {
+        "path":  "history_ai/frontend/package-lock.json",
+        "sha256":  "74149329EF6DB74395C62D5F83C0C3C7BAB079FECCF1202CC8CB6FEEB1F971DD",
+        "size":  71725
+    },
+    {
+        "path":  "history_ai/frontend/package.json",
+        "sha256":  "849EDB2A5B79AD52386B55E855830629C0DCAE57865AF4BB08129B46D9EB9FCE",
+        "size":  602
+    },
+    {
+        "path":  "history_ai/frontend/postcss.config.mjs",
+        "sha256":  "8C4071497479B4BB346D0EBB53B1BDEB555BEB659512AAA0D6988D0D83DDEED5",
+        "size":  105
+    },
+    {
+        "path":  "history_ai/frontend/tailwind.config.ts",
+        "sha256":  "251E2616DDB1E282365B49D847FCCADD74CDFD12924BED01B52F72C3ED022D87",
+        "size":  539
+    },
+    {
+        "path":  "history_ai/frontend/tsconfig.json",
+        "sha256":  "BF782092A3E0C72A53308813965BA926B57330301989EF2008B988B36760892F",
+        "size":  556
+    },
+    {
+        "path":  "history_ai/frontend/types.ts",
+        "sha256":  "C74EECD34CC3917CD8574635CF59F4F5A37C2B1AFAF52E2054E615FDA5789CCA",
+        "size":  2053
+    },
+    {
+        "path":  "history_ai/frontend/.next/app-build-manifest.json",
+        "sha256":  "496C94978DF915BA83F9161B72CC5781E35350B38DD775CBD27824D6A53A1BD2",
+        "size":  308
+    },
+    {
+        "path":  "history_ai/frontend/.next/build-manifest.json",
+        "sha256":  "2C9AE1D87A98B175C4E860ABB06A1B26D22E3DC069640C2B42ABB0851B269376",
+        "size":  661
+    },
+    {
+        "path":  "history_ai/frontend/.next/package.json",
+        "sha256":  "091A04FA67C7907B98E106FCFF8B964E13129754FCE72D24F3025B97C4887FA3",
+        "size":  20
+    },
+    {
+        "path":  "history_ai/frontend/.next/prerender-manifest.json",
+        "sha256":  "646B828C286EF2329AEB38AF8B249C74D5D427470934A5672F629DF533ED40CC",
+        "size":  354
+    },
+    {
+        "path":  "history_ai/frontend/.next/react-loadable-manifest.json",
+        "sha256":  "CCDD7A92F19D3A32F318123AD0D670469D18D60EA268BB7F714712579041907F",
+        "size":  952
+    },
+    {
+        "path":  "history_ai/frontend/.next/routes-manifest.json",
+        "sha256":  "9125FC13FCB7CD39C6286DAE93E44411B527134160D4E21C319AD5116EF497E7",
+        "size":  592
+    },
+    {
+        "path":  "history_ai/frontend/.next/trace",
+        "sha256":  "D9F1278D4510A59295C5AA1819217187FBC45EBFD288A25E08C51D56F4F9514D",
+        "size":  42928
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/.rscinfo",
+        "sha256":  "C108707E580DE393FE9E142D251B972B201C9A02F798872D526E67CCF26AB4B1",
+        "size":  102
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/next-devtools-config.json",
+        "sha256":  "44136FA355B3678A1146AD16F7E8649E94FB4FC21FE77E8310C060F61CAAFF8A",
+        "size":  2
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/client-development/0.pack.gz",
+        "sha256":  "8FD221169407555962FD22F649EAEBC08DC1206F6E1AA7D7730DA19648E39929",
+        "size":  44306
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/client-development/1.pack.gz",
+        "sha256":  "F5AF1DCC4CCD30F2CC0FE6C3A2493482671C0501015176D5A960238D75BF59FB",
+        "size":  11642723
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/client-development/2.pack.gz",
+        "sha256":  "6BE9755B226BC4AE4432E85E37B40386ED87CCB098E6343960C7302BA41C15BE",
+        "size":  67466
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/client-development/3.pack.gz",
+        "sha256":  "49218A001617DDD5420C97BE459D477ACD36DA129489386338DA34F0CF3AB6C1",
+        "size":  10459277
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/client-development/index.pack.gz",
+        "sha256":  "34502FF4EFF6BD52FF1AF28E732F4ABD77090CFB431EA8D419C9DCF087F51092",
+        "size":  118530
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/client-development/index.pack.gz.old",
+        "sha256":  "57FC45A18324E72488AB39143CCF02ABA1A72E264787BEC25B1728D9671BC6EF",
+        "size":  117505
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/server-development/0.pack.gz",
+        "sha256":  "C16069B7D79B97407B72219A1C04642F49525753E846E0EAD97ED9CB23B0D7EE",
+        "size":  2675358
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/server-development/1.pack.gz",
+        "sha256":  "AA6D132725A10ACDADE9E14178982D897F8C20CD80631BD089218335D2634643",
+        "size":  682238
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/server-development/2.pack.gz",
+        "sha256":  "6F6E68247C69F7E10B93F45BE98A0B13264F651274C698257A9273B524B7B921",
+        "size":  6601786
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/server-development/index.pack.gz",
+        "sha256":  "E7C32E919A8EBBC49EF8D8761442AE49A6CE138DAA8902EDE6B4BF6D21201BB2",
+        "size":  132602
+    },
+    {
+        "path":  "history_ai/frontend/.next/cache/webpack/server-development/index.pack.gz.old",
+        "sha256":  "8508228B6C183722CE90134FD511E4B32E836F07CC2C2F24D64EC5CA175F320F",
+        "size":  131059
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/app-paths-manifest.json",
+        "sha256":  "E0BE75C853555B01E1A9823ABF81903C8D8934E5C7CA49E887AFD6D00905D77A",
+        "size":  28
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/interception-route-rewrite-manifest.js",
+        "sha256":  "5F82603B159561C8E11613B6CB06385556A2CF7279F9CBD7D4045C15C83FDFF4",
+        "size":  47
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/middleware-build-manifest.js",
+        "sha256":  "C5BDB61BFAA2A65788A21B88D23AC69961132AAF8BDD3C20BB6199B8D1E9784A",
+        "size":  786
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/middleware-manifest.json",
+        "sha256":  "0A8520BC7E076F7AE717C2D62713990C83E8A3D74626F327A3844BC0504E210C",
+        "size":  83
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/middleware-react-loadable-manifest.js",
+        "sha256":  "146DAD52EE913C0053929EEF686588F19AD4490D77F1039E1390A9EC65E25ED8",
+        "size":  981
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/next-font-manifest.js",
+        "sha256":  "A464413EE75E1016F3E46F43ACD014660AE511A62F634896D1CD75EED7A6E47D",
+        "size":  113
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/next-font-manifest.json",
+        "sha256":  "926E772D34A53F2A4D9B16071DD6EA77B051B2B7ACC49D9165723DEBE3FBBE0F",
+        "size":  77
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/pages-manifest.json",
+        "sha256":  "F42D20F0436B68C912DAF5E35F6BF3C465FC626B3B07DEE5D298BB3D3A636212",
+        "size":  100
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/server-reference-manifest.js",
+        "sha256":  "E3E3569B463052D9DFBDEEEFC359A500CE7BEE41BA4233EC9839DECB09A8716A",
+        "size":  140
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/server-reference-manifest.json",
+        "sha256":  "4645978C16612FC1DEEA1223E19821B6B814C4D62761E2C5FF979281772BDA1F",
+        "size":  97
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/webpack-runtime.js",
+        "sha256":  "D900432AB5651105AE8AA10B52A4361FA6EDA52CCD0BB653C68850814304741F",
+        "size":  20314
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/_error.js",
+        "sha256":  "BBD77248EA3511AAF389DF8BF6B693A746E3DF74CDF2C3DFE5FE5005C347906E",
+        "size":  16316
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/app/page.js",
+        "sha256":  "1529FF82B84D9B3DFDF28FC1612B30029D46E0C0BB52EE938144EE61164E08C3",
+        "size":  373095
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/app/page_client-reference-manifest.js",
+        "sha256":  "E3E793E54EFAD44CD1C6321CE790BF752A2C5A7A477319E9342CA6842D695AAE",
+        "size":  12231
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/pages/_app.js",
+        "sha256":  "39529CC4C38E86AE7912436C3E729A9D2C7B2490B404C3419FF9B25EE8B73617",
+        "size":  1513
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/pages/_document.js",
+        "sha256":  "8FB0570A90D37228996B1DEDB2008052A163BCA23F98D155A3CF78D1AD71A10E",
+        "size":  2099
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/pages/_error.js",
+        "sha256":  "6B0F1D809012A6C03E7BCCFC9AEBC621D30ACCAA8165859ED219B3583586A1CF",
+        "size":  16027
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/vendor-chunks/@swc.js",
+        "sha256":  "EE9A914BF38B89ABB5906476A0C811FAB4A0A77B2B90E1A98719DB26A9A4524C",
+        "size":  21902
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/vendor-chunks/lucide-react.js",
+        "sha256":  "52C4B5288724ECE4DD80D76EB6781BD6CD69A330259782552C0FBA1FF666ACDE",
+        "size":  38718
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/vendor-chunks/next.js",
+        "sha256":  "AC98C58EA974119C744D59AF6E7765BFDEA7C306923B759B16662738250A61CC",
+        "size":  7981074
+    },
+    {
+        "path":  "history_ai/frontend/.next/server/vendor-chunks/zustand.js",
+        "sha256":  "A5E70A5710EC61CBCCACA543F6189DA22AEFD1F4C6350B32E20012DEDC16301E",
+        "size":  7817
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/app-pages-internals.js",
+        "sha256":  "B755FE63BF35A8C5136FCD40FF0A9F1268F065A0FBD526465C232DB31CBC3F93",
+        "size":  255143
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/main-app.js",
+        "sha256":  "12577344F7DBF9988BB8B4BC64CDFFCE970649D606AA23F28B09F0082E3C4030",
+        "size":  7610169
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/main.js",
+        "sha256":  "7A85975E37480DBA5C99A6FC0DC5B01581E017ABF6BD4C9BDA5EFDBCE108EE64",
+        "size":  7150481
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/polyfills.js",
+        "sha256":  "0973C1D64C88ADC8E3C950410CB58B288F72118D5965B78049438DEB8F2F9683",
+        "size":  112594
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/react-refresh.js",
+        "sha256":  "5D8BE25BDBAEBEB3DA715182F9CC921D3C9FD6024BF745425B9692FF18DDF06F",
+        "size":  79647
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/webpack.js",
+        "sha256":  "A6850437BBE928EB3725CB0E763F970FD0F0F69B03AA344751C60B0BA99D0387",
+        "size":  140816
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/_app-pages-browser_node_modules_next_dist_client_dev_noop-turbopack-hmr_js.js",
+        "sha256":  "D6EBBDFA4927194613567D0879356549FF86BF8231EAC78FB5A76B72F64F20AC",
+        "size":  6429
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/_error.js",
+        "sha256":  "A2B338712EAF940525B96345A1BB5BA8A09AAD175C10264834BDADAF2F4904B3",
+        "size":  74184
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/_pages-dir-browser_node_modules_next_dist_pages__app_js.js",
+        "sha256":  "48E1EE7F2435D6377749A87F8D60ABFCB8B7B5FDACA8E0450064F075DC2ACC44",
+        "size":  9523
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/_pages-dir-browser_node_modules_next_dist_pages__error_js.js",
+        "sha256":  "C3926D1FD2C1D5FB6601A32286BBE75289E736FC8DED6CC4146C34BA13FC7653",
+        "size":  70673
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/app/layout.js",
+        "sha256":  "D89956D6869E338AE7A2B9D8ADFA03BFEF888037EBD75DF3E88588D204C83BA0",
+        "size":  5129
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/app/page.js",
+        "sha256":  "8D36422F29CEBDB02B37C7E83012D91F48A5448A82D84721FECD7FC343CEFEA7",
+        "size":  261865
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/pages/_app.js",
+        "sha256":  "41DBDAED6BAC885340B59195D45B40105560761428C40C76D0F9E118A4FD887F",
+        "size":  12304
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/chunks/pages/_error.js",
+        "sha256":  "BD1E4EEDB2A2799D5D8090FD9E31BFB5CD4FE23EF832E3CC11ED4D919A1717A3",
+        "size":  73488
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/css/app/layout.css",
+        "sha256":  "B83F383747B022F5767918CC59FDA467ECF4C4BE038524FF24296F83E3AFC983",
+        "size":  22504
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/development/_buildManifest.js",
+        "sha256":  "24EDCFF40A0E8CD88216C3E4D9412923E559C47AA1E06E1201F30728CFAB4274",
+        "size":  420
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/development/_ssgManifest.js",
+        "sha256":  "653F3E53E89B4F8548FF86C19E92BB3C6B84B6BE7485A320B1E00893ED877479",
+        "size":  76
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/webpack/0240869a83f96a5c.webpack.hot-update.json",
+        "sha256":  "EEA3C145B3456FCDF200B061BA939627D594C39727E9FAA523ED958ED05B4705",
+        "size":  31
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/webpack/633457081244afec._.hot-update.json",
+        "sha256":  "50B2026E892228653AB6E3805EDD14BAC846D83DA8E9CDB7EBDDD9681FFE9D49",
+        "size":  22
+    },
+    {
+        "path":  "history_ai/frontend/.next/static/webpack/webpack.0240869a83f96a5c.hot-update.js",
+        "sha256":  "DC1E5D3C9676FED3F6DDD93684FAF197F24485EAF2618768F50099AD22FC4BB4",
+        "size":  1157
+    },
+    {
+        "path":  "history_ai/frontend/.next/types/cache-life.d.ts",
+        "sha256":  "2552A31FAD45A9ED1BDE87E51B038DC0E786CD364B597162263ABBF57018949B",
+        "size":  5863
+    },
+    {
+        "path":  "history_ai/frontend/.next/types/package.json",
+        "sha256":  "E3D5A4A2D8551AA52C5A01D2A0EFB2E06A2D9711B4F5C5F1D20DE6E21807E2CD",
+        "size":  18
+    },
+    {
+        "path":  "history_ai/frontend/.next/types/routes.d.ts",
+        "sha256":  "025ABAB5CFAFB24A9E444F965CD809B90BBA635A7F6FEBE815083D8FBA6FC0B6",
+        "size":  1527
+    },
+    {
+        "path":  "history_ai/frontend/.next/types/validator.ts",
+        "sha256":  "8C738D7AB02122BEC55D98EAB2F5E875F5306EBFFE56A6BE96F2DA0916A7EA71",
+        "size":  2095
+    },
+    {
+        "path":  "history_ai/frontend/.next/types/app/layout.ts",
+        "sha256":  "E1A48AB938B2E6D2091EA96E125949B42AEF2F21F9109AEE51EA10ABFC9DE283",
+        "size":  3723
+    },
+    {
+        "path":  "history_ai/frontend/.next/types/app/page.ts",
+        "sha256":  "A105866B86BC4110DC002768B46FA6EC02BAF907ECCE52894E657320F31C68EF",
+        "size":  3711
+    },
+    {
+        "path":  "history_ai/frontend/app/globals.css",
+        "sha256":  "2C26093508C8202A7F051E6076183C86DB595E28435C492061A3C2670FE5635B",
+        "size":  3054
+    },
+    {
+        "path":  "history_ai/frontend/app/layout.tsx",
+        "sha256":  "6B664B37C8AECE7E803F15F7B126583DC475DA72CEE2F5610F500E406DADD4C6",
+        "size":  410
+    },
+    {
+        "path":  "history_ai/frontend/app/page.tsx",
+        "sha256":  "E3248F0455825C092379B82FED30B3E2F9A1A9FC49E9EA8343CF4E69EA3A441F",
+        "size":  17350
+    },
+    {
+        "path":  "history_ai/frontend/components/CharacterViewer.tsx",
+        "sha256":  "BEE5C48A2D3FB9D8C135635DEB6E2E2F36BA1A41BB822114FC2CD5A90B06B7FD",
+        "size":  6950
+    },
+    {
+        "path":  "history_ai/frontend/lib/api.ts",
+        "sha256":  "0D04EF6969EBCFA2CBCF10919FDEF384E6C657F0D213AEAB0934235E3C79C379",
+        "size":  3299
+    },
+    {
+        "path":  "history_ai/frontend/lib/store.ts",
+        "sha256":  "3B63AFB24E20A64E659D4EDE089A4E5FE3134E04B5732B1B61A59D7D7C0361C7",
+        "size":  4131
+    },
+    {
+        "path":  "history_ai/frontend/public/favicon.svg",
+        "sha256":  "998FF60767193199264B145B8DAF708BD2A2DBAAD87046CA0FB7F58636F571A5",
+        "size":  264
+    },
+    {
+        "path":  "history_ai/ho_chi_minh_dataset/ho_chi_minh_knowledge.jsonl",
+        "sha256":  "31547CB24C2B87D25C3C10B6768FF06C4369A94307F94DC219D1E1D436DB9474",
+        "size":  558299
+    },
+    {
+        "path":  "history_ai/ho_chi_minh_dataset/ho_chi_minh_profile.json",
+        "sha256":  "6A96A2B75C1B1BBEC92E5B3605B44D88300238E244B4705E0A90D3D58F4742CD",
+        "size":  16514
+    },
+    {
+        "path":  "history_ai/nguyen_trai_dataset/nguyen_trai_knowledge.jsonl",
+        "sha256":  "97DDD3EC674481C3D1E7CF4CD59E7ED5266BE22A2D450922361614EACCDA9EA7",
+        "size":  61876
+    },
+    {
+        "path":  "history_ai/nguyen_trai_dataset/nguyen_trai_profile.json",
+        "sha256":  "3C5B7717D132C1C13E5862700E1860862401F05C2E53CD7EB553FEFC6C53D49B",
+        "size":  11879
+    },
+    {
+        "path":  "history_ai/quang_trung_dataset/build_dataset.py",
+        "sha256":  "FD029C3E0FF6CE3F3E4C51C2D41F24DE4BD571911FA72F053092DA9781A33E18",
+        "size":  137174
+    },
+    {
+        "path":  "history_ai/quang_trung_dataset/build_multi_character_datasets.py",
+        "sha256":  "8432CA25EE5DB25B6C1C88D1A0B18391836D26BCD09000602924C101125A3D89",
+        "size":  12266
+    },
+    {
+        "path":  "history_ai/quang_trung_dataset/quang_trung_knowledge.jsonl",
+        "sha256":  "C4833E0FD8AD30C43C0C3443EF400D1525A2FEAD2C9D6811493809DA775B806C",
+        "size":  194568
+    },
+    {
+        "path":  "history_ai/quang_trung_dataset/quang_trung_profile.json",
+        "sha256":  "8BF355E981967E8468BF609093ED2BE34DD928E564F4B4734CFCD2427A2596CB",
+        "size":  10891
+    },
+    {
+        "path":  "history_ai/quang_trung_dataset/validate_dataset.py",
+        "sha256":  "54C71ED154815AD5D4AD1607B39847EB70ED28661AF40ACD7C292D20A41E1FC1",
+        "size":  8861
+    },
+    {
+        "path":  "history_ai/quang_trung_dataset/validate_multi_character.py",
+        "sha256":  "5AE097C26248FCE8BAF8E9D61D81915C46EA4281166F18F8A49EE3731B527B5A",
+        "size":  6258
+    },
+    {
+        "path":  "history_ai/quang_trung_web/.gitignore",
+        "sha256":  "E68FD8844C6ECA224EB7B41ED9B0099232D181B8FA8165CBB6AF1B9B0FBF6293",
+        "size":  81
+    },
+    {
+        "path":  "history_ai/quang_trung_web/app.py",
+        "sha256":  "BC722C51EA9D7E2880CF5AF64AC356D6E3D19891CC715EA9222BBFD08B48222E",
+        "size":  22215
+    },
+    {
+        "path":  "history_ai/quang_trung_web/character_registry.py",
+        "sha256":  "CD0EA954EDCA4948A7E478F1EEE24B40F599F33640E50BFD8ED4D726C1B0AC21",
+        "size":  3905
+    },
+    {
+        "path":  "history_ai/quang_trung_web/llm_provider.py",
+        "sha256":  "FEDA2D582FA79907B4E668BCA8FF1A917FEE17079B2BAD372964F17C731E935A",
+        "size":  45235
+    },
+    {
+        "path":  "history_ai/quang_trung_web/rag_core.py",
+        "sha256":  "0CB12C535AE14C2F929DE4C74D6C04B1834E676EFFDDC908B41CBD0CD87B9353",
+        "size":  150139
+    },
+    {
+        "path":  "history_ai/quang_trung_web/requirements.txt",
+        "sha256":  "D258F85542065D26DC8C9818D6764FE121DEC1FA95051DE9B6C10316840C8515",
+        "size":  114
+    },
+    {
+        "path":  "history_ai/quang_trung_web/smoke_test.py",
+        "sha256":  "EB46584428E3E536A09FD6E7B70ED9044166BCF7B8C8BEC6B697C5A051D36E55",
+        "size":  34503
+    },
+    {
+        "path":  "history_ai/quang_trung_web/tts_provider.py",
+        "sha256":  "4F66D99D65322DEA00608E5B1F4F832FB560957E33861B3DE946B0C1EFF0427B",
+        "size":  4468
+    },
+    {
+        "path":  "history_ai/quang_trung_web/verify_vertex.py",
+        "sha256":  "5919F0CAFACDC2EC4D7DBB74207E66DC4EA41E0CB67EC0DCBE2391E04587A9D7",
+        "size":  1383
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/ho_chi_minh/angry.png",
+        "sha256":  "E364F7D79AF45445686BD30E9F10AFF32E33BCEBBDC5AE5AEEAA40CF7EBA52AB",
+        "size":  1352339
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/ho_chi_minh/confused.png",
+        "sha256":  "759519F8EE5E1D12428E0E691F820905B36A38AB159C03BE6AC53622927207F2",
+        "size":  1350844
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/ho_chi_minh/happy.png",
+        "sha256":  "439F2343F9D087175D4C3FD3B3D640AB5718BD114461B7D5DDE63B8A550372A0",
+        "size":  1354675
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/ho_chi_minh/idle.png",
+        "sha256":  "EA392DC9AA53E6C3797C53BD2C5BC607F59D6DDDAAAE7A585025E39350EE03FB",
+        "size":  1416329
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/ho_chi_minh/sad.png",
+        "sha256":  "3109B8ED4DC842028CCF5B9155846CD389B167C7DA01B13EF7D33CB282E447D8",
+        "size":  1350615
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/ho_chi_minh/talking.png",
+        "sha256":  "E5C5D80757538E856B934AB1F346096EBA6BC90B625399F3599A3D5896E9BCC9",
+        "size":  1341392
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/ho_chi_minh/thinking.png",
+        "sha256":  "7097E2BFE0219124A50B4FBF4F3430BF3C834E8B0C4C12C6E981D993F298B1E3",
+        "size":  1343013
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/nguyen_trai/angry.png",
+        "sha256":  "D2ABD7EFCF4A78298A056A4173266106EFBB01F526BA82921AE3DD2A98DAD514",
+        "size":  965613
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/nguyen_trai/confused.png",
+        "sha256":  "5BF4223CAD03F19F35E18EA5888100541EC60E7B29797CB2773C56A7ACFA34D8",
+        "size":  949592
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/nguyen_trai/happy.png",
+        "sha256":  "2F7E651F248B870EA3102F9D4E5A75F4F51AE981BB43B791FE83431CD624D26D",
+        "size":  943780
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/nguyen_trai/idle.png",
+        "sha256":  "4E383ACC65062412B908F3E9FFF6CC0EF33FF38ED030BAA5C9655A74378E5506",
+        "size":  920422
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/nguyen_trai/sad.png",
+        "sha256":  "D859AA398CB9B63A05D8518ED43E295B84B478CF09956056A08C1EE2694A61AD",
+        "size":  955700
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/nguyen_trai/talking.png",
+        "sha256":  "4EE2F738580A9F3D08A2DFBFE9BB61866B9C2158EA98107654EC7C0EBF6B880B",
+        "size":  924745
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/nguyen_trai/thinking.png",
+        "sha256":  "E6421E2EAA37847B5376551D2875AB734355B53543C9C960462ABF9A06770E13",
+        "size":  929582
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/angry.png",
+        "sha256":  "A49484E7874C9190A21F66F4E063979442D2521607ED144CCB7423A8993A5474",
+        "size":  1892969
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/angry_2.png",
+        "sha256":  "E5DA59D107DAFC279B0DC55C1F666D52D0E6517990E8D1AAD61F6431A86744EF",
+        "size":  1686566
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/confused.png",
+        "sha256":  "09501EE3D01E0481BF1D2BEBAD02FB821D4CD66EFDB5CD6FC847939E47849BEB",
+        "size":  1890823
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/happy.png",
+        "sha256":  "99A179A9BBE9E829F57721B5D990C9A039D267FFABBD47095B9DC969232FEB38",
+        "size":  1890952
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/idle.png",
+        "sha256":  "30C6DB49BFD380566D0DDE73A53FB258E6B3D99FBE4ED226C3378668AFA2DB1D",
+        "size":  2000603
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/Quang Trung-attack.png",
+        "sha256":  "D013396708C2F82BD7F734D6771D3584732365D38F1229D804273682BFA4B43C",
+        "size":  297219
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/Quang Trung-hero_thinking.png",
+        "sha256":  "AEB659BC05805C0D4C053D8EB8E5DEB84038A809FE33552AE1397FD675FD75A6",
+        "size":  270307
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/sad.png",
+        "sha256":  "E56500828DFF2BE0B227AF066577426170B945874E856A2910BB2CBC642BD686",
+        "size":  1884967
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/talking.png",
+        "sha256":  "9CD2FF3360744359C97F6B03FD013B57B9D9BB522A3C85E62F8C33ABD7AAC941",
+        "size":  1887622
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/quang_trung/thinking.png",
+        "sha256":  "7D3DD80E63BE2BFACC888D73D5BC4503691466816F9C957776C91EE9AB34B975",
+        "size":  1883293
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/tran_hung_dao/angry.png",
+        "sha256":  "236699046D671EB6584906AFB310428EA8142877E90992B779D46B7BD6779983",
+        "size":  2008890
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/tran_hung_dao/confused.png",
+        "sha256":  "CA66A66F952F6210B6F99BDC159A25BBC2BB0C8C4A57AE3047A6197722945707",
+        "size":  2003398
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/tran_hung_dao/happy.png",
+        "sha256":  "B1D843D1939266A59346A08A2893E6304E7B9FD3CD03657743F97D161B2F492F",
+        "size":  2004897
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/tran_hung_dao/idle.png",
+        "sha256":  "22B331A0FF545E9F2B3871CEEB085AB5582867FAC9A5BA7BF51A98994030D3E3",
+        "size":  2150811
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/tran_hung_dao/sad.png",
+        "sha256":  "E0418EE58FEE77E237AA0864FF23EACA8A9A0449C0AD8D232DEDF3795150C761",
+        "size":  2002650
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/tran_hung_dao/talking.png",
+        "sha256":  "E13749481A08DD0D1EADD4990617C4B534DA79A1F30DCB0BC36ED34CCB971008",
+        "size":  2000394
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/tran_hung_dao/thinking.png",
+        "sha256":  "6A1114519665CE8D0E91ACCB7E6837AFDC5E2C28930D65A08610D8CC5333AAA6",
+        "size":  2002648
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/vo_nguyen_giap/angry.png",
+        "sha256":  "6981E0B870FF7E7014055AB6011D98C7A0C5DAF24FCE9792304FC46C7C22E5A5",
+        "size":  1398054
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/vo_nguyen_giap/confused.png",
+        "sha256":  "C347DED0B6B5F8491FBC25E6B1625BD6CB3C7D6917F92A7F798006E6A7BBDF35",
+        "size":  1395291
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/vo_nguyen_giap/happy.png",
+        "sha256":  "82B10FCCF4E0D0F630538CC53C1C2FA1363EC1893E3DA4B4ADC9FF61CC6F7473",
+        "size":  1394653
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/vo_nguyen_giap/idle.png",
+        "sha256":  "5F6AC945950F8504BD87EC37136E2E2DA4AC03874D216D9F89982BDBAF595FE9",
+        "size":  1461812
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/vo_nguyen_giap/sad.png",
+        "sha256":  "43B771150A0DDC33876B3AE6D3A5112A95A569B7322CE12FA73452F2BC32B51F",
+        "size":  1395535
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/vo_nguyen_giap/talking.png",
+        "sha256":  "FBD15F9428FDCA5BCC7068391BD48BAB63C6C820E2EA4FB7904D685198C2FCFD",
+        "size":  1396500
+    },
+    {
+        "path":  "history_ai/quang_trung_web/assets/vo_nguyen_giap/thinking.png",
+        "sha256":  "1DE258F5CF7C4ECF4C430BE962DB6D4CFEE568A322A5756ECC793A9B531B2504",
+        "size":  1389603
+    },
+    {
+        "path":  "history_ai/review_feedback/admin_approved_knowledge.jsonl",
+        "sha256":  "4210E71F69BD1003A45337B6EA954343508CBC126ED9444E212B5D2D3909CE94",
+        "size":  17774
+    },
+    {
+        "path":  "history_ai/review_feedback/approved.jsonl",
+        "sha256":  "1CB07DB6803437B5364A37C7E354629687D564076B98891DCD7F79EF1D4381C5",
+        "size":  21372
+    },
+    {
+        "path":  "history_ai/review_feedback/feedback.schema.json",
+        "sha256":  "8B8DAA0283F0D2A5FB250B2BA4097BDB328E2BF502C3FA540125C9A2B395FBD1",
+        "size":  2176
+    },
+    {
+        "path":  "history_ai/review_feedback/feedback_store.py",
+        "sha256":  "162BD182F93C632B5D1D46E58B76B6516B003C9FCBEF7421FB2BB486040B46B6",
+        "size":  9138
+    },
+    {
+        "path":  "history_ai/review_feedback/knowledge_exporter.py",
+        "sha256":  "647252240CC36EED0D6CED271A63C12EA6204348402F083535C3A4737941B30D",
+        "size":  6222
+    },
+    {
+        "path":  "history_ai/review_feedback/rejected.jsonl",
+        "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+        "size":  0
+    },
+    {
+        "path":  "history_ai/review_feedback/reviews.jsonl",
+        "sha256":  "1CB07DB6803437B5364A37C7E354629687D564076B98891DCD7F79EF1D4381C5",
+        "size":  21372
+    },
+    {
+        "path":  "history_ai/review_feedback/__init__.py",
+        "sha256":  "30EC4B38BD2B3769328A62342A780532DD9A0A9C6E7B9316A1E73AD511EDFEA6",
+        "size":  339
+    },
+    {
+        "path":  "history_ai/tran_hung_dao_dataset/test1.jsonl",
+        "sha256":  "73674114D75F2933B6389AFA0B42E760305E7DDBFE15EF1DEDE2571B12B02001",
+        "size":  595
+    },
+    {
+        "path":  "history_ai/tran_hung_dao_dataset/tran_hung_dao_knowledge.jsonl",
+        "sha256":  "CC87918B038C49A88B47064A2266212FA3BBFF09EFF51FD102DB5BC49963718C",
+        "size":  279343
+    },
+    {
+        "path":  "history_ai/tran_hung_dao_dataset/tran_hung_dao_profile.json",
+        "sha256":  "009B2F5E44C1913E73E57236E76BF04B6E1DFCA5CE1F9058BD7D5D85963C038D",
+        "size":  23237
+    },
+    {
+        "path":  "history_ai/vo_nguyen_giap_dataset/vo_nguyen_giap_knowledge.jsonl",
+        "sha256":  "49638CD550B9BB3D03B88DDE352C841956FAC00822D32C9353CBE1FA2885D2B3",
+        "size":  220513
+    },
+    {
+        "path":  "history_ai/vo_nguyen_giap_dataset/vo_nguyen_giap_profile.json",
+        "sha256":  "AE6358C5C4964B71CC80760123F667A899E3CD8FFE32ECC778EF47024BBEA7D0",
+        "size":  9481
+    },
+    {
+        "path":  "backend/rag/pipeline.py",
+        "sha256":  "3794ADF1D8F89454E52A2C4F74EF7498A68490D55FE4A04496203434CE94BFA2",
+        "size":  310
+    },
+    {
+        "path":  "backend/rag/__init__.py",
+        "sha256":  "F01A374E9C81E3DB89B3A42940C4D6A5447684986A1296E42BF13F196EED6295",
+        "size":  5
+    },
+    {
+        "path":  "historyalive-admin/.gitignore",
+        "sha256":  "D50AB07E11FA4BF3B1C7C3312E1D7BAEAB56CCA756832CCF40476823AD2A38B7",
+        "size":  277
+    },
+    {
+        "path":  "historyalive-admin/eslint.config.js",
+        "sha256":  "F19395CAF80173FFBD41AB74F8EEF4FC26C042F84A937DE4A6286EC5C13AD401",
+        "size":  613
+    },
+    {
+        "path":  "historyalive-admin/index.html",
+        "sha256":  "81A25FB96FFBA0C7A2EA27803558DF3593CCFAE746127E57501219F95F0A1348",
+        "size":  383
+    },
+    {
+        "path":  "historyalive-admin/package-lock.json",
+        "sha256":  "4AF6E906C14A3247D1CA9EC1E75AD460C908535616C06A93C5BC785785AAE95D",
+        "size":  127567
+    },
+    {
+        "path":  "historyalive-admin/package.json",
+        "sha256":  "0986D86621253914A58E2C1284CEE7E857476CBE521FCD7A95CD3E5243099509",
+        "size":  911
+    },
+    {
+        "path":  "historyalive-admin/README.md",
+        "sha256":  "BF14FBE337274F08BA3D9C2D6FE3E8723F13C16B605583BFF70483717E3D4F3A",
+        "size":  2498
+    },
+    {
+        "path":  "historyalive-admin/tsconfig.app.json",
+        "sha256":  "61AB483A94A0556E57EA95CC7353BB07B9F3084C0691364070BBF853910646E8",
+        "size":  642
+    },
+    {
+        "path":  "historyalive-admin/tsconfig.json",
+        "sha256":  "AD28D132EE48D6E23917CF5827CACE785D0FC01A44CA68B0DDA51CC8C3FD3F52",
+        "size":  126
+    },
+    {
+        "path":  "historyalive-admin/tsconfig.node.json",
+        "sha256":  "E0F1936992F77A707102795E8EA311AE74CB54DE87B221BB32B44055AF66FF7E",
+        "size":  615
+    },
+    {
+        "path":  "historyalive-admin/vite.config.ts",
+        "sha256":  "F8F644C5F41A0241C74303FD6AE310032592B9AD4FCC5B139E2D4B45FAE829DF",
+        "size":  263
+    },
+    {
+        "path":  "historyalive-admin/public/favicon.svg",
+        "sha256":  "61BC9A161DE58248288E6905425D7180F0624C2865007B97D763FDAC12043A66",
+        "size":  9522
+    },
+    {
+        "path":  "historyalive-admin/public/icons.svg",
+        "sha256":  "7CA2D67C9C3AEBF50CDC8709EE8AACF8CDB8CC7EA6325EA94939CAEF5DA1C53D",
+        "size":  5055
+    },
+    {
+        "path":  "historyalive-admin/src/App.css",
+        "sha256":  "0CC269C58F44E0C3F80A8D0BD4B02934C45C5979C997CD30328BC1B9A0CC0225",
+        "size":  18260
+    },
+    {
+        "path":  "historyalive-admin/src/App.tsx",
+        "sha256":  "451DAB6FD418610878055D19B917F5D76AFFDA123E0E3C41F2AE3451C75B00E9",
+        "size":  4180
+    },
+    {
+        "path":  "historyalive-admin/src/index.css",
+        "sha256":  "49184D295FB753222B0F75F64E94A5FA4FC445597A00DA0A895AE6ED804572F6",
+        "size":  709
+    },
+    {
+        "path":  "historyalive-admin/src/main.tsx",
+        "sha256":  "484F93F3048565A86A47E308F5A12EE27AA12F5291F3B52A4BB5DC03D887DBC7",
+        "size":  240
+    },
+    {
+        "path":  "historyalive-admin/src/assets/hero.png",
+        "sha256":  "881FFBCAAFC212E49ADDAD08846A5B82761355FA20624253AF3477BA33262C5C",
+        "size":  13057
+    },
+    {
+        "path":  "historyalive-admin/src/assets/react.svg",
+        "sha256":  "35EF61ED53B323AE94A16A8EC659B3D0AF3880698791133F23B084085AB1C2E5",
+        "size":  4126
+    },
+    {
+        "path":  "historyalive-admin/src/assets/vite.svg",
+        "sha256":  "2F1F6C6F90A0EF7422CBB4CFAFCD8AD329C507A18AFDC34CC21FA72179B9C54A",
+        "size":  8710
+    },
+    {
+        "path":  "historyalive-admin/src/components/AdminLayout.tsx",
+        "sha256":  "40B756BA8D3B1EA365C37CDCDFB85C0ADA2D26134942ABB247DC4E6A8CC024DC",
+        "size":  3131
+    },
+    {
+        "path":  "historyalive-admin/src/components/Feedback.tsx",
+        "sha256":  "D72C4B47F9E70486BF390019044A88F0AAAD4FA5003F320C6F4C84BC7E91AEB4",
+        "size":  720
+    },
+    {
+        "path":  "historyalive-admin/src/pages/CharacterEditPage.tsx",
+        "sha256":  "1D8E101CC935F7C346F2F5A1A759CED65F0E7BE49E55733C6E1609635B23B61C",
+        "size":  25210
+    },
+    {
+        "path":  "historyalive-admin/src/pages/CharactersPage.tsx",
+        "sha256":  "7BFA631F3114FF6A689537BF7C0DBDDD28EEE138D053B69A9A3A9AA8A94A8D55",
+        "size":  5706
+    },
+    {
+        "path":  "historyalive-admin/src/pages/InferTestPage.tsx",
+        "sha256":  "CC9166E8E6BF3880D235CAB233048ACBAD6120C76A2FE9BB3919DA203A41A7B7",
+        "size":  24016
+    },
+    {
+        "path":  "historyalive-admin/src/pages/KnowledgePage.tsx",
+        "sha256":  "83003363FF2ACA048A170399BFFEA422C2D8D9F54FB8E6E5D16FFAB37640BE07",
+        "size":  5028
+    },
+    {
+        "path":  "historyalive-admin/src/services/apiService.ts",
+        "sha256":  "1C1DECC8A6A0CA19F140CAE291C559BB687E3C4F29B2451CFD0824FAD690818A",
+        "size":  14693
+    },
+    {
+        "path":  "historyalive-admin/src/types/admin.ts",
+        "sha256":  "EA5AC0DFE06B4DF8EBE4D6C37270EF41A2A741D5662430749A255C2CACCC5B83",
+        "size":  4045
+    }
+]

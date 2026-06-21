@@ -1,103 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import { UNITS } from "../store";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronRight, X } from "lucide-react";
-
-type Scene = {
-  character: string;
-  characterTitle: string;
-  avatar: string;
-  side: "left" | "right";
-  lines: string[];
-};
-
-const STORIES: Record<string, {
-  title: string;
-  era: string;
-  backdrop: { from: string; to: string };
-  artEmoji: string;
-  scenes: Scene[];
-  decision?: { question: string; choices: { text: string; outcome: string; isHistorical: boolean }[] };
-}> = {
-  "u1-l1": {
-    title: "Vua Hùng Dựng Nước",
-    era: "2879 TCN",
-    backdrop: { from: "#2d1400", to: "#1a0c00" },
-    artEmoji: "🏯",
-    scenes: [
-      {
-        character: "Lạc Long Quân",
-        characterTitle: "Thần Long — Vua các vùng sông nước",
-        avatar: "🐉",
-        side: "left",
-        lines: [
-          "Ta và Âu Cơ đã sinh ra một bọc trứng kỳ diệu. Từ đó nở ra một trăm người con.",
-          "Nhưng ta là con của Rồng, nàng là con của Tiên. Ta phải trở về biển sâu.",
-        ],
-      },
-      {
-        character: "Âu Cơ",
-        characterTitle: "Tiên Nữ — Mẹ của trăm con",
-        avatar: "🦅",
-        side: "right",
-        lines: [
-          "Năm mươi người con theo ta lên rừng núi cao, lập nước Văn Lang.",
-          "Người con trưởng nhất trở thành Hùng Vương đầu tiên — khởi nguồn dân tộc Việt.",
-        ],
-      },
-    ],
-    decision: {
-      question: "Vua Hùng cần chọn kinh đô cho nước Văn Lang. Bạn sẽ chọn đâu?",
-      choices: [
-        { text: "Vùng đất Phong Châu — thấp, gần sông, dễ trồng lúa", outcome: "Phong Châu trở thành kinh đô Văn Lang. Vùng đất màu mỡ, thuận lợi cho nông nghiệp lúa nước.", isHistorical: true },
-        { text: "Núi cao phía Bắc — hiểm trở, dễ phòng thủ", outcome: "Nếu chọn núi cao, việc canh tác sẽ khó khăn và dân số khó tăng trưởng.", isHistorical: false },
-      ],
-    },
-  },
-  "u2-l1": {
-    title: "Hai Bà Trưng Khởi Nghĩa",
-    era: "40 SCN",
-    backdrop: { from: "#2d0808", to: "#1a0404" },
-    artEmoji: "⚔️",
-    scenes: [
-      {
-        character: "Trưng Trắc",
-        characterTitle: "Nữ tướng — Lãnh đạo cuộc khởi nghĩa",
-        avatar: "⚔️",
-        side: "left",
-        lines: [
-          "Chồng ta — Thi Sách — đã bị giết bởi Tô Định. Mối thù này ta không thể nuốt.",
-          "Khắp đất nước, nhân dân đang rên xiết dưới ách đô hộ hà khắc của nhà Hán.",
-        ],
-      },
-      {
-        character: "Trưng Nhị",
-        characterTitle: "Em gái — Phó tướng vĩ đại",
-        avatar: "🛡️",
-        side: "right",
-        lines: [
-          "Chị ơi, hơn 65 thành trì đã đầu hàng ta. Chỉ trong vài tháng!",
-          "Dân tộc ta đã chứng minh: phụ nữ có thể dẫn đầu cuộc kháng chiến vĩ đại nhất.",
-        ],
-      },
-    ],
-  },
-};
+import { getLessonById, getStoryByLessonId } from "../content/contentRepository";
 
 export default function StoryScreen() {
   const { id = "" } = useParams();
   const nav = useNavigate();
 
-  const lesson = (() => {
-    for (const u of UNITS) {
-      const l = u.lessons.find((x) => x.id === id);
-      if (l) return { ...l, unit: u };
-    }
-    return null;
-  })();
-
-  const story = STORIES[id];
+  const lesson = getLessonById(id);
+  const story = getStoryByLessonId(id);
 
   const [sceneIdx, setSceneIdx] = useState(0);
   const [lineIdx, setLineIdx] = useState(0);

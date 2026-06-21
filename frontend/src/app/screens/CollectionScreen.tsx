@@ -1,7 +1,8 @@
-import { UNITS, useApp } from "../store";
+import { useApp } from "../store";
 import { motion } from "motion/react";
 import { Lock, BookOpen } from "lucide-react";
 import { useSound } from "../hooks/useSound";
+import { getAllUnits } from "../content/contentRepository";
 
 const CARDS = [
   { id: "c1", title: "Trống Đồng Đông Sơn", era: "Văn Lang · ~500 TCN", icon: "🥁", unitId: "u1", desc: "Biểu tượng văn minh Đông Sơn huyền thoại" },
@@ -17,9 +18,10 @@ const CARDS = [
 export default function CollectionScreen() {
   const { user } = useApp();
   const { playPop } = useSound();
+  const units = getAllUnits();
 
   const unlocked = (unitId: string) => {
-    const unit = UNITS.find((u) => u.id === unitId);
+    const unit = units.find((u) => u.id === unitId);
     return unit?.lessons.some((l) => user.completedLessons.includes(l.id));
   };
 

@@ -55,7 +55,7 @@ export default function ChooseNameScreen() {
   return (
     <OnboardingLayout
       step={1}
-      totalSteps={3}
+      totalSteps={2}
       title="Mình gọi bạn là gì?"
       subtitle="Chọn linh vật đồng hành và đặt tên của bạn"
       footer={footer}

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://historyalive.local/schemas/review-feedback.schema.json",
+  "title": "History Alive RAG Review Feedback",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "question",
+    "character_id",
+    "answer_origin",
+    "status"
+  ],
+  "properties": {
+    "review_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "character_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "answer_origin": {
+      "type": "string",
+      "enum": ["rag", "gemini", "admin_corrected"]
+    },
+    "model_answer": {
+      "type": "string"
+    },
+    "corrected_answer": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["approved", "rejected", "needs_source", "corrected_approved"]
+    },
+    "error_type": {
+      "type": "string",
+      "enum": ["off_topic", "wrong_fact", "missing_source", "unsafe_prior", "duplicate", "other"]
+    },
+    "source_title": {
+      "type": "string"
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "source_excerpt": {
+      "type": "string"
+    },
+    "source_tier": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "reviewer_note": {
+      "type": "string"
+    },
+    "correction_of_review_id": {
+      "type": "string"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "approved"}},
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["model_answer", "source_title", "source_excerpt", "source_tier"]
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "corrected_approved"}},
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["corrected_answer", "source_title", "source_excerpt", "source_tier"]
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "rejected"}},
+        "required": ["status"]
+      },
+      "then": {
+        "anyOf": [
+          {"required": ["error_type"]},
+          {"required": ["reviewer_note"]}
+        ]
+      }
+    }
+  ]
+}

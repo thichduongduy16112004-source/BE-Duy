@@ -28,7 +28,7 @@ export default function ChooseGradeScreen() {
       onClick={() => {
         if (!grade) return;
         setUser({ ...user, grade });
-        nav("/onboarding/time");
+        nav("/home");
       }}
       disabled={!grade}
       className="w-full py-3.5 rounded-2xl text-white uppercase tracking-wide transition-all disabled:opacity-50 disabled:cursor-not-allowed"
@@ -44,7 +44,7 @@ export default function ChooseGradeScreen() {
   return (
     <OnboardingLayout
       step={2}
-      totalSteps={3}
+      totalSteps={2}
       title="Bạn đang học lớp nào?"
       subtitle="Giúp chúng tôi đề xuất nội dung phù hợp với cấp độ của bạn"
       onBack={() => nav("/onboarding/name")}

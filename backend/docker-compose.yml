@@ -1,0 +1,33 @@
+services:
+  backend:
+    build: .
+    container_name: historyalive_backend
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    env_file:
+      - .env
+    environment:
+      RAG_SERVICE_URL: http://rag:8001
+    volumes:
+      - .:/app
+    depends_on:
+      - rag
+    restart: unless-stopped
+
+  rag:
+    build:
+      context: ../history_ai
+      dockerfile: backend/Dockerfile
+    container_name: historyalive_rag
+    ports:
+      - "8001:8001"
+    env_file:
+      - ../history_ai/.env
+    volumes:
+      - ../history_ai:/app/history_ai
+    restart: unless-stopped

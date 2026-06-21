@@ -36,10 +36,13 @@ class UserUpdate(BaseModel):
     gems: Optional[int] = None
     hearts: Optional[int] = None
     completedLessons: Optional[List[str]] = None
+    lastStreakDate: Optional[str] = None
     achievements: Optional[List[str]] = None
     isPremium: Optional[bool] = None
     planType: Optional[str] = None
     trialEndDate: Optional[datetime] = None
+    premiumEndDate: Optional[datetime] = None
+    premium_end_date: Optional[datetime] = None
     isNewUser: Optional[bool] = None
 
 class UserOnboarding(BaseModel):
@@ -70,6 +73,7 @@ class UserResponse(BaseModel):
     isPremium: bool = False
     planType: str = "free"
     trialEndDate: Optional[datetime] = None
+    premiumEndDate: Optional[datetime] = None
     isNewUser: bool = False
     created_at: datetime
 
@@ -85,4 +89,21 @@ class ChangePasswordRequest(BaseModel):
         if not any(c.isdigit() for c in v):
             raise ValueError("Mật khẩu mới phải chứa ít nhất một ký tự số")
         return v
+
+class QuizAttemptCreate(BaseModel):
+    tenantSlug: Optional[str] = "ha-tenant"
+    lessonLegacyId: Optional[str] = None
+    mode: str
+    correctAnswers: int
+    totalQuestions: int
+    maxStreak: Optional[int] = 0
+    completed: bool
+
+class PvPMatchCreate(BaseModel):
+    tenantSlug: Optional[str] = "ha-tenant"
+    opponentId: Optional[str] = None
+    questionsUsed: List[str] = []
+    myScore: int
+    opponentScore: int
+    result: str
 

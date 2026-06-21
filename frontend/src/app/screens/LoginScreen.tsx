@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useSearchParams } from "react-router";
 import { useApp, API_URL } from "../store";
 import { motion, AnimatePresence } from "motion/react";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
@@ -45,6 +45,9 @@ export default function LoginScreen() {
     }
   };
 
+  const [searchParams] = useSearchParams();
+  const verified = searchParams.get("verified");
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !password) return setErr("Vui lòng nhập đầy đủ thông tin");
@@ -59,6 +62,9 @@ export default function LoginScreen() {
 
       const data = await res.json();
       if (!res.ok) {
+        if (data.detail === "Vui lòng xác nhận email trước khi đăng nhập") {
+          return setErr("Vui lòng xác nhận email trước khi đăng nhập.");
+        }
         if (data.detail && Array.isArray(data.detail)) {
           return setErr(data.detail[0].msg || "Đăng nhập không thành công");
         }
@@ -67,9 +73,28 @@ export default function LoginScreen() {
 
       localStorage.setItem("ha_token", data.access_token);
       setUser(data.user);
-      nav("/home"); // Đăng nhập luôn về home
+      nav("/home");
     } catch (error) {
       setErr("Lỗi kết nối đến máy chủ. Vui lòng thử lại!");
+    }
+  };
+
+  const handleResendEmail = async () => {
+    try {
+      const res = await fetch(`${API_URL}/auth/resend-verification`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // Gửi email, ở đây identity có thể là email hoặc username. Ta có thể thử gửi identity lên
+        body: JSON.stringify({ email: username }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert("Email xác nhận đã được gửi lại. Vui lòng kiểm tra hộp thư của bạn.");
+      } else {
+        alert(data.detail || "Không thể gửi lại email.");
+      }
+    } catch {
+      alert("Lỗi kết nối máy chủ");
     }
   };
 
@@ -152,8 +177,8 @@ export default function LoginScreen() {
 
           {/* Explorer image container */}
           <div className="relative w-full flex-1 min-h-[300px] overflow-hidden">
-            <img 
-              src={explorerImg} 
+            <img
+              src={explorerImg}
               alt="Explorer with dinosaur"
               className="absolute inset-0 w-full h-full object-cover"
               style={{
@@ -203,7 +228,7 @@ export default function LoginScreen() {
                 Đăng nhập
               </h1>
               <p style={{ color: "#9a8060", fontSize: 14, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>
-                Mừng bạn đã quay lại! 🎉
+                Mừng bạn đã quay lại!
               </p>
             </div>
 
@@ -269,20 +294,48 @@ export default function LoginScreen() {
                     {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
+                <div className="flex justify-end mt-2">
+                  <Link to="/forgot-password" style={{ color: "#d97706", fontSize: 13, fontWeight: 700, fontFamily: '"Nunito", sans-serif' }}>
+                    Quên mật khẩu?
+                  </Link>
+                </div>
               </div>
 
-              {/* Error */}
+              {/* Messages */}
               <AnimatePresence>
                 {err && (
                   <motion.div
                     initial={{ opacity: 0, y: -6, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.97 }}
-                    className="px-4 py-3 rounded-xl flex items-center gap-2.5"
+                    className="px-4 py-3 rounded-xl flex items-start gap-2.5"
                     style={{ background: "#fff0f0", border: "1px solid rgba(220,38,38,0.2)" }}
                   >
-                    <span style={{ fontSize: 14 }}>⚠️</span>
-                    <p style={{ color: "#dc2626", fontSize: 12 }}>{err}</p>
+                    <span style={{ fontSize: 14, marginTop: 2 }}>⚠️</span>
+                    <div style={{ flex: 1 }}>
+                      <p style={{ color: "#dc2626", fontSize: 12, lineHeight: 1.4 }}>{err}</p>
+                      {err === "Vui lòng xác nhận email trước khi đăng nhập." && (
+                        <button
+                          type="button"
+                          onClick={handleResendEmail}
+                          style={{ color: "#b91c1c", fontSize: 12, textDecoration: "underline", marginTop: 4, fontWeight: 700, fontFamily: '"Nunito", sans-serif' }}
+                        >
+                          Gửi lại email xác nhận
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+                {verified && !err && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    className="px-4 py-3 rounded-xl flex items-center gap-2.5"
+                    style={{ background: "#ecfdf5", border: "1px solid rgba(16,185,129,0.2)" }}
+                  >
+                    <span style={{ fontSize: 14 }}>✅</span>
+                    <p style={{ color: "#047857", fontSize: 12, fontFamily: '"Nunito", sans-serif', fontWeight: 700 }}>Xác thực email thành công! Bạn có thể đăng nhập ngay.</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -317,9 +370,9 @@ export default function LoginScreen() {
 
             {/* Google button */}
             <div className="w-full flex justify-center mt-2">
-              <GoogleLoginButton 
-                onSuccess={handleGoogleSuccess} 
-                onError={() => setErr("Lỗi đăng nhập tài khoản Google.")} 
+              <GoogleLoginButton
+                onSuccess={handleGoogleSuccess}
+                onError={() => setErr("Lỗi đăng nhập tài khoản Google.")}
               />
             </div>
 

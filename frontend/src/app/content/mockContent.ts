@@ -1,0 +1,3373 @@
+import type { ContentQuestion, ContentUnit } from "./content.types";
+
+export const DEFAULT_TENANT_ID = "ha-tenant";
+
+export const CONTENT_UNITS: ContentUnit[] = [
+  {
+    "id": "u1",
+    "title": "Cách mạng tư sản & Sự phát triển của CNTB",
+    "era": "Thế kỷ XVI — Đầu thế kỷ XX",
+    "color": "from-amber-700 to-orange-800",
+    "accent": "#d97706",
+    "accentGlow": "#f59e0b",
+    "artEmoji": "⚙️",
+    "bgFrom": "#2d1400",
+    "bgTo": "#1a0c00",
+    "description": "Chủ đề 1",
+    "lessons": [
+      {
+        "id": "u1-l1",
+        "title": "Bài học 1",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u1-l2",
+        "title": "Bài học 2",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u1-l3",
+        "title": "Luyện tập 1",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u1-l4",
+        "title": "Bài học 3",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u1-l5",
+        "title": "Bài học 4",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u1-l6",
+        "title": "Luyện tập 2",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u1-l7",
+        "title": "Tổng ôn chương",
+        "xp": 60,
+        "type": "boss"
+      },
+      {
+        "id": "u1-l8",
+        "title": "Ôn tập ngẫu nhiên",
+        "xp": 50,
+        "type": "review"
+      }
+    ]
+  },
+  {
+    "id": "u2",
+    "title": "Chủ nghĩa xã hội từ năm 1917 đến nay",
+    "era": "1917 — Nay",
+    "color": "from-red-900 to-rose-950",
+    "accent": "#9b1c1c",
+    "accentGlow": "#ef4444",
+    "artEmoji": "⭐",
+    "bgFrom": "#2d0808",
+    "bgTo": "#1a0404",
+    "description": "Chủ đề 2",
+    "lessons": [
+      {
+        "id": "u2-l1",
+        "title": "Bài học 1",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u2-l2",
+        "title": "Bài học 2",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u2-l3",
+        "title": "Luyện tập 1",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u2-l4",
+        "title": "Bài học 3",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u2-l5",
+        "title": "Bài học 4",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u2-l6",
+        "title": "Luyện tập 2",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u2-l7",
+        "title": "Tổng ôn chương",
+        "xp": 60,
+        "type": "boss"
+      },
+      {
+        "id": "u2-l8",
+        "title": "Ôn tập ngẫu nhiên",
+        "xp": 50,
+        "type": "review"
+      }
+    ]
+  },
+  {
+    "id": "u3",
+    "title": "Quá trình giành độc lập của các quốc gia Đông Nam Á",
+    "era": "Thế kỷ XVI — Cuối thế kỷ XX",
+    "color": "from-emerald-900 to-teal-950",
+    "accent": "#065f46",
+    "accentGlow": "#10b981",
+    "artEmoji": "🌴",
+    "bgFrom": "#0d2d1a",
+    "bgTo": "#041a0d",
+    "description": "Chủ đề 3",
+    "lessons": [
+      {
+        "id": "u3-l1",
+        "title": "Bài học 1",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u3-l2",
+        "title": "Bài học 2",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u3-l3",
+        "title": "Luyện tập 1",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u3-l4",
+        "title": "Bài học 3",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u3-l5",
+        "title": "Bài học 4",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u3-l6",
+        "title": "Luyện tập 2",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u3-l7",
+        "title": "Tổng ôn chương",
+        "xp": 60,
+        "type": "boss"
+      },
+      {
+        "id": "u3-l8",
+        "title": "Ôn tập ngẫu nhiên",
+        "xp": 50,
+        "type": "review"
+      }
+    ]
+  },
+  {
+    "id": "u4",
+    "title": "Chiến tranh bảo vệ Tổ quốc & Giải phóng dân tộc (trước 1945)",
+    "era": "Thế kỷ X — Đầu thế kỷ XX",
+    "color": "from-indigo-900 to-blue-950",
+    "accent": "#1e3a8a",
+    "accentGlow": "#3b82f6",
+    "artEmoji": "🛡️",
+    "bgFrom": "#0d1040",
+    "bgTo": "#04081a",
+    "description": "Chủ đề 4",
+    "lessons": [
+      {
+        "id": "u4-l1",
+        "title": "Bài học 1",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u4-l2",
+        "title": "Bài học 2",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u4-l3",
+        "title": "Luyện tập 1",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u4-l4",
+        "title": "Bài học 3",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u4-l5",
+        "title": "Bài học 4",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u4-l6",
+        "title": "Luyện tập 2",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u4-l7",
+        "title": "Tổng ôn chương",
+        "xp": 60,
+        "type": "boss"
+      },
+      {
+        "id": "u4-l8",
+        "title": "Ôn tập ngẫu nhiên",
+        "xp": 50,
+        "type": "review"
+      }
+    ]
+  },
+  {
+    "id": "u5",
+    "title": "Một số cuộc cải cách lớn trong lịch sử Việt Nam",
+    "era": "Thế kỷ XI — Cuối thế kỷ XIX",
+    "color": "from-purple-900 to-fuchsia-950",
+    "accent": "#6b21a8",
+    "accentGlow": "#a855f7",
+    "artEmoji": "📜",
+    "bgFrom": "#1f0d3d",
+    "bgTo": "#0f0524",
+    "description": "Chủ đề 5",
+    "lessons": [
+      {
+        "id": "u5-l1",
+        "title": "Bài học 1",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u5-l2",
+        "title": "Bài học 2",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u5-l3",
+        "title": "Luyện tập 1",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u5-l4",
+        "title": "Bài học 3",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u5-l5",
+        "title": "Bài học 4",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u5-l6",
+        "title": "Luyện tập 2",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u5-l7",
+        "title": "Tổng ôn chương",
+        "xp": 60,
+        "type": "boss"
+      },
+      {
+        "id": "u5-l8",
+        "title": "Ôn tập ngẫu nhiên",
+        "xp": 50,
+        "type": "review"
+      }
+    ]
+  },
+  {
+    "id": "u6",
+    "title": "Lịch sử bảo vệ chủ quyền Biển Đông",
+    "era": "Từ xa xưa — Hiện tại",
+    "color": "from-cyan-900 to-blue-900",
+    "accent": "#0891b2",
+    "accentGlow": "#06b6d4",
+    "artEmoji": "🌊",
+    "bgFrom": "#081c2d",
+    "bgTo": "#020a14",
+    "description": "Chủ đề 6",
+    "lessons": [
+      {
+        "id": "u6-l1",
+        "title": "Bài học 1",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u6-l2",
+        "title": "Bài học 2",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u6-l3",
+        "title": "Luyện tập 1",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u6-l4",
+        "title": "Bài học 3",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u6-l5",
+        "title": "Bài học 4",
+        "xp": 25,
+        "type": "lesson"
+      },
+      {
+        "id": "u6-l6",
+        "title": "Luyện tập 2",
+        "xp": 30,
+        "type": "practice"
+      },
+      {
+        "id": "u6-l7",
+        "title": "Tổng ôn chương",
+        "xp": 60,
+        "type": "boss"
+      },
+      {
+        "id": "u6-l8",
+        "title": "Ôn tập ngẫu nhiên",
+        "xp": 50,
+        "type": "review"
+      }
+    ]
+  }
+];
+
+export const QUESTION_BANK: ContentQuestion[] = [
+  {
+    "id": "q_u1-l1_1",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l1",
+    "grade": "11",
+    "prompt": "Cách mạng tư sản là cuộc cách mạng do giai cấp nào lãnh đạo nhằm chống lại chế độ phong kiến?",
+    "options": [
+      "Giai cấp công nhân",
+      "Giai cấp tư sản",
+      "Giai cấp nông dân",
+      "Giai cấp quý tộc phong kiến"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Cách mạng tư sản là cuộc cách mạng do <strong>giai cấp tư sản</strong> lãnh đạo. Giai cấp này nắm kinh tế (tư bản thương mại, công nghiệp) nhưng không có quyền chính trị, nên đứng lên đấu tranh lật đổ chế độ phong kiến, xác lập quyền thống trị của mình thông qua các thể chế chính trị như quân chủ lập hiến hoặc cộng hòa tư sản.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l1_2",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l1",
+    "grade": "11",
+    "prompt": "Tiền đề tư tưởng của Cách mạng tư sản Pháp cuối thế kỉ XVIII là gì?",
+    "options": [
+      "Đạo Tin Lành",
+      "Thanh giáo",
+      "Triết học Ánh sáng",
+      "Phật giáo"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Triết học Ánh sáng</strong> (Phong trào Khai sáng – Enlightenment) là tiền đề tư tưởng quan trọng nhất của Cách mạng Pháp. Các nhà tư tưởng như Mông-te-xki-a (quyền tự do công dân), Vôn-te (chống chuyên chế), Rút-xô (khế ước xã hội – người dân có quyền nổi dậy) đã cung cấp vũ khí tư tưởng cho giai cấp tư sản Pháp. Còn Thanh giáo là tiền đề của CM Anh, Tin Lành là tiền đề của CM Hà Lan.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l1_3",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l1",
+    "grade": "11",
+    "prompt": "Nhà tư tưởng người Pháp G.G. Rút-xô (1712–1778) chủ trương điều gì?",
+    "options": [
+      "Hạn chế quyền của vua, đảm bảo quyền tự do công dân",
+      "Xây dựng chính quyền quân chủ sáng suốt",
+      "Xoá bỏ triệt để nền quân chủ, thành lập chế độ cộng hoà",
+      "Duy trì chế độ phong kiến có cải cách"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Rút-xô (Jean-Jacques Rousseau, 1712–1778) là nhà triết học cấp tiến nhất trong phong trào Ánh sáng. Ông chủ trương <strong>xoá bỏ triệt để chế độ quân chủ</strong> và thành lập chế độ cộng hoà, trong đó chủ quyền tối cao thuộc về nhân dân (thuyết khế ước xã hội). Mông-te-xki-a mới là người chủ trương hạn chế quyền vua, còn Vôn-te thì phê phán nhà thờ và chế độ phong kiến.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l1_4",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l1",
+    "grade": "11",
+    "prompt": "Trong Cách mạng tư sản Anh, giai cấp nào đóng vai trò lãnh đạo chủ yếu?",
+    "options": [
+      "Giai cấp tư sản",
+      "Giai cấp nông dân",
+      "Quý tộc mới",
+      "Chủ nô"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Đây là điểm đặc biệt của Cách mạng Anh 1640! Lực lượng lãnh đạo không phải giai cấp tư sản thuần túy mà là <strong>liên minh tư sản và quý tộc mới</strong> (tầng lớp quý tộc đã tư sản hóa, làm giàu nhờ kinh doanh). Quý tộc mới giữ vai trò chủ chốt trong Nghị viện và quân đội (O. Cromwell). Đây là nguyên nhân khiến kết quả chỉ dừng ở Quân chủ lập hiến chứ không thành cộng hòa.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l1_5",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l1",
+    "grade": "11",
+    "prompt": "Cuộc chiến tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mỹ diễn ra dưới sự lãnh đạo của liên minh nào?",
+    "options": [
+      "Tư sản và quý tộc mới",
+      "Tư sản và chủ nô",
+      "Tư sản và nông dân",
+      "Tư sản và công nhân"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Ở Bắc Mỹ, nền kinh tế phía Bắc là tư bản công thương nghiệp, phía Nam là nông nghiệp đồn điền dựa vào nô lệ. Vì vậy, lãnh đạo cuộc chiến tranh giành độc lập (1776) là <strong>liên minh tư sản (Bắc) và chủ nô (Nam)</strong>, đại diện là Washington (chủ nô) và Franklin (tư sản). Đây là lý do nước Mỹ sau độc lập vẫn duy trì chế độ nô lệ đến mãi năm 1865.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l2_6",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l2",
+    "grade": "11",
+    "prompt": "Đâu là nhiệm vụ DÂN CHỦ của các cuộc cách mạng tư sản?",
+    "options": [
+      "Xoá bỏ tình trạng phong kiến cát cứ",
+      "Hình thành thị trường dân tộc thống nhất",
+      "Xác lập nền dân chủ tư sản",
+      "Giải phóng dân tộc khỏi ách thực dân"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Cách mạng tư sản có hai nhiệm vụ: <strong>Dân tộc</strong> (xóa phong kiến cát cứ, thống nhất thị trường) và <strong>Dân chủ</strong> (xác lập nền dân chủ tư sản – bầu cử, quyền tự do, hiến pháp). Đáp án C – 'Xác lập nền dân chủ tư sản' – thuộc nhiệm vụ dân chủ. Còn A và B thuộc nhiệm vụ dân tộc.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l2_7",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l2",
+    "grade": "11",
+    "prompt": "Kết quả của Cách mạng tư sản Anh là thiết lập thể chế chính trị gì?",
+    "options": [
+      "Chế độ cộng hoà",
+      "Chế độ quân chủ lập hiến",
+      "Chế độ dân chủ tổng thống",
+      "Chế độ quân chủ chuyên chế"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Cách mạng Anh 1640 kết thúc không triệt để nên thiết lập <strong>Quân chủ lập hiến</strong> – vua vẫn tồn tại nhưng bị Nghị viện kiểm soát quyền lực qua đạo luật 'Habeas Corpus' và 'Tuyên ngôn Nhân quyền 1689'. Cộng hòa (đứng đầu là Tổng thống) là kết quả của CM Mỹ và Pháp. Cộng hòa giai đoạn Cromwell ở Anh chỉ là tạm thời.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l2_8",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l2",
+    "grade": "11",
+    "prompt": "Lực lượng nào sau đây KHÔNG thuộc Đẳng cấp thứ ba trong xã hội Pháp cuối thế kỉ XVIII?",
+    "options": [
+      "Giai cấp tư sản",
+      "Nông dân",
+      "Tăng lữ Giáo hội",
+      "Bình dân thành thị"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Xã hội Pháp chia 3 đẳng cấp: <strong>Đẳng cấp 1</strong> (Tăng lữ) và <strong>Đẳng cấp 2</strong> (Quý tộc) được hưởng đặc quyền. <strong>Đẳng cấp 3</strong> (97% dân số) gồm: tư sản, nông dân, bình dân thành thị, công nhân – bị áp bức, chịu thuế nặng. <strong>Tăng lữ Giáo hội</strong> thuộc Đẳng cấp 1 (có đặc quyền), nên không thuộc Đẳng cấp thứ ba.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l2_9",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l2",
+    "grade": "11",
+    "prompt": "Trước năm 1640, sản lượng khai thác than ở Anh chiếm bao nhiêu tổng sản lượng châu Âu?",
+    "options": [
+      "1/2",
+      "2/3",
+      "3/4",
+      "4/5"
+    ],
+    "correctOptionIndex": 3,
+    "explanation": "Con số <strong>4/5 (80%)</strong> tổng sản lượng than châu Âu trước năm 1640 thể hiện sự phát triển vượt bậc của kinh tế tư bản Anh. Đây là một trong những tiền đề kinh tế quan trọng dẫn đến Cách mạng tư sản Anh – khi giai cấp tư sản đã có sức mạnh kinh tế khổng lồ nhưng chưa có quyền lực chính trị tương xứng.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l2_10",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l2",
+    "grade": "11",
+    "prompt": "Trong số các cuộc cách mạng tư sản, cuộc cách mạng nào được đánh giá là vĩ đại nhất?",
+    "options": [
+      "Cách mạng tư sản Anh",
+      "Chiến tranh giành độc lập Mỹ",
+      "Cách mạng tư sản Pháp",
+      "Cách mạng thống nhất Đức"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Cách mạng Pháp cuối TK XVIII</strong> được đánh giá vĩ đại nhất vì: (1) Lật đổ hoàn toàn chế độ phong kiến; (2) Đưa cách mạng lên đỉnh cao nhất – từ quân chủ lập hiến → cộng hòa → chuyên chính dân chủ cách mạng (Jacobins); (3) Khẩu hiệu 'Tự do – Bình đẳng – Bác ái' ảnh hưởng toàn thế giới; (4) Lực lượng tham gia đông đảo nhất (nhân dân, nông dân).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l3_11",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l3",
+    "grade": "11",
+    "prompt": "Cuộc cách mạng công nghiệp bắt đầu từ nước nào, từ thập kỷ nào của thế kỉ XVIII?",
+    "options": [
+      "Pháp, thập kỷ 40",
+      "Anh, thập kỷ 60",
+      "Đức, thập kỷ 70",
+      "Mỹ, thập kỷ 50"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Cách mạng công nghiệp bắt đầu ở <strong>Anh, thập kỷ 60 TK XVIII</strong> (khoảng 1760–1840). Điều kiện: Anh có nguồn nguyên liệu dồi dào (than, sắt), thị trường thuộc địa rộng lớn, lực lượng lao động tự do và nguồn vốn từ buôn bán thuộc địa. Phát minh tiêu biểu: Máy dệt Hargreaves (1764), máy hơi nước Watt (1769).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l3_12",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l3",
+    "grade": "11",
+    "prompt": "Đến năm 1914, thuộc địa của Anh có diện tích bao nhiêu và dân số bao nhiêu?",
+    "options": [
+      "23 triệu km², 300 triệu người",
+      "33 triệu km², 400 triệu người",
+      "43 triệu km², 500 triệu người",
+      "30 triệu km², 350 triệu người"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Năm 1914, đế quốc Anh có <strong>33 triệu km² diện tích thuộc địa và 400 triệu dân</strong>, gấp 12 lần thuộc địa Đức và 3 lần thuộc địa Pháp. Chính vì thuộc địa trải rộng khắp các múi giờ nên Anh được mệnh danh là 'đế quốc mà Mặt Trời không bao giờ lặn'. Đây là đế quốc thực dân lớn nhất lịch sử nhân loại.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l3_13",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l3",
+    "grade": "11",
+    "prompt": "Hình thức tổ chức độc quyền phổ biến ở Đức và Pháp là gì?",
+    "options": [
+      "Tơ-rớt",
+      "Công ty cổ phần",
+      "Các-ten và Xanh-đi-ca",
+      "Công ty đa quốc gia"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Các-ten</strong> (Cartel) và <strong>Xanh-đi-ca</strong> (Syndicat) là hình thức độc quyền thấp hơn Tơ-rớt: các doanh nghiệp giữ độc lập về sản xuất nhưng cùng thỏa thuận giá cả, thị trường. Phổ biến ở Đức và Pháp. <strong>Tơ-rớt</strong> (Trust) là hình thức độc quyền cao nhất – hợp nhất hoàn toàn cả sản xuất lẫn thương mại, phổ biến ở Mỹ.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l3_14",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l3",
+    "grade": "11",
+    "prompt": "Duy tân Minh Trị ở Nhật Bản bắt đầu từ năm nào?",
+    "options": [
+      "1854",
+      "1858",
+      "1868",
+      "1875"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Năm 1868</strong> – Thiên hoàng Minh Trị lên ngôi và tiến hành cải cách toàn diện theo mô hình phương Tây (Minh Trị Duy tân). Trước đó: 1853–1854 là Hiệp ước Kanagawa (Mỹ buộc Nhật mở cửa), 1858 là hiệp ước bất bình đẳng với các nước phương Tây. Nhờ cải cách, Nhật trở thành cường quốc đầu TK XX, thoát khỏi nguy cơ thuộc địa.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l3_15",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l3",
+    "grade": "11",
+    "prompt": "Cách mạng Tân Hợi năm 1911 ở Trung Quốc do ai lãnh đạo và lật đổ triều đại nào?",
+    "options": [
+      "Mao Trạch Đông, lật đổ triều Minh",
+      "Tôn Trung Sơn và trí thức cấp tiến, lật đổ triều Mãn Thanh",
+      "Giai cấp công nhân, lật đổ triều Hán",
+      "Giai cấp tư sản, lật đổ triều Tần"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Cách mạng Tân Hợi (1911) là cuộc <strong>cách mạng tư sản dân chủ</strong> ở TQ, do <strong>Tôn Trung Sơn</strong> lãnh đạo, lật đổ triều Mãn Thanh (tồn tại 268 năm), chấm dứt 2000 năm phong kiến TQ, thành lập Trung Hoa Dân Quốc. Tuy nhiên cách mạng không triệt để – Viên Thế Khải sau đó chiếm quyền.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l4_16",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l4",
+    "grade": "11",
+    "prompt": "Đầu thế kỉ XX, các tổ chức độc quyền ở Pháp, Mỹ, Anh chỉ chiếm khoảng 1% xí nghiệp nhưng nắm bao nhiêu phần trăm máy hơi nước và động cơ điện?",
+    "options": [
+      "Hơn 1/2",
+      "Hơn 2/3",
+      "Hơn 3/4",
+      "Gần 1/3"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Con số <strong>hơn 3/4 (>75%)</strong> máy hơi nước và động cơ điện nằm trong tay 1% số xí nghiệp độc quyền cho thấy sự tập trung tư bản cực kỳ cao. Đây là bản chất của chủ nghĩa đế quốc: độc quyền không chỉ về thương mại mà còn kiểm soát cả lực lượng sản xuất, quyết định cả nền kinh tế.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l4_17",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l4",
+    "grade": "11",
+    "prompt": "Chủ nghĩa tư bản hiện đại được tính từ thời điểm nào?",
+    "options": [
+      "Sau Chiến tranh thế giới thứ nhất",
+      "Sau Chiến tranh thế giới thứ hai đến nay",
+      "Sau Cách mạng tháng Mười Nga",
+      "Từ cuối thế kỉ XIX"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Sau CTTG II (1945)</strong>, CNTB có bước phát triển mới – gọi là 'CNTB hiện đại'. Đặc điểm: kết hợp sức mạnh độc quyền tư nhân với sức mạnh nhà nước tư sản (CNTB độc quyền nhà nước); áp dụng thành tựu KH–KT (Cách mạng 4.0); điều tiết kinh tế qua chính sách tiền tệ, tài khóa. Dù vậy vẫn có mâu thuẫn như bất bình đẳng (phong trào Occupy Wall Street 2011).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l4_18",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l4",
+    "grade": "11",
+    "prompt": "Phong trào 'Chiếm lấy phố Uôn' (Occupy Wall Street) xuất hiện ở Mỹ vào năm nào và mang ý nghĩa gì?",
+    "options": [
+      "2008 – phản đối khủng hoảng tài chính",
+      "2010 – phản đối chính sách đối ngoại",
+      "2011 – '99% chống lại 1%', phản đối bất bình đẳng xã hội",
+      "2012 – phản đối ô nhiễm môi trường"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Phong trào <strong>Occupy Wall Street (2011)</strong> với khẩu hiệu 'Chúng tôi là 99%' (We are the 99%) phản ánh bất bình đẳng kinh tế trầm trọng: 1% siêu giàu nắm phần lớn tài sản quốc gia. Đây là bằng chứng CNTB hiện đại vẫn chứa đựng những mâu thuẫn nội tại không thể giải quyết triệt để.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l4_19",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l4",
+    "grade": "11",
+    "prompt": "Ở Mỹ La-tinh, nửa đầu thế kỉ XIX, phong trào đấu tranh giành độc lập nổ ra ở hầu hết các thuộc địa của nước nào?",
+    "options": [
+      "Anh và Pháp",
+      "Hà Lan và Bồ Đào Nha",
+      "Tây Ban Nha và Bồ Đào Nha",
+      "Pháp và Tây Ban Nha"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Mỹ La-tinh là 'sân sau' lâu đời của <strong>Tây Ban Nha và Bồ Đào Nha</strong> (từ TK XVI). Nửa đầu TK XIX, ảnh hưởng từ Cách mạng Mỹ và CM Pháp cùng sự suy yếu của hai đế quốc này (Napoleon chiếm Tây Ban Nha) đã thúc đẩy phong trào độc lập bùng phát khắp nơi dưới sự lãnh đạo của Simón Bolívar và José de San Martín.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l4_20",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l4",
+    "grade": "11",
+    "prompt": "Đâu KHÔNG phải tiền đề của các cuộc cách mạng tư sản?",
+    "options": [
+      "Kinh tế tư bản chủ nghĩa phát triển trong lòng phong kiến",
+      "Mâu thuẫn xã hội ngày càng gay gắt",
+      "Hệ tư tưởng tiến bộ (Ánh sáng, Thanh giáo, Tin Lành)",
+      "Sự hỗ trợ quân sự của các nước lớn bên ngoài"
+    ],
+    "correctOptionIndex": 3,
+    "explanation": "Ba tiền đề cơ bản của CM tư sản là: <strong>Kinh tế</strong> (CNTB phát triển trong lòng phong kiến), <strong>Xã hội</strong> (mâu thuẫn tư sản vs phong kiến), và <strong>Tư tưởng</strong> (Triết học Ánh sáng, Thanh giáo, Tin Lành). Đáp án D – 'sự hỗ trợ quân sự bên ngoài' – <strong>không phải tiền đề nội tại</strong>, thậm chí ngược lại: các CM tư sản đều do nội lực của giai cấp tư sản trong nước.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l5_21",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l5",
+    "grade": "11",
+    "prompt": "Nhà tư tưởng S. Mông-te-xki-a (1689–1755) của Pháp có tư tưởng chính trị gì?",
+    "options": [
+      "Xây dựng chế độ cộng hoà",
+      "Hạn chế quyền của vua, đảm bảo quyền tự do của công dân",
+      "Duy trì chế độ quân chủ chuyên chế",
+      "Tập trung quyền lực vào nhà thờ"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Mông-te-xki-a</strong> (Montesquieu) – tác giả 'Tinh thần pháp luật' – chủ trương <strong>tam quyền phân lập</strong>: lập pháp, hành pháp, tư pháp phải tách biệt nhau. Điều này hạn chế quyền lực nhà vua và đảm bảo quyền tự do công dân. Ông không đòi xóa bỏ quân chủ, chỉ cần kiểm soát nó bằng pháp luật. Tư tưởng này ảnh hưởng đến hiến pháp Mỹ và Pháp.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l5_22",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l5",
+    "grade": "11",
+    "prompt": "Điều nào thể hiện rõ nhất rằng Duy tân Minh Trị đã giúp Nhật Bản không bị thực dân xâm lược?",
+    "options": [
+      "Nhật Bản có địa hình đảo quốc khó tấn công",
+      "Nhật Bản phát triển kinh tế và quân sự mạnh mẽ, tránh được nguy cơ xâm lược",
+      "Nhật Bản ký hiệp ước bảo vệ với nhiều nước",
+      "Nhật Bản ở xa các cường quốc thực dân"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Nhờ Duy tân Minh Trị (1868), Nhật <strong>phát triển kinh tế công nghiệp nhanh chóng và xây dựng quân đội hiện đại</strong> theo mô hình phương Tây. Bằng chứng: Nhật thắng TQ (Chiến tranh Trung-Nhật 1894–1895) và thắng Nga (1904–1905) – điều chưa từng xảy ra với một nước châu Á. Chính sức mạnh này khiến các nước thực dân không dám xâm lược Nhật.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l5_23",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l5",
+    "grade": "11",
+    "prompt": "Đâu là đặc điểm cơ bản phân biệt giai đoạn tự do cạnh tranh và giai đoạn độc quyền của CNTB?",
+    "options": [
+      "Sự xuất hiện của giai cấp tư sản",
+      "Sự ra đời của cách mạng công nghiệp",
+      "Sự hình thành các tổ chức độc quyền chi phối nền kinh tế",
+      "Sự mở rộng thuộc địa"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Sự khác biệt cơ bản: Giai đoạn <strong>tự do cạnh tranh</strong> có nhiều doanh nghiệp vừa và nhỏ cạnh tranh nhau. Đến cuối TK XIX, cạnh tranh khốc liệt → xí nghiệp nhỏ phá sản → hình thành <strong>tổ chức độc quyền</strong> (Các-ten, Tơ-rớt) kiểm soát sản xuất và giá cả, đánh dấu bước chuyển sang giai đoạn độc quyền (đế quốc chủ nghĩa).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l5_24",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l5",
+    "grade": "11",
+    "prompt": "Tại sao nước Anh được mệnh danh là 'đế quốc mà Mặt Trời không bao giờ lặn'?",
+    "options": [
+      "Do Anh có công nghệ quân sự tiên tiến nhất",
+      "Do thuộc địa của Anh trải rộng khắp các múi giờ trên toàn cầu",
+      "Do Anh là nước có nhiều giờ nắng nhất",
+      "Do Anh sở hữu vũ khí hạt nhân"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Với <strong>33 triệu km² thuộc địa</strong> trải dài từ châu Á (Ấn Độ, Hồng Kông), châu Phi (Ai Cập, Nigeria), châu Mỹ (Canada), châu Đại Dương (Úc) đến nhiều đảo nhỏ khắp đại dương, lúc nào cũng có một phần đế quốc Anh đang trong ban ngày. Vì vậy 'Mặt Trời không bao giờ lặn' – một hình ảnh biểu trưng cho quy mô khổng lồ của đế quốc Anh.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u1-l5_25",
+    "tenantId": "ha-tenant",
+    "unitId": "u1",
+    "lessonId": "u1-l5",
+    "grade": "11",
+    "prompt": "Tóm tắt nguyên nhân chính khiến chủ nghĩa tư bản từ tự do cạnh tranh chuyển sang giai đoạn độc quyền vào cuối TK XIX – đầu TK XX?",
+    "options": [
+      "Do chiến tranh thế giới",
+      "Do cạnh tranh gay gắt → các xí nghiệp nhỏ phá sản → xuất hiện xí nghiệp khổng lồ và tổ chức độc quyền",
+      "Do sự can thiệp của nhà nước",
+      "Do cách mạng xã hội chủ nghĩa"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Quy luật thị trường: <strong>cạnh tranh → tập trung tư bản → độc quyền</strong>. Cách mạng công nghiệp tạo ra năng suất cao, doanh nghiệp lớn sản xuất rẻ hơn → doanh nghiệp nhỏ không cạnh tranh được → phá sản → bị mua lại → hình thành tập đoàn khổng lồ → liên kết thành tổ chức độc quyền. Đây là quy luật tự nhiên của kinh tế tư bản, không phải do chiến tranh hay nhà nước.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l1_1",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l1",
+    "grade": "11",
+    "prompt": "Ngày 30/12/1922 đánh dấu sự kiện lịch sử gì?",
+    "options": [
+      "Cách mạng tháng Mười Nga thành công",
+      "Thành lập Liên bang Cộng hoà Xã hội Chủ nghĩa Xô viết (Liên Xô)",
+      "Lê-nin qua đời",
+      "Hiến pháp đầu tiên Liên Xô được thông qua"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>30/12/1922</strong> – Đại hội lần thứ nhất các Xô viết toàn Liên bang thông qua Tuyên ngôn thành lập <strong>Liên Xô</strong>. Cần phân biệt: 25/10/1917 là CM tháng Mười thắng lợi; 21/1/1924 là ngày Lê-nin mất; tháng 1/1924 là Hiến pháp đầu tiên.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l1_2",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l1",
+    "grade": "11",
+    "prompt": "Khi mới thành lập năm 1922, Liên Xô gồm bao nhiêu nước Cộng hoà Xô viết?",
+    "options": [
+      "2 nước",
+      "3 nước",
+      "4 nước",
+      "5 nước"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Liên Xô khi thành lập (1922) gồm <strong>4 nước</strong>: (1) Nga (RSFSR), (2) U-crai-na, (3) Bê-lô-rút-xi-a, (4) Ngoại Cáp-ca-dơ (gồm Gruzia, Armenia, Azerbaijan). Sau đó các nước lần lượt gia nhập, đến năm 1940 Liên Xô có 15 nước cộng hòa.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l1_3",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l1",
+    "grade": "11",
+    "prompt": "Hiến pháp đầu tiên của Liên Xô được thông qua vào thời gian nào?",
+    "options": [
+      "Tháng 12/1922",
+      "Tháng 1/1923",
+      "Tháng 1/1924",
+      "Tháng 12/1924"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Tháng 1/1924</strong> – Hiến pháp đầu tiên của Liên Xô được thông qua, ngay sau khi Lê-nin mất (21/1/1924). Hiến pháp này quy định Liên Xô là nhà nước liên bang XHCN. Lưu ý: 12/1922 là Tuyên ngôn thành lập (chưa phải Hiến pháp).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l1_4",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l1",
+    "grade": "11",
+    "prompt": "Tư tưởng chỉ đạo của Lê-nin khi thành lập Liên Xô là gì?",
+    "options": [
+      "Tập trung quyền lực vào Đảng Cộng sản",
+      "Bình đẳng, quyền dân tộc tự quyết và xây dựng cộng đồng anh em giữa các dân tộc",
+      "Ưu tiên phát triển kinh tế công nghiệp",
+      "Chống lại sự can thiệp của phương Tây"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Lê-nin chủ trương xây dựng Liên Xô trên nguyên tắc <strong>bình đẳng và quyền dân tộc tự quyết</strong>: các dân tộc tự nguyện liên kết, có quyền tách ra nếu muốn. Khác với đế quốc cưỡng bức, đây là liên bang tự nguyện, đây là điểm tiến bộ so với các mô hình nhà nước đa dân tộc trước đó.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l1_5",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l1",
+    "grade": "11",
+    "prompt": "Đến năm 1940, Liên Xô gồm bao nhiêu nước Cộng hoà?",
+    "options": [
+      "10 nước",
+      "12 nước",
+      "15 nước",
+      "20 nước"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Từ 4 nước ban đầu (1922), Liên Xô mở rộng lên <strong>15 nước Cộng hòa</strong> vào năm 1940, sau khi sáp nhập các nước Baltic (Estonia, Latvia, Lithuania), Moldavia và chia tách một số nước. 15 nước này tồn tại cho đến khi Liên Xô tan rã (12/1991).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l2_6",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l2",
+    "grade": "11",
+    "prompt": "Liên Xô tan rã vào thời gian nào, chấm dứt bao nhiêu năm tồn tại?",
+    "options": [
+      "Tháng 8/1991, 69 năm",
+      "Tháng 12/1991, 74 năm chế độ XHCN ở Liên Xô",
+      "Tháng 1/1992, 70 năm",
+      "Tháng 6/1991, 74 năm"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Tháng 12/1991</strong>, sau khi Hiệp định Belovezha được ký (8/12/1991) tuyên bố Liên Xô giải thể, và Gorbachev từ chức Tổng thống (25/12/1991). Tính từ CM tháng Mười (1917) đến 1991 là 74 năm tồn tại của chế độ Xô viết. Đây là sự kiện địa chính trị lớn nhất cuối TK XX.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l2_7",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l2",
+    "grade": "11",
+    "prompt": "Nước Cộng hoà Nhân dân Trung Hoa được thành lập vào năm nào?",
+    "options": [
+      "1945",
+      "1947",
+      "1949",
+      "1950"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>1/10/1949</strong> – Mao Trạch Đông tuyên bố thành lập nước <strong>Cộng hòa Nhân dân Trung Hoa</strong> (CHND TH) tại Quảng trường Thiên An Môn, sau khi Đảng Cộng sản TQ đánh bại Quốc dân Đảng (Tưởng Giới Thạch) trong cuộc nội chiến. 1/10 hiện là Quốc khánh TQ.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l2_8",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l2",
+    "grade": "11",
+    "prompt": "Cu-ba bước vào thời kỳ xây dựng xã hội chủ nghĩa từ năm nào?",
+    "options": [
+      "1959",
+      "1961",
+      "1963",
+      "1965"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>1961</strong> – Sau khi CM Cuba thắng lợi (1959, Fidel Castro lật đổ Batista), đến <strong>1961</strong> Cuba tuyên bố đi theo CNXH và nhận sự hỗ trợ của Liên Xô. Phân biệt: 1959 là CM thắng lợi, nhưng chỉ đến 1961 mới chính thức xây dựng CNXH.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l2_9",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l2",
+    "grade": "11",
+    "prompt": "Đâu là nguyên nhân CƠ BẢN nhất dẫn đến sụp đổ của CNXH ở Liên Xô – Đông Âu?",
+    "options": [
+      "Hoạt động chống phá của các lực lượng thù địch",
+      "Đường lối lãnh đạo chủ quan, duy ý chí; mô hình kinh tế tập trung quan liêu bao cấp",
+      "Sự sụp đổ của nền kinh tế thị trường",
+      "Chiến tranh lạnh với Mỹ"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Nguyên nhân <strong>chủ quan</strong> (từ bên trong) là cơ bản nhất: đường lối duy ý chí (muốn xây dựng CNXH theo ý muốn, bất chấp quy luật khách quan), mô hình kinh tế tập trung quan liêu bao cấp không hiệu quả, không cải cách kịp thời. Yếu tố bên ngoài (thù địch, Chiến tranh Lạnh) chỉ là nhân tố tác động thêm, không phải nguyên nhân cơ bản.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l2_10",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l2",
+    "grade": "11",
+    "prompt": "Trung Quốc bắt đầu cải cách mở cửa vào tháng và năm nào?",
+    "options": [
+      "Tháng 1/1976",
+      "Tháng 10/1976",
+      "Tháng 12/1978",
+      "Tháng 6/1980"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Tháng 12/1978</strong> – Hội nghị toàn thể TW Đảng CS TQ lần thứ 3 (khóa XI) do Đặng Tiểu Bình lãnh đạo quyết định đường lối 'Cải cách mở cửa'. Nội dung: mở cửa kinh tế, thu hút đầu tư nước ngoài, áp dụng kinh tế thị trường trong CNXH ('Nền kinh tế thị trường XHCN').",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l3_11",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l3",
+    "grade": "11",
+    "prompt": "GDP của Trung Quốc năm 1978 là bao nhiêu và năm 2021 là bao nhiêu?",
+    "options": [
+      "267 tỉ NDT (1978) và 90 nghìn tỷ NDT (2021)",
+      "367,9 tỉ NDT (1978) và hơn 114 nghìn tỷ NDT (2021)",
+      "467 tỉ NDT (1978) và hơn 100 nghìn tỷ NDT (2021)",
+      "200 tỉ NDT (1978) và hơn 80 nghìn tỷ NDT (2021)"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "GDP TQ tăng từ <strong>367,9 tỉ NDT (1978) lên hơn 114 nghìn tỷ NDT (2021)</strong> – tăng hơn 300 lần trong 43 năm, tốc độ tăng trưởng trung bình 9,5%/năm. Đây là kỳ tích kinh tế chưa từng có trong lịch sử, đưa TQ từ nước kém phát triển lên nền kinh tế số 2 thế giới.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l3_12",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l3",
+    "grade": "11",
+    "prompt": "Từ năm nào Trung Quốc trở thành nền kinh tế lớn thứ hai thế giới?",
+    "options": [
+      "Năm 2005",
+      "Năm 2008",
+      "Năm 2010",
+      "Năm 2012"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Năm 2010</strong> – TQ vượt Nhật Bản trở thành nền kinh tế lớn thứ 2 thế giới (chỉ sau Mỹ). Trước đó: thập niên 80 TQ xếp thứ 8, thập niên 90 vươn lên thứ 6–7. Hiện nay TQ đang phấn đấu vượt Mỹ để trở thành nền kinh tế số 1 thế giới vào 2030–2035.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l3_13",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l3",
+    "grade": "11",
+    "prompt": "Nước Cộng hoà Dân chủ Nhân dân Lào chính thức thành lập vào tháng năm nào?",
+    "options": [
+      "Tháng 4/1975",
+      "Tháng 12/1975",
+      "Tháng 1/1976",
+      "Tháng 12/1976"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Tháng 12/1975</strong> – Nước CHDCND Lào chính thức thành lập sau khi Pathet Lào (Mặt trận Lào yêu nước) giành thắng lợi. Phân biệt: tháng 4/1975 là Việt Nam giải phóng hoàn toàn miền Nam (30/4). Tháng 12/1975 là Lào tuyên bố thành lập nhà nước XHCN.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l3_14",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l3",
+    "grade": "11",
+    "prompt": "Công cuộc đổi mới ở Việt Nam bắt đầu từ năm nào?",
+    "options": [
+      "1975",
+      "1980",
+      "1986",
+      "1990"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>1986</strong> – Đại hội VI của ĐCSVN (tháng 12/1986) quyết định đường lối Đổi mới, chuyển từ kinh tế tập trung bao cấp sang kinh tế thị trường định hướng XHCN. Đây là bước ngoặt lịch sử, giúp VN thoát khỏi khủng hoảng KT-XH và phát triển mạnh mẽ, đưa VN trở thành nước đang phát triển có thu nhập trung bình.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l3_15",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l3",
+    "grade": "11",
+    "prompt": "Nước CHDC Đức sáp nhập vào nước nào sau khi Bức tường Berlin sụp đổ?",
+    "options": [
+      "Liên Xô",
+      "Cộng hoà Liên bang Đức",
+      "Áo",
+      "Ba Lan"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Bức tường Berlin sụp đổ (9/11/1989), sau đó <strong>CHDC Đức (Đông Đức)</strong> sáp nhập vào <strong>Cộng hòa Liên bang Đức (Tây Đức)</strong> vào 3/10/1990, thống nhất nước Đức sau 45 năm chia cắt. Đây là sự kiện quan trọng đánh dấu sự sụp đổ của CNXH ở Đông Âu.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l4_16",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l4",
+    "grade": "11",
+    "prompt": "Các nước XHCN Đông Âu nào được thành lập sớm nhất sau CTTG II?",
+    "options": [
+      "Tiệp Khắc và Hung-ga-ri",
+      "Ba Lan và Ru-ma-ni (đều năm 1944)",
+      "Bun-ga-ri và An-ba-ni",
+      "Nam Tư và CHDC Đức"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Ba Lan và Ru-ma-ni</strong> (đều năm 1944) là những nước XHCN Đông Âu đầu tiên, khi quân đội Xô viết đang tiến về phía Tây giải phóng khỏi phát xít Đức. Tiếp theo: Hung-ga-ri, Tiệp Khắc, Nam Tư, An-ba-ni (1945), Bun-ga-ri (1946), CHDC Đức (1949).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l4_17",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l4",
+    "grade": "11",
+    "prompt": "Thành tựu nổi bật nào của Trung Quốc trong lĩnh vực khoa học – công nghệ sau cải cách mở cửa?",
+    "options": [
+      "Phát triển nông nghiệp truyền thống",
+      "Phóng tàu Thần Châu vào không gian, hệ thống định vị Bắc Đẩu, trí tuệ nhân tạo",
+      "Chỉ phát triển công nghiệp dệt may",
+      "Xuất khẩu dầu mỏ"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "TQ đạt nhiều thành tựu KH-KT ấn tượng: <strong>Tàu Thần Châu</strong> đưa người lên vũ trụ (2003, TQ là nước thứ 3 thế giới), <strong>Bắc Đẩu</strong> (BeiDou) – hệ thống định vị riêng, <strong>5G</strong>, <strong>AI</strong>, siêu máy tính, pin năng lượng mặt trời… TQ hiện đứng thứ 2 thế giới về số lượng bằng sáng chế.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l4_18",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l4",
+    "grade": "11",
+    "prompt": "Việt Nam được đánh giá là đã đạt trình độ nước nào sau hơn 35 năm Đổi mới?",
+    "options": [
+      "Nước phát triển có thu nhập cao",
+      "Nước đang phát triển có thu nhập trung bình",
+      "Nước kém phát triển",
+      "Nước công nghiệp hoá hoàn toàn"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Sau hơn 35 năm Đổi mới, VN trở thành <strong>nước đang phát triển có thu nhập trung bình</strong> (WB phân loại là thu nhập trung bình thấp, đang hướng đến thu nhập trung bình cao). GDP bình quân đầu người tăng mạnh, tỷ lệ đói nghèo giảm từ >70% xuống <3%. VN là một trong những nền kinh tế tăng trưởng nhanh nhất châu Á.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l4_19",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l4",
+    "grade": "11",
+    "prompt": "Điều gì thể hiện tính ưu việt của chủ nghĩa xã hội ở Cu-ba?",
+    "options": [
+      "Phát triển kinh tế thị trường tự do",
+      "Hệ thống giáo dục và y tế miễn phí cho người dân",
+      "Mở cửa thu hút đầu tư nước ngoài",
+      "Gia nhập các tổ chức kinh tế quốc tế"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Cuba nổi tiếng với <strong>hệ thống giáo dục và y tế miễn phí toàn dân</strong>. Mặc dù bị Mỹ cấm vận hàng thập kỷ, Cuba có tỷ lệ bác sĩ/1000 dân cao nhất thế giới, tuổi thọ trung bình cao hơn nhiều nước giàu, tỷ lệ mù chữ gần 0%. Đây được coi là thành tựu của CNXH Cuba trong điều kiện khó khăn.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u2-l4_20",
+    "tenantId": "ha-tenant",
+    "unitId": "u2",
+    "lessonId": "u2-l4",
+    "grade": "11",
+    "prompt": "Ý nghĩa sự ra đời của Liên Xô đối với phong trào cách mạng thế giới là gì?",
+    "options": [
+      "Chỉ có ý nghĩa đối với nước Nga",
+      "Liên Xô trở thành chỗ dựa tinh thần, vật chất cho phong trào cách mạng thế giới và giải phóng dân tộc ở châu Á, châu Phi, Mỹ La-tinh",
+      "Góp phần phát triển kinh tế tư bản chủ nghĩa",
+      "Chỉ giúp đỡ các nước Đông Âu"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Liên Xô trở thành <strong>chỗ dựa tinh thần và vật chất</strong> cho phong trào CMTG: hỗ trợ kinh tế, quân sự, đào tạo cán bộ cho các đảng cộng sản và phong trào giải phóng dân tộc ở châu Á (VN, TQ, Lào, Triều Tiên), châu Phi (Angola, Mozambique), Mỹ La-tinh (Cuba). Sự tồn tại của Liên Xô là đối trọng với hệ thống TBCN, tạo không gian cho phong trào CM thế giới.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l1_1",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l1",
+    "grade": "11",
+    "prompt": "Từ đầu thế kỷ XVI, các nước phương Tây xâm nhập vào Đông Nam Á thông qua hoạt động gì trước tiên?",
+    "options": [
+      "Chiến tranh xâm lược trực tiếp",
+      "Buôn bán và truyền giáo",
+      "Thiết lập thuộc địa trực tiếp",
+      "Ký kết hiệp ước bất bình đẳng"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Bước đầu tiên của thực dân phương Tây vào ĐNA là <strong>buôn bán và truyền giáo</strong>. Họ đến để buôn hương liệu (hồ tiêu, đinh hương) và truyền đạo Kitô giáo. Sau đó mới dần thiết lập quyền kiểm soát thương mại, rồi xây đồn lũy, và cuối cùng dùng vũ lực xâm chiếm. Đây là chiến lược 'mềm' trước khi dùng 'cứng'.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l1_2",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l1",
+    "grade": "11",
+    "prompt": "Sau cuộc chiến tranh Mỹ – Tây Ban Nha năm 1898, Phi-líp-pin trở thành thuộc địa của nước nào?",
+    "options": [
+      "Tây Ban Nha",
+      "Anh",
+      "Pháp",
+      "Mỹ"
+    ],
+    "correctOptionIndex": 3,
+    "explanation": "Sau chiến tranh Mỹ-TBN (1898), Mỹ mua Phi-líp-pin từ TBN với giá 20 triệu USD. <strong>Mỹ</strong> thay thế TBN cai trị Phi-líp-pin cho đến 1946. Lưu ý: TBN xâm chiếm Phi-líp-pin từ giữa TK XVI (1565), đặt tên theo vua Philip II. Mỹ sau 1898 cũng áp đặt ách cai trị, dập tắt cuộc kháng chiến của anh hùng Bonifacio và Aguinaldo.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l1_3",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l1",
+    "grade": "11",
+    "prompt": "Thực dân Anh tiến hành bao nhiêu cuộc chiến tranh và mất bao nhiêu năm để chiếm Miến Điện?",
+    "options": [
+      "2 cuộc chiến, hơn 40 năm",
+      "3 cuộc chiến (1824–1885), hơn 60 năm",
+      "4 cuộc chiến, hơn 80 năm",
+      "1 cuộc chiến, 20 năm"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Anh tiến hành <strong>3 cuộc chiến tranh</strong> để chinh phục Miến Điện: Lần 1 (1824–1826), Lần 2 (1852), Lần 3 (1885) – tổng cộng hơn 60 năm. Nhân dân Miến Điện kiên cường kháng chiến nhưng cuối cùng thất bại. Đây cho thấy các nước ĐNA lục địa kháng cự mạnh mẽ hơn hải đảo.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l1_4",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l1",
+    "grade": "11",
+    "prompt": "Thực dân Pháp hoàn thành việc xâm chiếm 3 nước Đông Dương vào năm nào, sau bao nhiêu năm chiến tranh?",
+    "options": [
+      "1884, hơn 25 năm",
+      "1893, gần nửa thế kỉ (1858–1893)",
+      "1900, hơn 40 năm",
+      "1862, hơn 4 năm"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Pháp bắt đầu xâm chiếm VN từ <strong>1858</strong> (tấn công Đà Nẵng) và hoàn thành chiếm toàn bộ Đông Dương (VN, Lào, Campuchia) vào <strong>1893</strong> – kéo dài gần nửa thế kỉ (35 năm). Tiêu biểu: 1862 (Hiệp ước Nhâm Tuất, cắt 3 tỉnh Nam Kỳ), 1883–1884 (chiếm Bắc Kỳ), 1893 (hoàn thành Đông Dương thuộc Pháp).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l1_5",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l1",
+    "grade": "11",
+    "prompt": "Chính sách cai trị điển hình của thực dân phương Tây ở Đông Nam Á là gì?",
+    "options": [
+      "Trao quyền tự trị hoàn toàn",
+      "Chia để trị",
+      "Hợp tác bình đẳng",
+      "Phát triển kinh tế bền vững"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Chia để trị</strong> (Divide and Rule) là chính sách cốt lõi của thực dân: chia rẽ dân tộc (đa số vs thiểu số), chia rẽ tôn giáo (Phật giáo vs Hồi giáo vs Thiên Chúa giáo), chia rẽ vùng miền. Mục đích: ngăn đoàn kết dân tộc để dễ cai trị. Kết hợp với chính sách 'ngu dân' (hạn chế giáo dục), 'dùng người bản xứ trị người bản xứ'.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l2_6",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l2",
+    "grade": "11",
+    "prompt": "Tỉ lệ dân số biết chữ ở Mã Lai năm 1931 là bao nhiêu, phản ánh điều gì?",
+    "options": [
+      "3,5% – chính sách khai hóa của thực dân",
+      "12% – sự phát triển giáo dục",
+      "8,5% – chính sách ngu dân của thực dân Anh",
+      "25% – tương đối cao so với khu vực"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Chỉ <strong>8,5% dân số Mã Lai biết chữ (1931)</strong> dù bị thực dân Anh cai trị nhiều thập kỷ. Con số này phơi bày bản chất thật của chính sách 'khai hóa văn minh' (mission civilisatrice): thực ra đó là chính sách <strong>ngu dân</strong>, hạn chế học vấn để dễ cai trị. VN còn thấp hơn: 1926 chỉ ~6% trẻ em đến trường, >90% mù chữ.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l2_7",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l2",
+    "grade": "11",
+    "prompt": "Tại sao các nước thực dân phương Tây bên cạnh cai trị vẫn duy trì chính quyền phong kiến địa phương?",
+    "options": [
+      "Để phát triển kinh tế bản địa",
+      "Vì không đủ người để cai trị trực tiếp",
+      "Để dùng làm công cụ cai trị thuộc địa và đàn áp sự phản kháng của nhân dân",
+      "Vì tôn trọng văn hoá bản địa"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Thực dân duy trì vua chúa, quý tộc, quan lại phong kiến bản địa để <strong>làm công cụ cai trị</strong>: thu thuế, đàn áp dân chúng, tuyên truyền tuân phục thực dân. Đây là chính sách tiết kiệm: dùng người bản xứ trị người bản xứ, giảm chi phí cai trị mà vẫn kiểm soát được. Vua, quan bản địa trở thành tay sai của thực dân.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l2_8",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l2",
+    "grade": "11",
+    "prompt": "Vua Xiêm nào bắt đầu tiến hành mở cửa cải cách từ năm 1851?",
+    "options": [
+      "Ra-ma III",
+      "Ra-ma IV",
+      "Ra-ma V",
+      "Ra-ma VI"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Ra-ma IV</strong> (Mongkut, trị vì 1851–1868) là người đầu tiên nhận thức được nguy cơ bị thực dân hóa và bắt đầu chính sách 'mở cửa': ký hiệp ước thương mại với Anh (1855), mời người phương Tây làm cố vấn. Con ông là <strong>Ra-ma V</strong> (Chulalongkorn, từ 1868) mới tiến hành cải cách toàn diện.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l2_9",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l2",
+    "grade": "11",
+    "prompt": "Từ năm 1868, vua Ra-ma V của Xiêm tiến hành cải cách toàn diện theo mô hình nào?",
+    "options": [
+      "Mô hình phong kiến truyền thống",
+      "Mô hình Nhật Bản (Duy tân Minh Trị)",
+      "Mô hình phương Tây",
+      "Mô hình Trung Quốc"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Ra-ma V học tập trực tiếp từ <strong>phương Tây</strong> (đi thăm châu Âu 1897, 1907), cải cách theo mô hình Anh, Pháp, Đức: hành chính tập quyền, quân đội hiện đại, giáo dục Tây học, luật pháp châu Âu, bãi bỏ chế độ nô lệ. Khác với Nhật Bản chủ yếu học theo Đức và Phổ, Xiêm học trực tiếp và toàn diện hơn từ các nước phương Tây.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l2_10",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l2",
+    "grade": "11",
+    "prompt": "Xiêm ký hiệp ước nhượng vùng lãnh thổ nào cho Pháp và Anh để giữ độc lập?",
+    "options": [
+      "Nhượng Campuchia cho Anh (1907) và Mã Lai cho Pháp (1909)",
+      "Nhượng Lào, Campuchia cho Pháp (1907) và Mã Lai cho Anh (1909)",
+      "Nhượng Miến Điện cho Anh (1907) và Việt Nam cho Pháp (1909)",
+      "Nhượng toàn bộ Đông Dương cho Pháp"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Xiêm dùng 'ngoại giao hy sinh' để tồn tại: nhượng <strong>Lào và Campuchia cho Pháp</strong> (các hiệp ước 1893, 1904, 1907) và <strong>Mã Lai cho Anh</strong> (1909). Nhờ đó Xiêm trở thành 'vùng đệm' giữa hai đế quốc Anh-Pháp ở ĐNA và là nước duy nhất giữ được độc lập trong khu vực.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l3_11",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l3",
+    "grade": "11",
+    "prompt": "Lý do chính khiến Vương quốc Xiêm là nước duy nhất ở Đông Nam Á không trở thành thuộc địa?",
+    "options": [
+      "Quân đội Xiêm quá mạnh",
+      "Thực hiện cải cách tiến bộ và đường lối ngoại giao mềm dẻo, linh hoạt",
+      "Được sự bảo hộ của Trung Quốc",
+      "Nằm ở vị trí địa lý không quan trọng"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Hai yếu tố quyết định giúp Xiêm thoát thuộc địa: <strong>(1) Cải cách tiến bộ</strong> (hiện đại hóa kinh tế, quân sự, hành chính – Ra-ma IV, V) và <strong>(2) Ngoại giao mềm dẻo</strong> (nhượng đất không quan trọng để giữ độc lập, cân bằng giữa Anh và Pháp, ký các hiệp ước thương mại). Bài học: kết hợp nội lực mạnh + ngoại giao khéo léo.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l3_12",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l3",
+    "grade": "11",
+    "prompt": "Năm 1898, Chương trình giáo dục đầu tiên ở Xiêm được công bố. Điều này ra đời sau sự kiện gì?",
+    "options": [
+      "Sau khi vua Ra-ma IV lên ngôi",
+      "Sau khi vua Ra-ma V đi khảo sát nền giáo dục châu Âu",
+      "Sau khi Xiêm ký hiệp ước với Pháp",
+      "Sau khi Xiêm bị đe doạ xâm lược"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Năm 1897, Ra-ma V đích thân du hành châu Âu, quan sát hệ thống giáo dục Anh, Pháp, Đức. Ấn tượng trước nền GD phương Tây, ông về ban hành <strong>Chương trình GD đầu tiên (1898)</strong>, lập trường học theo mô hình hiện đại, đưa giảng viên nước ngoài về dạy. Đây là cải cách GD tiến bộ nhất ĐNA thời đó.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l3_13",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l3",
+    "grade": "11",
+    "prompt": "Đặc điểm chung về hình thức cai trị của thực dân phương Tây ở Đông Nam Á là gì?",
+    "options": [
+      "Xoá bỏ hoàn toàn chính quyền phong kiến địa phương",
+      "Duy trì thế lực phong kiến địa phương bên cạnh chính quyền thực dân",
+      "Trao quyền tự trị hoàn toàn cho người bản địa",
+      "Ưu tiên phát triển giáo dục và y tế"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Dù ở Đông Dương (Pháp), Miến Điện (Anh), hay Phi-líp-pin (Mỹ), tất cả đều có đặc điểm chung: <strong>duy trì chính quyền phong kiến bản địa</strong> (vua, quan) bên cạnh bộ máy cai trị thực dân. Đây là sự khác biệt với chủ nghĩa thực dân La Mã cổ đại vốn xóa bỏ hoàn toàn cấu trúc xã hội bản địa.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l3_14",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l3",
+    "grade": "11",
+    "prompt": "Cuối thế kỷ XVI, thực dân nước nào bắt đầu xâm nhập In-đô-nê-xi-a và hoàn thành kiểm soát vào giữa thế kỉ XIX?",
+    "options": [
+      "Bồ Đào Nha",
+      "Tây Ban Nha",
+      "Hà Lan",
+      "Anh"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Hà Lan</strong> là nước thống trị Indonesia (lịch sử gọi là Đông Ấn Hà Lan). Công ty Đông Ấn Hà Lan (VOC) thành lập 1602, kiểm soát thương mại gia vị. Hà Lan dần mở rộng lãnh thổ, hoàn thành kiểm soát phần lớn quần đảo vào giữa TK XIX. Indonesia giành độc lập 17/8/1945 do Sukarno lãnh đạo.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l3_15",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l3",
+    "grade": "11",
+    "prompt": "Toàn bộ vùng lãnh thổ Ma-lai-xi-a, Xin-ga-po, Bru-nây rơi vào tay nước nào vào đầu thế kỉ XX?",
+    "options": [
+      "Hà Lan",
+      "Pháp",
+      "Anh",
+      "Mỹ"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Anh</strong> kiểm soát toàn bộ bán đảo Mã Lai (Malaysia), Singapore và Brunei. Anh đặt chân vào Penang (1786), Singapore (1819, Raffles), và dần thiết lập bảo hộ khắp bán đảo. Đây là vùng chiến lược vì eo biển Malacca – tuyến hàng hải quan trọng nối Ấn Độ Dương và Thái Bình Dương.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l4_16",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l4",
+    "grade": "11",
+    "prompt": "Nước nào ở Đông Nam Á bị Tây Ban Nha xâm lược và thống trị từ giữa thế kỉ XVI?",
+    "options": [
+      "In-đô-nê-xi-a",
+      "Ma-lai-xi-a",
+      "Phi-líp-pin",
+      "Miến Điện"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Phi-líp-pin</strong> bị TBN xâm lược từ 1565, đặt tên theo vua Philip II của Tây Ban Nha. Tây Ban Nha cai trị 333 năm (1565–1898). Đặc điểm: TBN truyền bá Công giáo mạnh mẽ (>80% người Philippines theo Công giáo đến nay), để lại dấu ấn văn hóa sâu sắc.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l4_17",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l4",
+    "grade": "11",
+    "prompt": "Tại sao Đông Nam Á hải đảo là đối tượng đầu tiên thu hút sự chú ý của thực dân phương Tây?",
+    "options": [
+      "Dân số đông đảo, dễ chinh phục",
+      "Giàu tài nguyên, nguồn hương liệu phong phú, nằm trên tuyến đường biển huyết mạch nối phương Đông và phương Tây",
+      "Gần với châu Âu về địa lý",
+      "Trình độ phát triển kém hơn lục địa"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "ĐNA hải đảo hấp dẫn thực dân vì 3 lý do: <strong>(1) Hương liệu</strong> (hồ tiêu, đinh hương, nhục đậu khấu ở Maluku – 'quần đảo Gia vị' – trị giá bằng vàng ở châu Âu TK XVI); <strong>(2) Vị trí chiến lược</strong> (eo Malacca – cầu nối Ấn Độ Dương và Thái Bình Dương); <strong>(3) Tiếp cận được bằng đường biển</strong> trước khi có đường bộ xuyên lục địa.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l4_18",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l4",
+    "grade": "11",
+    "prompt": "Hình thức cải cách hành chính quan trọng ở Xiêm từ năm 1892 dưới thời Ra-ma V là gì?",
+    "options": [
+      "Xây dựng hệ thống quân chủ chuyên chế",
+      "Cải cách hành chính theo mô hình phương Tây",
+      "Áp dụng luật Hồi giáo",
+      "Phân chia lãnh thổ thành tỉnh theo mô hình Trung Hoa"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Từ 1892, Ra-ma V cải cách hành chính theo mô hình <strong>phương Tây</strong>: tổ chức các bộ (Nội vụ, Ngoại giao, Tài chính, Tư pháp…), chia nước thành tỉnh, phủ, huyện, xã có quan chức nhà nước quản lý thay cho lãnh chúa phong kiến địa phương. Đây là bước hiện đại hóa bộ máy nhà nước giúp Xiêm thống nhất và mạnh hơn.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l4_19",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l4",
+    "grade": "11",
+    "prompt": "Ý nghĩa của cuộc cải cách Xiêm đối với khu vực Đông Nam Á là gì?",
+    "options": [
+      "Xiêm thành cường quốc khu vực",
+      "Là một trong những con đường ứng phó hiệu quả với làn sóng xâm lược của thực dân phương Tây",
+      "Xiêm xâm chiếm các nước láng giềng",
+      "Giúp các nước Đông Nam Á khác giành độc lập"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Cải cách Xiêm chứng minh một bài học quan trọng: <strong>nếu chủ động cải cách tiến bộ kết hợp ngoại giao khéo léo thì có thể tránh bị thực dân hóa</strong>. Đây là sự đối lập hoàn toàn với VN, Miến Điện, Indonesia – những nước không/chậm cải cách nên bị xâm chiếm. Bài học này vẫn còn nguyên giá trị đến ngày nay.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u3-l4_20",
+    "tenantId": "ha-tenant",
+    "unitId": "u3",
+    "lessonId": "u3-l4",
+    "grade": "11",
+    "prompt": "Năm 1874, Chính phủ Xiêm thực hiện biện pháp gì trong nông nghiệp?",
+    "options": [
+      "Tăng thuế nông nghiệp",
+      "Quốc hữu hoá ruộng đất",
+      "Miễn trừ và giảm thuế nông nghiệp, tạo điều kiện khai hoang",
+      "Tịch thu ruộng đất của nông dân"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Năm 1874, Ra-ma V thực hiện chính sách <strong>miễn giảm thuế nông nghiệp và khuyến khích khai hoang</strong>. Đây là chính sách dân tâm quan trọng: thu hút dân khai phá đất mới, tăng sản lượng lúa gạo (Xiêm trở thành nước xuất khẩu gạo lớn), tạo nguồn lực kinh tế cho nhà nước. Trái ngược với chính sách bóc lột của thực dân ở các nước lân cận.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l1_1",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l1",
+    "grade": "11",
+    "prompt": "Năm 938, Ngô Quyền đánh bại quân Nam Hán bằng chiến thuật gì, trên sông nào?",
+    "options": [
+      "Trận địa mai phục, sông Hồng",
+      "Trận địa cọc, sông Bạch Đằng",
+      "Phục kích đêm tối, sông Lục Đầu",
+      "Chiến thuật vườn không nhà trống, sông Đà"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Ngô Quyền (898–944) dùng <strong>trận địa cọc</strong> trên <strong>sông Bạch Đằng</strong>: cắm cọc gỗ đầu nhọn bịt sắt dưới lòng sông, dụ thuyền địch vào lúc thủy triều lên rồi chặn đánh khi thủy triều xuống – thuyền địch bị cọc đâm thủng và bị tiêu diệt. Chiến thắng 938 chấm dứt hơn 1000 năm Bắc thuộc (từ 111 TCN), mở ra thời đại độc lập tự chủ.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l1_2",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l1",
+    "grade": "11",
+    "prompt": "Trong cuộc kháng chiến chống Tống lần 1 (981), ai là người lãnh đạo và tướng Tống nào bị tử trận?",
+    "options": [
+      "Lý Thường Kiệt lãnh đạo, Triệu Tiết tử trận",
+      "Lê Hoàn lãnh đạo, Hầu Nhân Bảo tử trận",
+      "Trần Quốc Tuấn lãnh đạo, Quách Quỳ tử trận",
+      "Ngô Quyền lãnh đạo, Tôn Toàn Hưng tử trận"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Lê Hoàn</strong> (Lê Đại Hành, sáng lập nhà Tiền Lê) lãnh đạo kháng chiến chống Tống lần 1 (981). Quân Tống do Hầu Nhân Bảo chỉ huy bị đánh bại, Hầu Nhân Bảo tử trận. Lê Hoàn vừa vừa cầm quân đánh thủy ở sông Bạch Đằng vừa đánh bộ ở Chi Lăng. Đây là chiến thắng quan trọng củng cố nền độc lập non trẻ của Đại Cồ Việt.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l1_3",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l1",
+    "grade": "11",
+    "prompt": "Lý Thường Kiệt tổ chức kháng chiến chống Tống lần 2 (1075–1077) bằng chiến lược gì?",
+    "options": [
+      "Chỉ phòng thủ, chờ địch tấn công",
+      "Chủ động tiêu diệt kho lương và trại biên giới địch; lập phòng tuyến sông Như Nguyệt; chủ động giảng hoà",
+      "Rút lui chiến lược, bỏ kinh thành",
+      "Đánh du kích trong rừng núi"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Lý Thường Kiệt dùng chiến lược <strong>'tiên phát chế nhân'</strong> (đánh trước để chế ngự địch): (1) chủ động tấn công sang đất Tống (1075), phá hủy kho lương ở Ung Châu, Khâm Châu; (2) rút về lập phòng tuyến sông Như Nguyệt; (3) đánh lui quân Tống (bài thơ 'Nam quốc sơn hà'); (4) <strong>chủ động giảng hòa</strong> khi thế nước đã mạnh để tránh tổn thất.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l1_4",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l1",
+    "grade": "11",
+    "prompt": "Trong lần kháng chiến chống Mông – Nguyên lần 2 (1285), tướng Mông Nguyên nào phải chui vào ống đồng chạy về nước?",
+    "options": [
+      "Ngột Lương Hợp Thai",
+      "Ô Mã Nhi",
+      "Toa Đô",
+      "Thoát Hoan"
+    ],
+    "correctOptionIndex": 3,
+    "explanation": "<strong>Thoát Hoan</strong> (con Hốt Tất Liệt) là chỉ huy quân Nguyên lần 2 (1285). Bị quân Trần đánh bại hoàn toàn, Thoát Hoan phải chui vào ống đồng để quân lính khiêng chạy về nước. Chi tiết 'ống đồng' là hình ảnh biểu trưng cho sự thảm bại nhục nhã của đội quân từng chinh phục khắp Á-Âu.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l1_5",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l1",
+    "grade": "11",
+    "prompt": "Chiến thắng Rạch Gầm – Xoài Mút năm 1785 do ai chỉ huy và đánh bại quân xâm lược nào?",
+    "options": [
+      "Nguyễn Nhạc, đánh bại quân Thanh",
+      "Nguyễn Huệ, đánh bại quân Xiêm",
+      "Nguyễn Lữ, đánh bại quân Nguyên",
+      "Lê Lợi, đánh bại quân Minh"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Nguyễn Huệ</strong> chỉ huy trận Rạch Gầm – Xoài Mút (1/1785) trên sông Tiền (Tiền Giang), đánh bại <strong>quân Xiêm</strong> (do Nguyễn Ánh cầu viện) gồm 5 vạn quân và 300 thuyền chiến. Đây là một trong những trận thủy chiến lớn nhất lịch sử Việt Nam, tiêu diệt gần hoàn toàn quân Xiêm chỉ trong một ngày.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l2_6",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l2",
+    "grade": "11",
+    "prompt": "Năm 1789, vua Quang Trung đánh bại bao nhiêu vạn quân Thanh và giải phóng Thăng Long?",
+    "options": [
+      "10 vạn",
+      "20 vạn",
+      "29 vạn",
+      "50 vạn"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Vua <strong>Quang Trung (Nguyễn Huệ)</strong> thần tốc tiến quân từ Phú Xuân, đánh bại <strong>29 vạn quân Thanh</strong> (do Tôn Sĩ Nghị chỉ huy) trong chiến dịch mùa xuân Kỷ Dậu 1789. Chỉ 5 ngày từ 30/12 âm lịch đến mùng 5 Tết, Quang Trung giải phóng Thăng Long. Đây là chiến thắng lẫy lừng nhất trong lịch sử chống ngoại xâm.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l2_7",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l2",
+    "grade": "11",
+    "prompt": "Nguyên nhân thắng lợi CHỦ QUAN của các cuộc kháng chiến chống ngoại xâm trong lịch sử Việt Nam là gì?",
+    "options": [
+      "Kẻ thù thiếu lương thực và xa lạ với địa hình",
+      "Tính chính nghĩa của cuộc chiến, sức mạnh toàn dân tộc, lãnh đạo tài giỏi",
+      "Được sự giúp đỡ quân sự của các nước láng giềng",
+      "Quân địch phạm nhiều sai lầm chiến lược"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Nguyên nhân <strong>chủ quan</strong> (xuất phát từ bên trong dân tộc Việt): <strong>(1) Tính chính nghĩa</strong> – bảo vệ quê hương, chống xâm lược phi nghĩa; <strong>(2) Đoàn kết toàn dân</strong> – mọi tầng lớp, dân tộc cùng chiến đấu; <strong>(3) Lãnh đạo tài ba</strong> – Ngô Quyền, Lê Hoàn, Lý Thường Kiệt, Trần Hưng Đạo, Lê Lợi, Quang Trung. Đây là yếu tố quyết định.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l2_8",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l2",
+    "grade": "11",
+    "prompt": "Kháng chiến chống quân Triệu thất bại vì nguyên nhân gì?",
+    "options": [
+      "Quân Triệu có vũ khí quá hiện đại",
+      "Triệu Đà dùng kế giảng hoà, làm An Dương Vương mất cảnh giác, nội bộ bất hoà",
+      "Thành Cổ Loa không đủ kiên cố",
+      "Dân số Âu Lạc quá ít"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Bài học đắt giá: <strong>mất cảnh giác và nội bộ bất hòa</strong> dẫn đến thất bại. Triệu Đà dùng 'mỹ nhân kế' (cho con trai Trọng Thủy lấy Mỵ Châu) để do thám, phá hoại nỏ thần. An Dương Vương mất cảnh giác, tin tưởng rể quá mức, bị Triệu Đà tấn công bất ngờ khi không còn vũ khí phòng thủ. Câu chuyện Mỵ Châu – Trọng Thủy là bài học muôn đời về cảnh giác quốc phòng.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l2_9",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l2",
+    "grade": "11",
+    "prompt": "Khởi nghĩa Hai Bà Trưng (40–43) chống lại sự đô hộ của nhà nào?",
+    "options": [
+      "Nhà Hán",
+      "Nhà Đông Hán",
+      "Nhà Ngô",
+      "Nhà Lương"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Hai Bà Trưng (Trưng Trắc và Trưng Nhị) nổi dậy năm 40 SCN chống <strong>nhà Đông Hán</strong> (phân biệt với Tây Hán trước đó). Nguyên nhân: chồng Trưng Trắc là Thi Sách bị Tô Định giết, cộng với ách áp bức tàn bạo của thực dân Hán. Hai Bà giải phóng 65 thành trì, lập nước độc lập được 3 năm (40–43) trước khi bị Mã Viện đàn áp.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l2_10",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l2",
+    "grade": "11",
+    "prompt": "Khởi nghĩa Lý Bí (542–544) kết quả là lập ra nhà nước gì, chống lại triều đại nào?",
+    "options": [
+      "Đại Việt, chống nhà Tống",
+      "Vạn Xuân, chống nhà Lương",
+      "Đại Cồ Việt, chống nhà Đường",
+      "Âu Lạc, chống nhà Hán"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Lý Bí (Lý Nam Đế) lãnh đạo cuộc khởi nghĩa chống nhà <strong>Lương</strong> (544), thành lập nhà nước độc lập đặt tên là <strong>Vạn Xuân</strong> (ý nghĩa: muôn năm tươi xanh), đặt kinh đô ở Long Biên. Đây là nhà nước độc lập đầu tiên của người Việt sau 500 năm Bắc thuộc. Tuy thất bại sau đó nhưng là mốc quan trọng trong lịch sử.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l3_11",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l3",
+    "grade": "11",
+    "prompt": "Khởi nghĩa Phùng Hưng (766–791) chống nhà Đường đã đạt kết quả gì?",
+    "options": [
+      "Lập nhà nước độc lập hoàn toàn",
+      "Củng cố chính quyền tự chủ",
+      "Thống nhất đất nước",
+      "Đánh đuổi hoàn toàn quân Đường"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Phùng Hưng (Bố Cái Đại Vương) lãnh đạo khởi nghĩa 766–791, làm chủ được Giao Châu một thời gian và <strong>củng cố chính quyền tự chủ</strong>. Ông không lập được nhà nước độc lập hoàn toàn (nhà Đường vẫn còn tồn tại), nhưng đã tạo điều kiện cho ý chí độc lập của người Việt tiếp tục phát triển đến khởi nghĩa Khúc Thừa Dụ (905) và chiến thắng 938.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l3_12",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l3",
+    "grade": "11",
+    "prompt": "Lê Lợi dựng cờ khởi nghĩa Lam Sơn vào năm nào, ở đâu?",
+    "options": [
+      "1407, ở Nghệ An",
+      "1416, ở Thăng Long",
+      "1418, ở Lam Sơn – Thanh Hoá",
+      "1420, ở Quy Nhơn"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>1418</strong> – Lê Lợi (1385–1433) dựng cờ khởi nghĩa tại <strong>Lam Sơn, Thanh Hóa</strong>, đặt tên là Khởi nghĩa Lam Sơn. Lê Lợi xuất thân là hào trưởng địa phương, từ chối hợp tác với nhà Minh để đứng lên chống ách đô hộ. 1407 là năm nhà Minh xâm lược và nhà Hồ thất bại.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l3_13",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l3",
+    "grade": "11",
+    "prompt": "Trong giai đoạn 1418–1423 của khởi nghĩa Lam Sơn, nghĩa quân thực hiện kế sách gì?",
+    "options": [
+      "Tiến công ra Bắc ngay lập tức",
+      "Tạm hoà hoãn với quân Minh để củng cố lực lượng",
+      "Cầu viện nước ngoài",
+      "Tập trung phòng thủ căn cứ"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Giai đoạn 1418–1423 là thời kỳ khó khăn nhất: nghĩa quân ba lần phải rút lên núi Chí Linh, nhiều lần suýt bị tiêu diệt. Nguyễn Trãi hiến kế <strong>tạm hòa hoãn với Minh (1423)</strong> để có thời gian củng cố lực lượng, phát triển căn cứ. Đây là sách lược linh hoạt 'Biết kẻ biết ta, trăm trận trăm thắng'.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l3_14",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l3",
+    "grade": "11",
+    "prompt": "Khởi nghĩa Lam Sơn kết thúc thắng lợi bằng chiến thắng nào, chấm dứt bao nhiêu năm đô hộ Minh?",
+    "options": [
+      "Đông Bộ Đầu, 15 năm",
+      "Hàm Tử, 25 năm",
+      "Chi Lăng – Xương Giang (cuối 1427), 20 năm đô hộ Minh",
+      "Tây Kết, 10 năm"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Chiến thắng <strong>Chi Lăng – Xương Giang</strong> (cuối 1427): quân Lam Sơn phục kích tiêu diệt đạo quân tiếp viện 10 vạn quân Minh (tướng Liễu Thăng bị giết ở Chi Lăng, Mộc Thạnh tháo chạy). Sau đó Vương Thông trong thành Đông Quan phải đầu hàng, rút quân về nước. Chấm dứt <strong>20 năm đô hộ Minh</strong> (1407–1427), lập nhà Lê sơ.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l3_15",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l3",
+    "grade": "11",
+    "prompt": "Ba anh em Tây Sơn gồm những ai?",
+    "options": [
+      "Nguyễn Nhạc, Nguyễn Huệ, Nguyễn Lữ",
+      "Nguyễn Huệ, Nguyễn Ánh, Nguyễn Lữ",
+      "Nguyễn Nhạc, Nguyễn Ánh, Nguyễn Huệ",
+      "Nguyễn Lữ, Nguyễn Nhạc, Nguyễn Phúc"
+    ],
+    "correctOptionIndex": 0,
+    "explanation": "Ba anh em Tây Sơn: <strong>Nguyễn Nhạc</strong> (anh cả, người khởi xướng), <strong>Nguyễn Huệ</strong> (em thứ hai, tài ba nhất – sau là Quang Trung), <strong>Nguyễn Lữ</strong> (em út). Phân biệt với Nguyễn Ánh – là chúa Nguyễn (kẻ thù của Tây Sơn, sau trở thành vua Gia Long nhà Nguyễn).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l4_16",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l4",
+    "grade": "11",
+    "prompt": "Phong trào Tây Sơn bùng nổ ở đâu và nhanh chóng làm chủ các vùng nào vào giai đoạn 1771–1773?",
+    "options": [
+      "Ở Thanh Hoá, làm chủ Bắc Hà",
+      "Ở Tây Sơn, làm chủ Quy Nhơn, Quảng Ngãi, Quảng Nam",
+      "Ở Gia Định, làm chủ miền Nam",
+      "Ở Huế, làm chủ toàn bộ Đàng Trong"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Phong trào Tây Sơn bùng nổ năm 1771 tại <strong>ấp Tây Sơn (Bình Định – Quy Nhơn)</strong>, nhanh chóng mở rộng ra <strong>Quy Nhơn, Quảng Ngãi, Quảng Nam</strong> vào 1771–1773. Với khẩu hiệu 'Lấy của nhà giàu chia cho người nghèo', Tây Sơn được nhân dân ủng hộ rộng rãi.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l4_17",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l4",
+    "grade": "11",
+    "prompt": "Ý nghĩa chủ yếu của phong trào Tây Sơn là gì?",
+    "options": [
+      "Lật đổ nhà Nguyễn, thiết lập chế độ phong kiến mới",
+      "Lật đổ Trịnh–Nguyễn, thống nhất đất nước; giải quyết đồng thời đấu tranh giai cấp và đấu tranh dân tộc",
+      "Giúp đỡ nhân dân Lào và Campuchia chống ngoại xâm",
+      "Đặt nền tảng cho thực dân Pháp xâm lược"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Phong trào Tây Sơn vừa giải quyết <strong>đấu tranh giai cấp</strong> (lật đổ chúa Trịnh – chúa Nguyễn, phân phong ruộng đất) vừa <strong>đấu tranh dân tộc</strong> (đánh Xiêm 1785, đánh Thanh 1789). Đây là phong trào duy nhất trong lịch sử VN đồng thời hoàn thành cả hai nhiệm vụ này, thống nhất đất nước sau gần 200 năm Trịnh–Nguyễn phân tranh.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l4_18",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l4",
+    "grade": "11",
+    "prompt": "Nguyên nhân thất bại của cuộc kháng chiến chống quân Minh thời nhà Hồ là gì?",
+    "options": [
+      "Quân Minh có vũ khí quá hiện đại",
+      "Sai lầm trong đường lối kháng chiến, không tập hợp được sức mạnh nhân dân",
+      "Không có lãnh đạo tài năng",
+      "Thiên tai và dịch bệnh"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Nhà Hồ thất bại (1407) vì <strong>sai lầm đường lối</strong>: (1) Hồ Quý Ly cướp ngôi nhà Trần – mất lòng dân; (2) Cải cách nóng vội làm quý tộc, quan lại oán; (3) Đường lối kháng chiến dựa vào thành lũy, không dựa vào nhân dân. Nhà Minh lợi dụng danh nghĩa 'Phù Trần diệt Hồ' để xâm lược, nhiều người VN ban đầu không chống. Bài học: đường lối phải đúng và phải dựa vào nhân dân.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l4_19",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l4",
+    "grade": "11",
+    "prompt": "Trong ba lần kháng chiến chống Mông – Nguyên, lần nào quân ta đại phá thủy binh địch trên sông Bạch Đằng?",
+    "options": [
+      "Lần 1 (1258)",
+      "Lần 2 (1285)",
+      "Lần 3 (1287–1288)",
+      "Cả ba lần đều diễn ra trên sông Bạch Đằng"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Lần 3 (1287–1288)</strong> – Trận Bạch Đằng lịch sử: Trần Hưng Đạo dùng lại chiến thuật cọc của Ngô Quyền năm 938, tiêu diệt đoàn thuyền lương của Ô Mã Nhi. Lần 1 (1258): chiến thắng ở Đông Bộ Đầu (Hà Nội). Lần 2 (1285): chiến thắng ở Chương Dương, Hàm Tử, Tây Kết. Chỉ lần 3 mới có trận Bạch Đằng.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l4_20",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l4",
+    "grade": "11",
+    "prompt": "Bài học nghệ thuật quân sự nào được rút ra từ các cuộc kháng chiến chống ngoại xâm của dân tộc Việt Nam?",
+    "options": [
+      "Chỉ dựa vào quân chính quy",
+      "Chiến tranh nhân dân, 'toàn dân đánh giặc', 'Lấy ít địch nhiều, lấy yếu chống mạnh', 'Tâm công'",
+      "Chờ thời cơ để tấn công tổng lực",
+      "Dựa vào viện trợ nước ngoài"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Nghệ thuật quân sự Việt Nam: <strong>(1) Chiến tranh nhân dân</strong> – toàn dân tham chiến; <strong>(2) Lấy ít địch nhiều, lấy yếu chống mạnh</strong> – dùng mưu trí và địa hình; <strong>(3) Tâm công</strong> – đánh vào lòng người, làm địch mất tinh thần (Hịch tướng sĩ của Trần Hưng Đạo, Bình Ngô đại cáo của Nguyễn Trãi); <strong>(4) Triệt lương thực địch</strong>; <strong>(5) Phòng tuyến sông ngòi</strong>.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l5_21",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l5",
+    "grade": "11",
+    "prompt": "Nguyên nhân KHÁCH QUAN của thắng lợi trong các cuộc kháng chiến chống ngoại xâm của Việt Nam là gì?",
+    "options": [
+      "Quân Việt Nam đông hơn",
+      "Cuộc chiến tranh xâm lược là phi nghĩa nên tất yếu thất bại; các đội quân xâm lược thiếu hậu cần",
+      "Địa hình thuận lợi cho phòng thủ",
+      "Các nước láng giềng hỗ trợ"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Nguyên nhân <strong>khách quan</strong> (từ phía kẻ thù): (1) <strong>Chiến tranh phi nghĩa</strong> – xâm lược phi nghĩa không được lòng người, bộ đội mất tinh thần chiến đấu khi ở đất xa quê; (2) <strong>Thiếu hậu cần</strong> – đường tiếp tế dài, khí hậu nhiệt đới khắc nghiệt (dịch bệnh, nóng ẩm) làm quân xâm lược suy yếu. Khác với nguyên nhân chủ quan (từ phía Việt Nam).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l5_22",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l5",
+    "grade": "11",
+    "prompt": "Khởi nghĩa Bà Triệu (248) chống lại triều đại nào và kết quả ra sao?",
+    "options": [
+      "Chống nhà Đông Hán, giành được quyền tự chủ",
+      "Chống nhà Ngô, bị đàn áp và thất bại",
+      "Chống nhà Lương, lập nhà nước Vạn Xuân",
+      "Chống nhà Minh, giành được độc lập"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Bà Triệu (Triệu Thị Trinh, 225–248) khởi nghĩa năm 248 chống <strong>nhà Ngô</strong> (thời Tam Quốc – Ngô, Thục, Ngụy). Câu nói nổi tiếng: 'Tôi muốn cưỡi cơn gió mạnh, đạp sóng dữ, chém cá kình ở biển Đông'. Cuộc khởi nghĩa bị đàn áp sau 6 tháng, Bà Triệu tuẫn tiết. Dù thất bại, đây là biểu tượng tinh thần bất khuất của người Việt.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l5_23",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l5",
+    "grade": "11",
+    "prompt": "Bài học về 'khối đại đoàn kết dân tộc' trong lịch sử kháng chiến Việt Nam được thể hiện như thế nào?",
+    "options": [
+      "Chỉ đoàn kết ở cấp lãnh đạo",
+      "Đoàn kết từ chỉ huy, mở rộng ra quân đội và quần chúng nhân dân; từ miền xuôi đến miền ngược",
+      "Chỉ đoàn kết khi có nguy cơ xâm lược",
+      "Đoàn kết một số tầng lớp nhất định"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Đoàn kết dân tộc là sức mạnh cốt lõi: <strong>từ vua đến dân, từ Kinh đến Thượng, từ miền xuôi đến miền núi</strong> đều tham gia. Tiêu biểu: Hội nghị Diên Hồng (1284) – vua hỏi ý dân; Lê Lợi tập hợp nghĩa quân từ miền núi Thanh Hóa; Quang Trung tập hợp quân khắp Đàng Trong. Không có đoàn kết, không thể thắng được quân xâm lược mạnh hơn nhiều.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l5_24",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l5",
+    "grade": "11",
+    "prompt": "Năm 1407, nhà Minh xâm lược với lý do gì và kết quả là gì?",
+    "options": [
+      "'Phù Trần, diệt Hồ' – Nhà Hồ nhanh chóng thất bại, nước ta bị đô hộ",
+      "'Khai hoá văn minh' – Nhà Hồ kháng cự được 10 năm",
+      "'Trả thù' – Nhà Hồ đánh bại quân Minh",
+      "Không có lý do chính đáng – Nhà Hồ cầu viện nước ngoài"
+    ],
+    "correctOptionIndex": 0,
+    "explanation": "Nhà Minh lấy lý do <strong>'Phù Trần diệt Hồ'</strong> (giúp đỡ nhà Trần, diệt nhà Hồ soán ngôi) để xâm lược. Thực chất đây là cớ để thôn tính. Hồ Hán Thương (con Hồ Quý Ly) bị bắt, VN bị đô hộ 20 năm (1407–1427). Đây là hệ quả của việc Hồ Quý Ly nóng vội cải cách, làm mất lòng dân khiến nhiều người không chống Minh.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u4-l5_25",
+    "tenantId": "ha-tenant",
+    "unitId": "u4",
+    "lessonId": "u4-l5",
+    "grade": "11",
+    "prompt": "Năm 179 TCN, Âu Lạc rơi vào tay ai và vì sao?",
+    "options": [
+      "Quân Hán, vì tấn công bất ngờ",
+      "Triệu Đà (Nam Việt), vì dùng mưu kế giảng hoà làm An Dương Vương mất cảnh giác, nội bộ bất hoà",
+      "Quân Mông Cổ, vì vũ khí hiện đại",
+      "Nhà Đông Hán, vì nội loạn"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Triệu Đà (người Hán, lập nước Nam Việt ở Quảng Đông) dùng <strong>mưu kế hôn nhân</strong>: cho con trai Trọng Thủy lấy Mỵ Châu (con An Dương Vương), Trọng Thủy đánh cắp bí mật nỏ thần. Triệu Đà giả vờ giảng hòa, khi An Dương Vương mất cảnh giác thì tấn công. An Dương Vương bỏ chạy, Mỵ Châu bị giết. Bài học: cần cảnh giác cả với kẻ thù giả làm bạn.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l1_1",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l1",
+    "grade": "11",
+    "prompt": "Bối cảnh lịch sử dẫn đến cải cách của Hồ Quý Ly là gì?",
+    "options": [
+      "Đại Việt đang phát triển thịnh vượng",
+      "Cuối TK XIV, Đại Việt khủng hoảng trầm trọng, nhà Trần suy yếu; phía Nam có xung đột với Chăm Pa, phía Bắc nhà Minh đe doạ",
+      "Cuộc kháng chiến chống quân Mông–Nguyên vừa kết thúc",
+      "Đại Việt vừa giành độc lập từ tay nhà Minh"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Cuối TK XIV, Đại Việt trong <strong>khủng hoảng toàn diện</strong>: nhà Trần suy yếu, quý tộc chiếm ruộng đất, nông dân đói khổ, nạn nhân khẩu trốn tránh, Chăm Pa quấy phá phía Nam, nhà Minh đe dọa phía Bắc. Hồ Quý Ly đứng trước tình thế 'bị ép buộc phải cải cách' để cứu vãn đất nước trong bối cảnh cực kỳ khó khăn.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l1_2",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l1",
+    "grade": "11",
+    "prompt": "Năm 1396, Hồ Quý Ly thực hiện cải cách kinh tế quan trọng nào?",
+    "options": [
+      "Đặt phép hạn điền",
+      "Ban hành tiền giấy thay tiền đồng",
+      "Cải cách thuế đinh và tô ruộng",
+      "Hạn chế số nô tì của quý tộc"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Năm 1396, Hồ Quý Ly phát hành <strong>tiền giấy (Thông bảo hội sao)</strong> thay thế tiền đồng – cải cách tiền tệ táo bạo nhất thời trung đại VN. Mục đích: thu tiền đồng về để đúc vũ khí (tăng năng lực quốc phòng). Tuy nhiên dân không quen, nhiều nơi không chấp nhận → gây hỗn loạn kinh tế.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l1_3",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l1",
+    "grade": "11",
+    "prompt": "Năm 1397, Hồ Quý Ly đặt ra phép hạn điền nhằm mục đích gì?",
+    "options": [
+      "Phát triển kinh tế điền trang của quý tộc nhà Trần",
+      "Xoá bỏ kinh tế điền trang, nông dân có thêm ruộng đất",
+      "Tăng cường quyền lực trung ương",
+      "Giảm thuế cho quý tộc"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Phép <strong>hạn điền (1397)</strong>: quy định giới hạn ruộng đất mà mỗi gia đình quý tộc được phép sở hữu, phần thừa phải trả cho nhà nước. Mục đích kép: (1) <strong>Xóa bỏ kinh tế điền trang</strong> của quý tộc nhà Trần – tầng lớp cản trở cải cách; (2) <strong>Chia lại ruộng cho nông dân</strong> – giảm bất bình đẳng, tăng lòng dân. Cải cách tiến bộ nhưng chạm vào quyền lợi quý tộc.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l1_4",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l1",
+    "grade": "11",
+    "prompt": "Hồ Quý Ly đổi tên thành Thăng Long thành gì và xây thêm thành nào?",
+    "options": [
+      "Đổi thành Tây Đô, xây thêm thành Thăng Long",
+      "Đổi thành Đông Đô, xây thêm thành Tây Đô (Thanh Hoá)",
+      "Đổi thành Trung Đô, xây thêm thành Nam Đô",
+      "Đổi thành Nam Đô, xây thêm thành Đông Đô"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Hồ Quý Ly đổi Thăng Long thành <strong>Đông Đô</strong> (đông kinh) và xây <strong>Tây Đô</strong> ở Thanh Hóa (Vĩnh Lộc ngày nay) làm kinh đô mới. Lý do: muốn thoát khỏi ảnh hưởng của quý tộc nhà Trần tập trung ở Thăng Long, đồng thời Tây Đô có địa thế hiểm trở hơn để phòng thủ. Thành nhà Hồ (Tây Đô) hiện là Di sản Văn hóa thế giới UNESCO.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l1_5",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l1",
+    "grade": "11",
+    "prompt": "Điểm hạn chế lớn nhất của cải cách Hồ Quý Ly dẫn đến thất bại khi nhà Minh xâm lược?",
+    "options": [
+      "Không phát triển được kinh tế",
+      "Chủ quan, nóng vội, dùng pháp luật cưỡng chế gây mất lòng dân; sai lầm trong xây dựng quân đội và phòng thủ",
+      "Không cải cách quân sự",
+      "Không chú trọng giáo dục"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Hạn chế cơ bản: <strong>(1) Mất lòng dân</strong> – cải cách quá nóng vội, dùng cưỡng chế bằng pháp luật thay vì thuyết phục; tiền giấy gây rối loạn, nhiều người phản đối; (2) <strong>Sai lầm quân sự</strong> – đặt thành lũy quan trọng hơn dân tâm; (3) <strong>Không có căn cứ xã hội vững chắc</strong> – quý tộc oán, dân chưa tin. Khi Minh xâm lược, không ai chiến đấu hết lòng.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l2_6",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l2",
+    "grade": "11",
+    "prompt": "Năm 1403, Hồ Quý Ly cho đặt cơ quan nào để chăm lo sức khoẻ nhân dân?",
+    "options": [
+      "Bộ Y tế",
+      "Thái y viện",
+      "Quảng tế (cơ quan coi việc y tế)",
+      "Bệnh viện quân đội"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "<strong>Quảng tế</strong> (1403) là cơ quan y tế công lập đầu tiên trong lịch sử VN, chịu trách nhiệm chăm sóc sức khỏe nhân dân. Đây là điểm tiến bộ trong cải cách của Hồ Quý Ly – quan tâm đến phúc lợi xã hội, không chỉ kinh tế và quân sự. Tuy nhiên cơ quan này hoạt động ngắn ngủi do nhà Hồ sụp đổ (1407).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l2_7",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l2",
+    "grade": "11",
+    "prompt": "Bối cảnh dẫn đến cải cách của Lê Thánh Tông là gì?",
+    "options": [
+      "Đại Việt vừa thống nhất từ tay nhà Minh",
+      "Giữa TK XV, kinh tế–XH phục hồi nhưng bộ máy chính quyền phân tán, thiếu hiệu quả; cần kiện toàn mô hình quân chủ tập quyền",
+      "Đại Việt đang bị xâm lược",
+      "Kinh tế suy thoái nghiêm trọng"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Sau thắng lợi Lam Sơn (1427), nửa đầu TK XV là thời phục hồi. Đến thời Lê Thánh Tông (1460–1497), kinh tế đã phục hồi nhưng <strong>bộ máy nhà nước còn phân tán, quyền lực tể tướng quá lớn</strong>, các lộ chưa thống nhất. Lê Thánh Tông cần kiện toàn để tập trung quyền lực vào tay vua, xây dựng nhà nước quân chủ quan liêu mạnh.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l2_8",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l2",
+    "grade": "11",
+    "prompt": "Lê Thánh Tông tổ chức bộ máy trung ương gồm những cơ quan nào?",
+    "options": [
+      "4 bộ và Tể tướng",
+      "6 bộ (Lại, Hộ, Lễ, Binh, Hình, Công) + Lục tự + Lục khoa; bãi bỏ chức Tể tướng",
+      "8 bộ và Viện Cơ mật",
+      "5 bộ và Quốc hội"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Lê Thánh Tông cải cách bộ máy: <strong>(1) Bãi bỏ Tể tướng</strong> – tránh quyền thần lấn vua; <strong>(2) 6 Bộ</strong> (Lại-nhân sự, Hộ-tài chính, Lễ-văn hóa, Binh-quân sự, Hình-tư pháp, Công-xây dựng); <strong>(3) Lục tự</strong> (6 cơ quan chuyên môn); <strong>(4) Lục khoa</strong> (6 cơ quan giám sát 6 bộ). Mô hình này được các triều sau học theo.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l2_9",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l2",
+    "grade": "11",
+    "prompt": "Bộ luật Quốc triều hình luật (Luật Hồng Đức) được ban hành năm nào và gồm bao nhiêu điều?",
+    "options": [
+      "Năm 1480, 600 điều",
+      "Năm 1483, 722 điều",
+      "Năm 1490, 800 điều",
+      "Năm 1484, 722 điều"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Luật Hồng Đức (1483)</strong> – bộ luật hoàn chỉnh nhất thời phong kiến VN, gồm <strong>722 điều</strong>. Điểm tiến bộ: bảo vệ quyền phụ nữ (quyền ly hôn, thừa kế), bảo vệ nông dân, quy định rõ tội tham nhũng. Đây là bộ luật tổng hợp vừa hình sự, vừa dân sự, vừa hành chính – vượt trội so với các bộ luật châu Á cùng thời.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l2_10",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l2",
+    "grade": "11",
+    "prompt": "Năm 1484, vua Lê Thánh Tông cho dựng công trình gì tại Văn Miếu – Quốc Tử Giám?",
+    "options": [
+      "Nhà Thái học",
+      "Tháp Văn Chương",
+      "Bia Tiến sĩ",
+      "Điện Kính Thiên"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Năm 1484, Lê Thánh Tông cho dựng <strong>Bia Tiến sĩ</strong> tại Văn Miếu để ghi tên những người thi đỗ Tiến sĩ từ khoa thi 1442. Ý nghĩa: (1) Tôn vinh học vấn, khuyến khích học tập; (2) Minh bạch trong tuyển chọn quan lại qua khoa cử; (3) Hiện nay 82 bia Tiến sĩ tại Văn Miếu – Quốc Tử Giám là Di sản Tư liệu thế giới UNESCO.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l3_11",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l3",
+    "grade": "11",
+    "prompt": "Dưới thời Lê Thánh Tông, cả nước được chia thành bao nhiêu đạo (Thừa tuyên)?",
+    "options": [
+      "9 đạo",
+      "10 đạo",
+      "12 đạo",
+      "15 đạo"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Lê Thánh Tông chia cả nước thành <strong>12 đạo Thừa tuyên</strong> (sau đổi thành 13 xứ), mỗi đạo có Ty Thừa tuyên (hành chính), Ty Đô ty (quân sự), Ty An ty (tư pháp) – tam quyền phân lập ở địa phương. Bên dưới là phủ, huyện, xã. Đây là bước chuẩn hóa hành chính quan trọng, thay thế mô hình lộ, trấn không thống nhất trước đó.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l3_12",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l3",
+    "grade": "11",
+    "prompt": "Kinh thành Thăng Long dưới thời Lê Thánh Tông được gọi là đơn vị hành chính gì?",
+    "options": [
+      "Phủ Thăng Long",
+      "Phủ Trung Đô (sau đổi là phủ Phụng Thiên)",
+      "Phủ Đông Đô",
+      "Kinh đô"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Dưới thời Lê Thánh Tông, Thăng Long được tổ chức thành <strong>Phủ Trung Đô</strong> (sau đổi là Phủ Phụng Thiên), chia thành 2 huyện: Quảng Đức và Vĩnh Xương. Đây là đơn vị hành chính đặc biệt không thuộc đạo nào, do triều đình trực tiếp quản lý – tương tự như thành phố trực thuộc trung ương ngày nay.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l3_13",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l3",
+    "grade": "11",
+    "prompt": "Hệ thống quan lại thời Lê Thánh Tông được tuyển chọn chủ yếu qua hình thức nào?",
+    "options": [
+      "Dòng dõi tôn thất",
+      "Tiến cử của quan lại cấp trên",
+      "Giáo dục – khoa cử",
+      "Đề cử của các địa phương"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Lê Thánh Tông chú trọng <strong>giáo dục và khoa cử</strong> để tuyển chọn quan lại có năng lực thực sự. Ông tổ chức thi cử nghiêm túc (3 năm thi 1 lần), mở rộng đối tượng thi (không phân biệt xuất thân), thiết lập Quốc Tử Giám. Đây là bước quan trọng chống đặc quyền dòng dõi, tìm người tài thực sự phục vụ đất nước.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l3_14",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l3",
+    "grade": "11",
+    "prompt": "Ý nghĩa lớn nhất của cải cách Lê Thánh Tông là gì?",
+    "options": [
+      "Mở đường cho kinh tế thương mại phát triển",
+      "Đưa chính quyền Lê sơ đạt đỉnh cao mô hình quân chủ quan liêu chuyên chế; trở thành khuôn mẫu cho các triều đại VN từ TK XVI đến cuối TK XVIII",
+      "Giải quyết vấn đề nô lệ",
+      "Mở rộng lãnh thổ"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Cải cách Lê Thánh Tông đưa Đại Việt lên <strong>đỉnh cao thịnh trị</strong> của thời phong kiến: bộ máy nhà nước hoàn chỉnh, pháp luật nghiêm minh, khoa cử công bằng, kinh tế phát triển, lãnh thổ mở rộng (chinh phục Chiêm Thành 1471). Mô hình này trở thành <strong>khuôn mẫu</strong> cho nhà Mạc, Lê Trung Hưng, và nhà Nguyễn.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l3_15",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l3",
+    "grade": "11",
+    "prompt": "Bối cảnh dẫn đến cải cách của Minh Mạng là gì?",
+    "options": [
+      "Đất nước vừa thống nhất sau chiến tranh với Pháp",
+      "Dưới thời Gia Long bộ máy còn bộc lộ hạn chế, thiếu thống nhất; mâu thuẫn XH gay gắt, nhiều khởi nghĩa nổ ra",
+      "Kinh tế phát triển rực rỡ",
+      "Quan hệ ngoại giao với Pháp rất tốt"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Sau khi Gia Long thống nhất đất nước (1802), bộ máy còn <strong>nhiều hạn chế</strong>: phân chia Bắc Thành – Gia Định Thành không thống nhất, quan lại lạm quyền, mâu thuẫn xã hội gay gắt (nhiều cuộc khởi nghĩa nổ ra). Minh Mạng (1820–1841) cần cải cách để <strong>tập quyền trung ương</strong> và ổn định đất nước.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l4_16",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l4",
+    "grade": "11",
+    "prompt": "Vua Minh Mạng đổi tên nước Việt Nam thành gì?",
+    "options": [
+      "Đại Nam",
+      "Đại Việt",
+      "An Nam",
+      "Đại Cồ Việt"
+    ],
+    "correctOptionIndex": 0,
+    "explanation": "Năm 1839, Minh Mạng đổi tên nước từ 'Việt Nam' thành <strong>'Đại Nam'</strong> (ý nghĩa: nước Nam vĩ đại). 'Việt Nam' là tên do Gia Long đặt năm 1804 khi được nhà Thanh công nhận. 'Đại Nam' tồn tại đến cuối nhà Nguyễn. Sau 1945, Hồ Chí Minh tuyên bố tên nước là 'Việt Nam Dân chủ Cộng hòa'.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l4_17",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l4",
+    "grade": "11",
+    "prompt": "Cuộc cải cách hành chính của Minh Mạng (1831–1832) chia cả nước thành bao nhiêu tỉnh cộng với phủ Thừa Thiên?",
+    "options": [
+      "25 tỉnh",
+      "28 tỉnh",
+      "30 tỉnh",
+      "32 tỉnh"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Năm 1831–1832, Minh Mạng bãi bỏ Bắc Thành và Gia Định Thành, chia cả nước thành <strong>30 tỉnh</strong> + phủ Thừa Thiên (nơi đặt kinh đô Huế). Mỗi tỉnh có Tổng đốc hoặc Tuần phủ, bên dưới là phủ, huyện, tổng, xã. Đây là hệ thống hành chính tập quyền hoàn chỉnh nhất từ trước đến nay.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l4_18",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l4",
+    "grade": "11",
+    "prompt": "Quốc sử quán được lập dưới thời Minh Mạng vào năm nào, có chức năng gì?",
+    "options": [
+      "1810, quản lý giáo dục",
+      "1820, thu thập và biên soạn sách sử",
+      "1822, tổ chức các kỳ thi",
+      "1836, đo đạc ruộng đất"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Quốc sử quán (1820)</strong> là cơ quan chuyên trách thu thập tư liệu, biên soạn lịch sử quốc gia. Dưới thời Minh Mạng và các vua Nguyễn sau, Quốc sử quán đã biên soạn nhiều bộ sử quan trọng: Đại Nam thực lục (1844–1882), Đại Nam nhất thống chí, Khâm định Việt sử thông giám cương mục – là nguồn tư liệu sử học quý giá đến nay.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l4_19",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l4",
+    "grade": "11",
+    "prompt": "Điểm ý nghĩa nổi bật nhất của cải cách Minh Mạng là gì?",
+    "options": [
+      "Phát triển nền kinh tế thị trường",
+      "Tăng cường tính thống nhất của quốc gia và củng cố bộ máy chuyên chế tập quyền",
+      "Cải thiện quan hệ ngoại giao với phương Tây",
+      "Phát triển chữ Nôm và văn hoá dân tộc"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Ý nghĩa cốt lõi: cải cách Minh Mạng <strong>tăng cường thống nhất quốc gia</strong> (xóa chia cắt Bắc-Nam thời Gia Long) và <strong>củng cố bộ máy tập quyền trung ương</strong>. Cả nước dưới sự kiểm soát trực tiếp của triều đình Huế, thống nhất về hành chính, luật pháp, tiền tệ, đo lường. Tuy nhiên cũng có hạn chế: đóng cửa, bảo thủ, không tiếp thu KH-KT phương Tây.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u5-l4_20",
+    "tenantId": "ha-tenant",
+    "unitId": "u5",
+    "lessonId": "u5-l4",
+    "grade": "11",
+    "prompt": "Năm 1836, vua Minh Mạng thực hiện biện pháp gì ở Nam Bộ?",
+    "options": [
+      "Chia Nam Bộ thành các tỉnh mới",
+      "Đo đạc lại ruộng đất, lập sổ địa bạ, khôi phục chế độ ruộng đất công",
+      "Mở rộng hệ thống trường học",
+      "Xây dựng hệ thống phòng thủ ven biển"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Năm 1836, Minh Mạng tiến hành <strong>đo đạc ruộng đất toàn Nam Bộ</strong>, lập sổ địa bạ (sổ địa chính), quy định lại chế độ ruộng đất công. Mục đích: nắm chắc nguồn thu thuế, kiểm soát đất đai, hạn chế cường hào chiếm đoạt ruộng công. Nam Bộ là vùng đất mới khai phá, trước đó quản lý còn lỏng lẻo.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l1_1",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l1",
+    "grade": "11",
+    "prompt": "Biển Đông có diện tích khoảng bao nhiêu km²?",
+    "options": [
+      "1,5 triệu km²",
+      "2,5 triệu km²",
+      "3,5 triệu km²",
+      "4,5 triệu km²"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Biển Đông có diện tích khoảng <strong>3,5 triệu km²</strong>, là biển lớn thứ 3 thế giới (sau Biển Ả Rập và Biển San Hô). Tọa độ: 3°N–26°B; 100°Đ–121°Đ. Đây là vùng biển chiến lược với tài nguyên phong phú và tuyến hàng hải quan trọng, là đối tượng tranh chấp chủ quyền phức tạp nhất thế giới hiện nay.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l1_2",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l1",
+    "grade": "11",
+    "prompt": "Tuyến đường vận tải quốc tế qua Biển Đông được xếp hạng thứ mấy về mức độ nhộn nhịp trên thế giới?",
+    "options": [
+      "Thứ nhất",
+      "Thứ hai (sau Địa Trung Hải)",
+      "Thứ ba",
+      "Thứ tư"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Biển Đông là tuyến hàng hải quốc tế nhộn nhịp <strong>thứ 2 thế giới</strong> (sau Địa Trung Hải). Mỗi ngày có khoảng 250–400 tàu thuyền qua lại, chiếm 1/3 lượng hàng hóa thương mại toàn cầu. Đặc biệt quan trọng với Nhật Bản, Hàn Quốc, TQ – các nước phụ thuộc vào dầu mỏ Trung Đông qua eo Malacca và Biển Đông.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l1_3",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l1",
+    "grade": "11",
+    "prompt": "Biển Đông là 'cầu nối' giữa hai đại dương nào?",
+    "options": [
+      "Đại Tây Dương và Thái Bình Dương",
+      "Ấn Độ Dương và Thái Bình Dương",
+      "Ấn Độ Dương và Đại Tây Dương",
+      "Thái Bình Dương và Nam Băng Dương"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Biển Đông là cầu nối quan trọng giữa <strong>Ấn Độ Dương và Thái Bình Dương</strong> qua eo biển Malacca. Đây là 'huyết mạch' của kinh tế toàn cầu: tàu chở dầu từ Trung Đông (Ấn Độ Dương) phải qua eo Malacca → Biển Đông → Thái Bình Dương để đến Nhật, Hàn, TQ, Mỹ. Kiểm soát Biển Đông = kiểm soát tuyến hàng hải chiến lược.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l1_4",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l1",
+    "grade": "11",
+    "prompt": "Quần đảo Hoàng Sa gồm bao nhiêu đảo, đá, bãi cạn và có diện tích bao nhiêu?",
+    "options": [
+      "27 đảo/đá/bãi, ~20.000 km²",
+      "37 đảo/đá/bãi, ~30.000 km²",
+      "47 đảo/đá/bãi, ~40.000 km²",
+      "57 đảo/đá/bãi, ~50.000 km²"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Quần đảo Hoàng Sa gồm <strong>37 đảo, đá, bãi cạn</strong>, diện tích khoảng <strong>30.000 km²</strong> (tính cả vùng biển). Chia thành 2 nhóm: Lưỡi Liềm (Crescent) và Amphitrite. Hoàng Sa ở tọa độ 15°45'B–17°15'B; 111°Đ–113°Đ. Trung Quốc dùng vũ lực chiếm toàn bộ Hoàng Sa năm 1974, VN không công nhận việc chiếm đóng này.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l1_5",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l1",
+    "grade": "11",
+    "prompt": "Quần đảo Hoàng Sa cách thành phố Đà Nẵng khoảng bao nhiêu hải lý?",
+    "options": [
+      "120 hải lý",
+      "150 hải lý",
+      "170 hải lý",
+      "200 hải lý"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Hoàng Sa cách Đà Nẵng khoảng <strong>170 hải lý</strong> (~315 km) và cách đảo Lý Sơn (Quảng Ngãi) khoảng 120 hải lý. Khoảng cách này cho thấy Hoàng Sa gần bờ biển VN hơn bờ biển TQ (cách đảo Hải Nam của TQ khoảng 220 hải lý). Đây là một trong các cơ sở địa lý khẳng định chủ quyền của VN.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l2_6",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l2",
+    "grade": "11",
+    "prompt": "Quần đảo Trường Sa cách vịnh Cam Ranh khoảng bao nhiêu hải lý và chia làm mấy cụm đảo?",
+    "options": [
+      "200 hải lý, 6 cụm",
+      "248 hải lý, 8 cụm",
+      "300 hải lý, 10 cụm",
+      "150 hải lý, 5 cụm"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Trường Sa cách Cam Ranh (Khánh Hòa) khoảng <strong>248 hải lý</strong> và gồm <strong>8 cụm đảo</strong> với hơn 100 đảo, đá, bãi. Tọa độ: 6°30'B–12°B; 111°30'Đ–117°20'Đ. Hiện nhiều nước tranh chấp Trường Sa (VN, TQ, Philippines, Malaysia, Đài Loan, Brunei). VN đang thực thi chủ quyền tại khoảng 21 thực thể ở Trường Sa.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l2_7",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l2",
+    "grade": "11",
+    "prompt": "Biển Đông được bao bọc bởi bao nhiêu quốc gia và vùng lãnh thổ?",
+    "options": [
+      "7 quốc gia",
+      "9 quốc gia và 1 vùng lãnh thổ (Đài Loan)",
+      "10 quốc gia",
+      "11 quốc gia"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Biển Đông được bao bọc bởi <strong>9 quốc gia và 1 vùng lãnh thổ (Đài Loan)</strong>: Việt Nam, Trung Quốc, Philippines, Indonesia, Brunei, Malaysia, Singapore, Thái Lan, Campuchia + Đài Loan. Đây là vùng biển bán kín (semi-enclosed sea) có mật độ dân số ven biển cao và lợi ích kinh tế chồng chéo phức tạp.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l2_8",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l2",
+    "grade": "11",
+    "prompt": "Sản lượng đánh bắt hải sản ở Biển Đông khoảng bao nhiêu tấn/năm, chiếm bao nhiêu % tổng sản lượng thế giới?",
+    "options": [
+      "3 triệu tấn, 5%",
+      "6 triệu tấn, 10%",
+      "10 triệu tấn, 15%",
+      "2 triệu tấn, 3%"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Biển Đông có khoảng <strong>11.000 loài sinh vật biển</strong>, sản lượng hải sản ~<strong>6 triệu tấn/năm</strong>, chiếm khoảng <strong>10% tổng sản lượng thế giới</strong>. Cá xếp thứ 4/19 vùng biển thế giới. Đây là nguồn sống của hàng triệu ngư dân các nước ven Biển Đông, đặc biệt quan trọng với an ninh lương thực của VN và các nước ĐNA.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l2_9",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l2",
+    "grade": "11",
+    "prompt": "Việt Nam tuyên bố về lãnh hải, vùng đặc quyền kinh tế và thềm lục địa vào năm nào?",
+    "options": [
+      "1975",
+      "1977",
+      "1982",
+      "1984"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "<strong>Năm 1977</strong> – VN ra Tuyên bố về lãnh hải (12 hải lý), vùng tiếp giáp lãnh hải (12 hải lý tiếp theo), vùng đặc quyền kinh tế (200 hải lý) và thềm lục địa. Đây là bước đầu tiên VN chính thức xác lập cơ sở pháp lý cho các vùng biển của mình sau khi thống nhất đất nước (1975).",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l2_10",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l2",
+    "grade": "11",
+    "prompt": "Luật Biển Việt Nam được Quốc hội thông qua vào ngày, tháng, năm nào?",
+    "options": [
+      "21/6/2011",
+      "21/6/2012",
+      "21/6/2013",
+      "1/1/2013"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Luật Biển Việt Nam được <strong>Quốc hội thông qua ngày 21/6/2012</strong>, có hiệu lực từ 1/1/2013. Gồm 7 chương, 55 điều. Đây là văn bản luật đầu tiên của VN quy định đầy đủ chế độ pháp lý các vùng biển theo UNCLOS 1982, tạo cơ sở pháp lý toàn diện cho quản lý và bảo vệ biển đảo.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l3_11",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l3",
+    "grade": "11",
+    "prompt": "Luật Biển Việt Nam 2012 có hiệu lực từ ngày nào và gồm bao nhiêu chương, bao nhiêu điều?",
+    "options": [
+      "1/7/2012, 5 chương, 45 điều",
+      "1/1/2013, 7 chương, 55 điều",
+      "1/1/2013, 6 chương, 50 điều",
+      "21/6/2012, 8 chương, 60 điều"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Luật Biển VN 2012: Quốc hội thông qua 21/6/2012, <strong>hiệu lực từ 1/1/2013</strong>, gồm <strong>7 chương, 55 điều</strong>. Các chương bao gồm: đường cơ sở, nội thủy, lãnh hải, tiếp giáp lãnh hải, đặc quyền kinh tế, thềm lục địa, đảo, hoạt động trên biển, tuần tra kiểm soát. Đây là luật quan trọng bảo vệ chủ quyền biển đảo VN.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l3_12",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l3",
+    "grade": "11",
+    "prompt": "DOC (Tuyên bố về ứng xử của các bên ở Biển Đông) được ký kết ở đâu và vào ngày nào?",
+    "options": [
+      "Hà Nội, 10/12/2002",
+      "Phnôm Pênh, 4/11/2002",
+      "Bắc Kinh, 4/11/2002",
+      "Băng Cốc, 15/11/2002"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "DOC (Declaration on the Conduct of Parties in the South China Sea) ký ngày <strong>4/11/2002 tại Phnôm Pênh</strong> (Campuchia, trong dịp Hội nghị Thượng đỉnh ASEAN) giữa 10 nước ASEAN và Trung Quốc. Cam kết: giải quyết tranh chấp hòa bình, không dùng vũ lực, không làm phức tạp thêm tình hình. Tuy nhiên DOC không có giá trị pháp lý ràng buộc.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l3_13",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l3",
+    "grade": "11",
+    "prompt": "Công ước Luật biển 1982 (UNCLOS) của Liên Hợp Quốc gồm bao nhiêu điều khoản và phụ lục?",
+    "options": [
+      "200 điều, 7 phụ lục",
+      "280 điều, 8 phụ lục",
+      "320 điều, 9 phụ lục",
+      "350 điều, 10 phụ lục"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "UNCLOS 1982 (United Nations Convention on the Law of the Sea – Công ước LHQ về Luật biển) gồm <strong>320 điều khoản và 9 Phụ lục</strong>. Được ký năm 1982, có hiệu lực 1994. Quy định 5 vùng biển: nội thủy, lãnh hải (12 hải lý), tiếp giáp lãnh hải (24 hải lý), đặc quyền kinh tế (200 hải lý), thềm lục địa (tối đa 350 hải lý). Đây là 'Hiến pháp của đại dương'.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l3_14",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l3",
+    "grade": "11",
+    "prompt": "Thời các chúa Nguyễn, đội Hoàng Sa và Bắc Hải thực hiện những nhiệm vụ gì?",
+    "options": [
+      "Chỉ đánh cá",
+      "Chỉ tuần tra quân sự",
+      "Đo đạc, dựng miếu, trồng cây, khai thác sản vật – thực thi chủ quyền",
+      "Chỉ vận chuyển hàng hóa"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Từ TK XVII, các chúa Nguyễn lập <strong>Đội Hoàng Sa</strong> (và Đội Bắc Hải phụ trách Trường Sa), thực hiện nhiều nhiệm vụ: <strong>đo đạc hải trình</strong>, <strong>dựng miếu thờ</strong>, <strong>trồng cây</strong> (đánh dấu chủ quyền), <strong>khai thác sản vật</strong> (hải sản, san hô, vật từ tàu đắm), <strong>thu thuế</strong>. Đây là bằng chứng rõ ràng VN đã thực thi chủ quyền liên tục tại Hoàng Sa, Trường Sa.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l3_15",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l3",
+    "grade": "11",
+    "prompt": "Đường cơ sở thẳng ven bờ lục địa Việt Nam (1982) gồm bao nhiêu đoạn nối bao nhiêu điểm?",
+    "options": [
+      "8 đoạn nối 9 điểm",
+      "9 đoạn nối 10 điểm",
+      "10 đoạn nối 11 điểm",
+      "12 đoạn nối 13 điểm"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "Tuyên bố đường cơ sở thẳng ven bờ lục địa VN (tháng 11/1982) gồm <strong>10 đoạn nối 11 điểm</strong>, từ điểm A1 (Hòn Nhạn, Kiên Giang) đến điểm A11 (đảo Cồn Cỏ, Quảng Trị). Đường cơ sở là xuất phát điểm để đo lường các vùng biển. Tuyên bố riêng về đường cơ sở của Hoàng Sa và Trường Sa sẽ được ban hành sau.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l4_16",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l4",
+    "grade": "11",
+    "prompt": "Chiến lược phát triển bền vững kinh tế biển của Việt Nam được ban hành năm nào, tầm nhìn đến năm nào?",
+    "options": [
+      "2015, đến 2035",
+      "2018, đến 2045",
+      "2020, đến 2050",
+      "2019, đến 2040"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Năm <strong>2018</strong>, Nghị quyết 36-NQ/TW của BCHTW Đảng ban hành <strong>Chiến lược phát triển bền vững kinh tế biển đến năm 2030, tầm nhìn đến năm 2045</strong>. Mục tiêu: đến 2030 VN trở thành quốc gia mạnh về biển; GDP từ kinh tế biển chiếm 10% GDP cả nước; kinh tế biển trở thành động lực phát triển quốc gia.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l4_17",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l4",
+    "grade": "11",
+    "prompt": "UNCLOS 1982 quy định các quốc gia ven biển có bao nhiêu vùng biển?",
+    "options": [
+      "3 vùng",
+      "4 vùng",
+      "5 vùng (nội thuỷ, lãnh hải, tiếp giáp lãnh hải, đặc quyền kinh tế, thềm lục địa)",
+      "6 vùng"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "UNCLOS 1982 quy định <strong>5 vùng biển</strong>: (1) <strong>Nội thủy</strong> – trong đường cơ sở, chủ quyền tuyệt đối; (2) <strong>Lãnh hải</strong> – 12 hải lý, chủ quyền đầy đủ; (3) <strong>Tiếp giáp lãnh hải</strong> – 12 hải lý tiếp theo, quyền kiểm soát; (4) <strong>Đặc quyền kinh tế</strong> – 200 hải lý, quyền kinh tế độc quyền; (5) <strong>Thềm lục địa</strong> – đáy biển tự nhiên, tối đa 350 hải lý.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l4_18",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l4",
+    "grade": "11",
+    "prompt": "Việt Nam là một trong bao nhiêu nước đầu tiên ký UNCLOS 1982?",
+    "options": [
+      "50 nước",
+      "87 nước",
+      "107 nước",
+      "130 nước"
+    ],
+    "correctOptionIndex": 2,
+    "explanation": "VN là một trong <strong>107 quốc gia đầu tiên</strong> ký UNCLOS 1982 (tại Montego Bay, Jamaica, ngày 10/12/1982). Việc ký sớm thể hiện VN tích cực tham gia vào khuôn khổ pháp lý quốc tế, và là cơ sở pháp lý để VN bảo vệ quyền lợi biển đảo của mình theo luật quốc tế.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l4_19",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l4",
+    "grade": "11",
+    "prompt": "Tầm quan trọng chiến lược quân sự của quần đảo Hoàng Sa và Trường Sa là gì?",
+    "options": [
+      "Chỉ có giá trị kinh tế về hải sản",
+      "Có vị trí chiến lược kiểm soát tuyến hàng hải qua Biển Đông; thế phòng thủ liên hoàn qua sự liên kết giữa các đảo, cụm đảo",
+      "Chỉ có giá trị về dầu khí",
+      "Không có giá trị quân sự"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Hoàng Sa và Trường Sa có giá trị quân sự chiến lược: <strong>(1) Kiểm soát tuyến hàng hải</strong> qua Biển Đông – ai kiểm soát các đảo này có thể kiểm soát tuyến đường huyết mạch; <strong>(2) Đặt căn cứ quân sự</strong> – radar, tàu chiến, máy bay; <strong>(3) Thế phòng thủ tiền tiêu</strong> cho đất liền VN. TQ đang xây các đảo nhân tạo ở Trường Sa với mục đích quân sự rõ ràng.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  },
+  {
+    "id": "q_u6-l4_20",
+    "tenantId": "ha-tenant",
+    "unitId": "u6",
+    "lessonId": "u6-l4",
+    "grade": "11",
+    "prompt": "Ý nghĩa của việc ban hành Luật Biển Việt Nam 2012 là gì?",
+    "options": [
+      "Chỉ để đối phó với Trung Quốc",
+      "Là hoạt động lập pháp hoàn thiện khuôn khổ pháp lý về biển, đảo; lần đầu VN có văn bản luật quy định đầy đủ chế độ pháp lý các vùng biển theo UNCLOS; tạo cơ sở pháp lý quản lý, bảo vệ và phát triển kinh tế biển, đảo",
+      "Chỉ để tham gia các tổ chức quốc tế",
+      "Thay thế cho UNCLOS"
+    ],
+    "correctOptionIndex": 1,
+    "explanation": "Luật Biển VN 2012 có ý nghĩa toàn diện: <strong>(1) Lần đầu tiên</strong> VN có luật hoàn chỉnh về biển theo chuẩn quốc tế (UNCLOS); <strong>(2) Cơ sở pháp lý trong nước</strong> để quản lý, khai thác, bảo vệ biển đảo; <strong>(3) Khẳng định chủ quyền</strong> theo quy định quốc tế; <strong>(4) Bảo vệ ngư dân</strong> và các hoạt động kinh tế biển; <strong>(5) Tăng cường vị thế pháp lý</strong> trong các tranh chấp quốc tế.",
+    "difficulty": "medium",
+    "tags": [],
+    "scopes": [
+      "lesson",
+      "arena"
+    ],
+    "status": "published"
+  }
+];
+
+export const STORY_CONTENT: any[] = [];

@@ -6,8 +6,7 @@ import { useApp } from "../store";
 import { useIsPremium } from "../hooks/useIsPremium";
 import PremiumModal from "../components/PremiumModal";
 import { useAppSound } from "../hooks/useAppSound";
-import { initChatSession } from "../../services/geminiService";
-import { ChatSession } from "@google/generative-ai";
+import { streamAIMessage } from "../../services/geminiService";
 
 type Message = {
   id: string;
@@ -17,13 +16,21 @@ type Message = {
 };
 
 const AI_SUGGESTIONS = [
-  "Tại sao Ngô Quyền lại thắng trận Bạch Đằng?",
-  "Kể tôi nghe về Hai Bà Trưng",
-  "Lý Thường Kiệt là ai?",
   "Vì sao nhà Trần thắng quân Mông Cổ?",
+  "Trận Bạch Đằng năm 1288 diễn ra thế nào?",
+  "Hịch tướng sĩ có ý nghĩa gì?",
+  "Ông có mấy người con?",
 ];
 
 const FREE_MESSAGE_LIMIT = 10;
+const AI_CHARACTER_NAME = "Trần Hưng Đạo";
+const AI_CHARACTER_ICON = "⚔️";
+const OTHER_CHARACTER_KEYWORDS = ["ngô quyền", "hai bà trưng", "lý thường kiệt", "quang trung", "nguyễn huệ"];
+
+function isAskingAnotherCharacter(text: string): boolean {
+  const normalized = text.toLocaleLowerCase("vi-VN");
+  return OTHER_CHARACTER_KEYWORDS.some((keyword) => normalized.includes(keyword));
+}
 
 // Demo AI responses removed as we are using Gemini API
 
@@ -37,7 +44,7 @@ export default function AIChatScreen() {
     {
       id: "welcome",
       role: "ai",
-      content: `Chào ${user.name || "Chiến Binh"}! 👋 Tôi là **Sử Thần AI** — trợ lý học lịch sử thông minh của bạn.\n\nHỏi tôi bất cứ điều gì về lịch sử Việt Nam! ${isPremium ? "Bạn có thể chat không giới hạn với Pro 👑" : `Bạn còn ${FREE_MESSAGE_LIMIT} câu hỏi miễn phí hôm nay.`}`,
+      content: `Chào ${user.name || "Chiến Binh"}! 👋 Ta là **${AI_CHARACTER_NAME}** — Quốc công Tiết chế, sẵn sàng cùng con học lịch sử nhà Trần.\n\nHỏi ta về cuộc kháng chiến chống Mông - Nguyên, Bạch Đằng, Hịch tướng sĩ và những điều liên quan. ${isPremium ? "Bạn có thể chat không giới hạn với Pro 👑" : `Bạn còn ${FREE_MESSAGE_LIMIT} câu hỏi miễn phí hôm nay.`}`,
       timestamp: new Date(),
     },
   ]);
@@ -45,16 +52,12 @@ export default function AIChatScreen() {
   const [isTyping, setIsTyping] = useState(false);
   const [msgCount, setMsgCount] = useState(0);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
-  const [chatSession, setChatSession] = useState<ChatSession | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const remainingMsgs = FREE_MESSAGE_LIMIT - msgCount;
   const isLimitReached = !isPremium && msgCount >= FREE_MESSAGE_LIMIT;
 
-  useEffect(() => {
-    setChatSession(initChatSession());
-  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -80,40 +83,46 @@ export default function AIChatScreen() {
     setInput("");
     setMsgCount((c) => c + 1);
 
-    if (!chatSession) {
-      // Fallback khi thiếu API Key
-      setIsTyping(true);
-      setTimeout(() => {
-        setIsTyping(false);
-        setMessages((m) => [...m, { 
-          id: (Date.now() + 1).toString(), 
-          role: "ai", 
-          content: "⚠️ **Cảnh báo Hệ Thống:** Không tìm thấy Gemini API Key trong môi trường (VITE_GEMINI_API_KEY).\n\nHãy tạo API key miễn phí tại Google AI Studio và lưu vào file `.env.local` ở thư mục gốc của dự án để Sử Thần có thể trò chuyện với bạn.", 
-          timestamp: new Date() 
-        }]);
-      }, 1000);
+    if (isAskingAnotherCharacter(text)) {
+      setMessages((m) => [...m, {
+        id: (Date.now() + 1).toString(),
+        role: "ai",
+        content: `Phòng chat này đang nhập vai **${AI_CHARACTER_NAME}**, nên ta không nên xưng "ta" để kể chuyện của nhân vật khác. Nếu con muốn hỏi Ngô Quyền, hãy mở phòng nhân vật Ngô Quyền hoặc chọn chế độ Sử Thần tổng quát.`,
+        timestamp: new Date(),
+      }]);
       return;
     }
+
 
     setIsTyping(true); // Hiệu ứng lúc chờ data chunk đầu tiên
     const aiId = (Date.now() + 1).toString();
     setMessages((m) => [...m, { id: aiId, role: "ai", content: "", timestamp: new Date() }]);
 
     try {
-      const result = await chatSession.sendMessageStream(text);
       let isFirstChunk = true;
       
-      for await (const chunk of result.stream) {
-        if (isFirstChunk) {
-          setIsTyping(false);
-          isFirstChunk = false;
-        }
-        const chunkText = chunk.text();
-        setMessages((m) => m.map(msg => msg.id === aiId ? { ...msg, content: msg.content + chunkText } : msg));
-      }
-    } catch (e) {
+      const history = messages
+        .filter((msg) => msg.id !== "welcome")
+        .map((msg) => ({
+          role: msg.role === "ai" ? "assistant" as const : "user" as const,
+          content: msg.content,
+        }));
+
+      await streamAIMessage(text, history, {
+        onToken: (chunkText) => {
+          if (isFirstChunk) {
+            setIsTyping(false);
+            isFirstChunk = false;
+          }
+          setMessages((m) => m.map(msg => msg.id === aiId ? { ...msg, content: msg.content + chunkText } : msg));
+        },
+      });
+
       setIsTyping(false);
-      setMessages((m) => m.map(msg => msg.id === aiId ? { ...msg, content: "Sử thần đang bận thiền định, xin quay lại sau! (Lỗi kết nối API)" } : msg));
+    } catch (e) {
+      console.error("AI chat request failed", e);
+      setIsTyping(false);
+      setMessages((m) => m.map(msg => msg.id === aiId ? { ...msg, content: "Trần Hưng Đạo tạm chưa thể hồi đáp. Hãy kiểm tra kết nối RAG/Gemini rồi thử lại." } : msg));
     }
   };
 
@@ -148,7 +157,7 @@ export default function AIChatScreen() {
           className="w-10 h-10 rounded-2xl flex items-center justify-center relative"
           style={{ background: "linear-gradient(135deg, #1c0800, #2d1400)", border: "1.5px solid rgba(240,180,41,0.4)" }}
         >
-          <span style={{ fontSize: 20 }}>🤖</span>
+          <span style={{ fontSize: 20 }}>{AI_CHARACTER_ICON}</span>
           <motion.div
             animate={{ scale: [1, 1.3, 1], opacity: [1, 0.6, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
@@ -159,7 +168,7 @@ export default function AIChatScreen() {
 
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <p style={{ color: "#1c1209", fontSize: 14, fontWeight: 700, fontFamily: '"Nunito", sans-serif' }}>Sử Thần AI</p>
+            <p style={{ color: "#1c1209", fontSize: 14, fontWeight: 700, fontFamily: '"Nunito", sans-serif' }}>{AI_CHARACTER_NAME}</p>
             {isPremium && (
               <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-md" style={{ background: "linear-gradient(135deg, #d97706, #f0b429)", fontSize: 8, color: "#1c0800", fontWeight: 800 }}>
                 <Crown style={{ width: 8, height: 8 }} />
@@ -258,7 +267,7 @@ export default function AIChatScreen() {
                   : "1.5px solid rgba(240,180,41,0.4)",
               }}
             >
-              {msg.role === "ai" ? "🤖" : user.avatar || "🦊"}
+              {msg.role === "ai" ? AI_CHARACTER_ICON : user.avatar || "🦊"}
             </div>
 
             {/* Bubble */}
@@ -297,7 +306,7 @@ export default function AIChatScreen() {
               className="flex gap-3 items-end"
             >
               <div className="w-8 h-8 rounded-xl flex items-center justify-center text-sm" style={{ background: "linear-gradient(135deg, #1c0800, #2d1400)", border: "1.5px solid rgba(240,180,41,0.35)" }}>
-                🤖
+                {AI_CHARACTER_ICON}
               </div>
               <div className="px-4 py-3 rounded-2xl rounded-bl-sm flex gap-1.5 items-center" style={{ background: "rgba(255,253,242,0.98)", border: "1px solid rgba(240,180,41,0.2)" }}>
                 {[0, 1, 2].map((i) => (

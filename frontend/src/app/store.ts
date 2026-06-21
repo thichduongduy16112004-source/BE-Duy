@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { CONTENT_UNITS } from "./content/mockContent";
 
 export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
 
@@ -18,6 +19,32 @@ export const MASCOTS = [
   { id: 'ngoc', name: 'Ngọc', desc: 'Tiên Nữ', img: ngocImg, color: '#db2777', bg: 'linear-gradient(135deg, #fff0f6, #fce7f3)' },
 ];
 
+export const HEART_POLICY = {
+  version: 3,
+  maxHearts: 5,
+  losePerWrong: 1,
+  refillMinutesPerHeart: 5,
+  freeDailyRecoveryAmount: 5,
+} as const;
+
+export type Rank = "iron" | "bronze" | "silver" | "gold";
+
+export type ActivityItem = {
+  lessonId?: string | null;
+  mode?: string;
+  correctAnswers: number;
+  totalQuestions: number;
+  completed: boolean;
+  createdAt?: string | null;
+};
+
+export type ActivitySummary = {
+  totalAttempts: number;
+  totalCompletedLessons: number;
+  latestActivityAt?: string | null;
+  recentItems: ActivityItem[];
+};
+
 export type User = {
   username: string;
   email: string;
@@ -34,11 +61,22 @@ export type User = {
   hearts: number;
   completedLessons: string[];
   achievements: string[];
+  rank: Rank;
+  rankLabel: string;
+  created_at?: string;
+  joinedAt?: string;
+  lastStreakDate?: string | null;
+  activitySummary?: ActivitySummary | null;
   isPremium: boolean;
   planType: "free" | "premium" | "trial";
   trialEndDate: string | null;
+  premiumEndDate: string | null;
   isNewUser: boolean;
   lastHeartUpdate: number;
+  hasUsedFreeHeartRecovery: boolean;
+  lastFreeHeartRecoveryDate?: string;
+  hasDepletedHeartsToday?: boolean;
+  energyPolicyVersion?: number;
 };
 
 export const defaultUser: User = {
@@ -52,23 +90,36 @@ export const defaultUser: User = {
   grade: "",
   studyMinutes: 15,
   xp: 0,
-  streak: 1,
+  streak: 0,
   gems: 50,
-  hearts: 5,
+  hearts: HEART_POLICY.maxHearts,
   completedLessons: [],
   achievements: [],
+  rank: "iron",
+  rankLabel: "Hạng Sắt",
+  created_at: undefined,
+  joinedAt: undefined,
+  lastStreakDate: null,
+  activitySummary: null,
   isPremium: false,
   planType: "free",
   trialEndDate: null,
+  premiumEndDate: null,
   isNewUser: false,
   lastHeartUpdate: Date.now(),
+  hasUsedFreeHeartRecovery: false,
+  lastFreeHeartRecoveryDate: undefined,
+  hasDepletedHeartsToday: false,
+  energyPolicyVersion: HEART_POLICY.version,
 };
 
 export type AppCtx = {
   user: User;
-  setUser: (u: User) => void;
+  setUser: (u: User | ((prev: User) => User)) => void;
   updateProfile: (data: Partial<User>) => void;
-  completeLesson: (id: string, xp: number) => void;
+  completeLesson: (id: string, xp: number, attempt?: { correctAnswers: number; totalQuestions: number; maxStreak?: number; mode?: string }) => void;
+  loseHeart: () => void;
+  recoverDailyHearts: () => void;
   upgradeToPremium: () => void;
   startTrial: () => void;
   isSoundEnabled: boolean;
@@ -81,6 +132,8 @@ export const AppContext = createContext<AppCtx>({
   setUser: () => {},
   updateProfile: () => {},
   completeLesson: () => {},
+  loseHeart: () => {},
+  recoverDailyHearts: () => {},
   upgradeToPremium: () => {},
   startTrial: () => {},
   isSoundEnabled: true,
@@ -90,83 +143,7 @@ export const AppContext = createContext<AppCtx>({
 
 export const useApp = () => useContext(AppContext);
 
-export const UNITS = [
-  {
-    id: "u1",
-    title: "Văn Lang · Âu Lạc",
-    era: "2879 TCN — 179 TCN",
-    color: "from-amber-700 to-orange-800",
-    accent: "#d97706",
-    accentGlow: "#f59e0b",
-    artEmoji: "🏯",
-    bgFrom: "#2d1400",
-    bgTo: "#1a0c00",
-    description: "Thời kỳ dựng nước đầu tiên của dân tộc Việt Nam",
-    lessons: [
-      { id: "u1-l1", title: "Vua Hùng dựng nước", xp: 15, type: "lesson" },
-      { id: "u1-l2", title: "Sơn Tinh · Thủy Tinh", xp: 15, type: "story" },
-      { id: "u1-l2b", title: "Sự tích Bánh Chưng", xp: 15, type: "lesson" },
-      { id: "u1-l3", title: "Thánh Gióng", xp: 20, type: "lesson" },
-      { id: "u1-l4a", title: "Sự tích Trầu Cau", xp: 20, type: "story" },
-      { id: "u1-l4", title: "An Dương Vương", xp: 25, type: "lesson" },
-      { id: "u1-l5", title: "Mỵ Châu · Trọng Thủy", xp: 30, type: "boss" },
-    ],
-  },
-  {
-    id: "u2",
-    title: "Ngàn Năm Bắc Thuộc",
-    era: "179 TCN — 938",
-    color: "from-red-900 to-rose-950",
-    accent: "#9b1c1c",
-    accentGlow: "#ef4444",
-    artEmoji: "⚔️",
-    bgFrom: "#2d0808",
-    bgTo: "#1a0404",
-    description: "Một nghìn năm kháng cự và những cuộc khởi nghĩa anh hùng",
-    lessons: [
-      { id: "u2-l1", title: "Hai Bà Trưng", xp: 20, type: "lesson" },
-      { id: "u2-l2", title: "Bà Triệu", xp: 20, type: "lesson" },
-      { id: "u2-l3", title: "Lý Bí · Vạn Xuân", xp: 25, type: "lesson" },
-      { id: "u2-l4", title: "Mai Thúc Loan & Phùng Hưng", xp: 25, type: "story" },
-      { id: "u2-l5", title: "Ngô Quyền · Bạch Đằng 938", xp: 40, type: "boss" },
-    ],
-  },
-  {
-    id: "u3",
-    title: "Lý · Trần · Hồ",
-    era: "1009 — 1407",
-    color: "from-emerald-900 to-teal-950",
-    accent: "#065f46",
-    accentGlow: "#10b981",
-    artEmoji: "🛡️",
-    bgFrom: "#0d2d1a",
-    bgTo: "#041a0d",
-    description: "Thời kỳ độc lập tự chủ và những chiến công lừng lẫy",
-    lessons: [
-      { id: "u3-l1", title: "Lý Thái Tổ dời đô", xp: 25, type: "lesson" },
-      { id: "u3-l2", title: "Lý Thường Kiệt phá Tống", xp: 30, type: "lesson" },
-      { id: "u3-l3", title: "Trần Hưng Đạo & Bạch Đằng 1288", xp: 35, type: "story" },
-      { id: "u3-l4", title: "Ba lần kháng chiến Mông Nguyên", xp: 40, type: "boss" },
-    ],
-  },
-  {
-    id: "u4",
-    title: "Lam Sơn · Hậu Lê",
-    era: "1418 — 1789",
-    color: "from-indigo-900 to-blue-950",
-    accent: "#1e3a8a",
-    accentGlow: "#3b82f6",
-    artEmoji: "📜",
-    bgFrom: "#0d1040",
-    bgTo: "#04081a",
-    description: "Khởi nghĩa Lam Sơn và đỉnh cao triều đại Lê",
-    lessons: [
-      { id: "u4-l1", title: "Lê Lợi khởi nghĩa", xp: 30, type: "lesson" },
-      { id: "u4-l2", title: "Nguyễn Trãi · Bình Ngô đại cáo", xp: 35, type: "lesson" },
-      { id: "u4-l3", title: "Quang Trung đại phá quân Thanh", xp: 45, type: "boss" },
-    ],
-  },
-];
+export const UNITS = CONTENT_UNITS;
 
 export const MISSIONS = [
   { id: "m1", title: "Hoàn thành 1 bài học hôm nay", target: 1, reward: 10, icon: "⚔️", desc: "Chinh phục một trận chiến lịch sử" },
@@ -182,3 +159,17 @@ export const ACHIEVEMENTS = [
   { id: "a5", title: "Bậc Thầy Thời Đại", desc: "Hoàn thành 1 chương lịch sử", icon: "👑", rarity: "epic" },
   { id: "a6", title: "Ngọn Lửa Vĩnh Cửu", desc: "Chuỗi 7 ngày liên tiếp", icon: "🔥", rarity: "legendary" },
 ];
+
+export const getEarnedAchievements = (user: User) => {
+  const earned = (id: string) => {
+    if (id === "a1") return user.completedLessons.length >= 1;
+    if (id === "a2") return user.xp >= 100;
+    if (id === "a3") return user.completedLessons.some((lessonId) => lessonId.endsWith("-l5") || lessonId.endsWith("-l4"));
+    if (id === "a4") return user.completedLessons.length >= 5;
+    if (id === "a5") return user.completedLessons.length >= 5;
+    if (id === "a6") return user.streak >= 7;
+    return false;
+  };
+
+  return ACHIEVEMENTS.filter((achievement) => earned(achievement.id));
+};

@@ -1,16 +1,14 @@
+import { useState } from "react";
 import { useNavigate } from "react-router";
-import { UNITS, useApp, MASCOTS } from "../store";
+import { useApp, MASCOTS } from "../store";
 import { motion, AnimatePresence } from "motion/react";
-import { Lock, CheckCircle2, Flame, Crown, Scroll, BookOpen, ChevronRight, Zap, Star } from "lucide-react";
+import { Lock, Trophy, Flame, Crown, Scroll, BookOpen, BookMarked, ChevronRight, Zap, Star, FastForward, Dumbbell } from "lucide-react";
 import { useAppSound } from "../hooks/useAppSound";
+import { getAllUnits } from "../content/contentRepository";
 
 const ZIGZAG = [0, 72, 0, -72, 0, 72, 0, -72, 0, 72];
 
-const RECENT_UNLOCKS = [
-  { id: "r1", title: "Trống Đồng Đông Sơn", era: "2879 TCN", icon: "🥁", unitId: "u1" },
-  { id: "r2", title: "Thành Cổ Loa", era: "257 TCN", icon: "🏯", unitId: "u1" },
-  { id: "r3", title: "Trận Bạch Đằng", era: "938 SCN", icon: "⚓", unitId: "u2" },
-];
+
 
 // Warm historical backgrounds - light & cinematic
 const UNIT_WARM_BG: Record<string, { from: string; to: string; path: string; accent: string }> = {
@@ -44,22 +42,35 @@ export default function HomeScreen() {
   const { user } = useApp();
   const nav = useNavigate();
   const playClick = useAppSound("click");
+  const units = getAllUnits();
+  const visibleUnits = units.slice(0, 4);
+  const upcomingUnits = units.slice(4, 6);
   const userMascot = MASCOTS.find(m => m.id === user.mascotId) || MASCOTS[0];
 
   const activeUnitIdx = (() => {
-    for (let i = 0; i < UNITS.length; i++) {
-      const prevDone = i === 0 || UNITS[i - 1].lessons.every(l => user.completedLessons.includes(l.id));
-      if (prevDone && !UNITS[i].lessons.every(l => user.completedLessons.includes(l.id))) return i;
+    for (let i = 0; i < visibleUnits.length; i++) {
+      const prevDone = i === 0 || visibleUnits[i - 1].lessons.every(l => user.completedLessons.includes(l.id));
+      if (prevDone && !visibleUnits[i].lessons.every(l => user.completedLessons.includes(l.id))) return i;
     }
-    return UNITS.length - 1;
+    return visibleUnits.length - 1;
   })();
 
-  const activeUnit = UNITS[activeUnitIdx];
+  const activeUnit = visibleUnits[activeUnitIdx];
   const completedInActive = activeUnit.lessons.filter(l => user.completedLessons.includes(l.id)).length;
   const nextLesson = activeUnit.lessons.find(l => !user.completedLessons.includes(l.id));
-  const upcomingUnit = UNITS[activeUnitIdx + 1];
-  const getLessonPath = (lesson: typeof UNITS[0]["lessons"][0]) =>
+  const [showOutOfHeartsGate, setShowOutOfHeartsGate] = useState(false);
+  const isPremium = Boolean(user.isPremium || user.planType === "premium");
+  const isOutOfEnergy = !isPremium && (user.hearts ?? 0) <= 0;
+  const getLessonPath = (lesson: UnitType["lessons"][0]) =>
     lesson.type === "story" ? `/story/${lesson.id}` : `/lesson/${lesson.id}`;
+  const handleOpenLesson = (lesson: UnitType["lessons"][0]) => {
+    playClick();
+    if (isOutOfEnergy) {
+      setShowOutOfHeartsGate(true);
+      return;
+    }
+    nav(getLessonPath(lesson));
+  };
 
   return (
     <div
@@ -120,7 +131,7 @@ export default function HomeScreen() {
                 </span>
               </motion.div>
               <span style={{ color: "rgba(220,190,140,0.65)", fontSize: 11, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>
-                {activeUnit.era}
+
               </span>
             </div>
 
@@ -152,44 +163,14 @@ export default function HomeScreen() {
 
             {/* Progress + CTA — compact row */}
             <div className="flex flex-wrap items-center gap-2">
-              {/* Progress pill */}
-              <div
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full"
-                style={{
-                  background: "rgba(30,15,0,0.45)",
-                  border: "1.5px solid rgba(255,200,80,0.3)",
-                  backdropFilter: "blur(12px)",
-                }}
-              >
-                <div className="flex gap-1">
-                  {activeUnit.lessons.map((l) => (
-                    <div
-                      key={l.id}
-                      className="rounded-full transition-all"
-                      style={{
-                        width: 7,
-                        height: 7,
-                        background: user.completedLessons.includes(l.id)
-                          ? "#fbbf24"
-                          : "rgba(255,255,255,0.15)",
-                        boxShadow: user.completedLessons.includes(l.id) ? "0 0 5px rgba(251,191,36,0.7)" : "none",
-                      }}
-                    />
-                  ))}
-                </div>
-                <span style={{ color: "#fdd580", fontSize: 11, fontWeight: 800, fontFamily: '"Nunito", sans-serif' }}>
-                  {completedInActive}/{activeUnit.lessons.length}
-                </span>
-                <Zap className="w-3 h-3" style={{ color: "#f0a020" }} />
-                <span style={{ color: "#c8a070", fontSize: 10, fontFamily: '"Nunito", sans-serif', fontWeight: 700 }}>XP</span>
-              </div>
+
 
               {/* CTA button — Duolingo 3D style */}
               {nextLesson && (
                 <motion.button
                   whileHover={{ y: -2, boxShadow: "0 8px 0 #7c2d0a, 0 0 24px rgba(255,180,40,0.4)" }}
                   whileTap={{ y: 4, boxShadow: "0 2px 0 #7c2d0a" }}
-                  onClick={() => { playClick(); nav(getLessonPath(nextLesson)); }}
+                  onClick={() => handleOpenLesson(nextLesson)}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-2xl"
                   style={{
                     background: "linear-gradient(135deg, #f59e0b, #f5b830)",
@@ -216,128 +197,7 @@ export default function HomeScreen() {
         />
       </div>
 
-      {/* ══════════════════════════════════════════
-          DAILY CHALLENGE — Quest board strip
-      ══════════════════════════════════════════ */}
-      <div className="px-4 lg:px-12 py-4">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="flex items-center gap-3 p-3.5 rounded-2xl max-w-4xl mx-auto"
-          style={{
-            background: "linear-gradient(135deg, rgba(255,248,230,0.97), rgba(254,240,200,0.9))",
-            border: "2px solid rgba(251,191,36,0.35)",
-            borderLeft: "4px solid #f59e0b",
-            boxShadow: "0 3px 12px rgba(180,100,0,0.1)",
-          }}
-        >
-          <motion.div
-            animate={{ scale: [1, 1.15, 1], rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-            className="w-10 h-10 rounded-2xl flex items-center justify-center text-lg shrink-0"
-            style={{
-              background: "linear-gradient(135deg, #fef3c7, #fde68a)",
-              boxShadow: "0 3px 8px rgba(180,100,0,0.2), 0 3px 0 #d97706",
-            }}
-          >
-            ⚡
-          </motion.div>
-          <div className="flex-1 min-w-0">
-            <p className="mb-0.5" style={{
-              color: "#b45309",
-              fontFamily: '"Nunito", sans-serif',
-              fontWeight: 800,
-              fontSize: 11,
-              letterSpacing: "0.05em",
-            }}>
-              🎯 Thử thách hôm nay
-            </p>
-            <p style={{ color: "#78716c", fontSize: 12, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>
-              Hoàn thành 1 bài học · Giữ chuỗi ngày! 🔥
-            </p>
-          </div>
-          <div className="shrink-0 flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-2xl" style={{ background: "rgba(234,88,12,0.1)", border: "2px solid rgba(234,88,12,0.2)" }}>
-            <Flame className="w-4 h-4" style={{ color: "#ea580c" }} />
-            <span style={{ color: "#ea580c", fontWeight: 900, fontSize: 20, fontFamily: '"Nunito", sans-serif', lineHeight: 1 }}>{user.streak}</span>
-            <span style={{ color: "#a8a29e", fontSize: 9, fontFamily: '"Nunito", sans-serif', fontWeight: 700 }}>ngày</span>
-          </div>
-        </motion.div>
 
-        {/* Quick Menu cho Học sinh lớn */}
-        <motion.div 
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="grid grid-cols-3 gap-3 max-w-4xl mx-auto mt-4"
-        >
-          <button onClick={() => { playClick(); nav("/store"); }} className="bg-blue-50 border-2 border-blue-200 p-3 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-blue-100 transition-colors shadow-[0_4px_0_#bfdbfe] hover:translate-y-1 hover:shadow-[0_0px_0_#bfdbfe]">
-            <span className="text-2xl">🏪</span>
-            <span className="text-blue-600 font-black text-xs uppercase tracking-wide">Cửa Hàng</span>
-          </button>
-          <button onClick={() => { playClick(); nav("/pvp"); }} className="bg-red-50 border-2 border-red-200 p-3 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-red-100 transition-colors shadow-[0_4px_0_#fecaca] hover:translate-y-1 hover:shadow-[0_0px_0_#fecaca]">
-            <span className="text-2xl">⚔️</span>
-            <span className="text-red-600 font-black text-xs uppercase tracking-wide">Đấu Trường</span>
-          </button>
-          <button onClick={() => { playClick(); nav("/flashcard"); }} className="bg-green-50 border-2 border-green-200 p-3 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-green-100 transition-colors shadow-[0_4px_0_#bbf7d0] hover:translate-y-1 hover:shadow-[0_0px_0_#bbf7d0]">
-            <span className="text-2xl">🗂️</span>
-            <span className="text-green-600 font-black text-xs uppercase tracking-wide">Luyện Thi</span>
-          </button>
-        </motion.div>
-
-      </div>
-
-      {/* ══════════════════════════════════════════
-          RECENTLY UNLOCKED
-      ══════════════════════════════════════════ */}
-      {user.completedLessons.length > 0 && (
-        <div className="py-3">
-          <div className="px-4 lg:px-10 mb-3 max-w-4xl mx-auto flex items-center justify-between">
-            <p style={{
-              color: "#92400e",
-              fontFamily: '"Nunito", sans-serif',
-              fontWeight: 900,
-              fontSize: 14,
-            }}>🏅 Vừa mở khóa</p>
-            <button className="flex items-center gap-1" style={{ color: "#b45309", fontSize: 12, fontFamily: '"Nunito", sans-serif', fontWeight: 700 }}>
-              Xem tất cả <ChevronRight className="w-3 h-3" />
-            </button>
-          </div>
-          <div className="flex gap-3 px-4 lg:px-12 overflow-x-auto pb-2 scrollbar-hide">
-            {RECENT_UNLOCKS.map((item, i) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, x: 24 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 + i * 0.08 }}
-                className="flex-shrink-0 rounded-2xl overflow-hidden cursor-pointer"
-                style={{
-                  width: 134,
-                  border: "1px solid rgba(200,160,80,0.3)",
-                  background: "linear-gradient(160deg, rgba(255,252,242,0.98), rgba(250,242,220,0.95))",
-                  boxShadow: "0 2px 12px rgba(150,90,0,0.08), 0 1px 0 rgba(255,255,255,0.9) inset",
-                }}
-                whileHover={{ y: -4, boxShadow: "0 8px 28px rgba(180,100,0,0.18)" }}
-              >
-                <div
-                  className="flex items-center justify-center"
-                  style={{
-                    height: 72,
-                    background: "linear-gradient(155deg, #6b3a1f, #4a2410)",
-                    fontSize: 38,
-                  }}
-                >
-                  {item.icon}
-                </div>
-                <div className="p-3">
-                  <p style={{ color: "#92400e", fontSize: 11, fontWeight: 800, lineHeight: 1.35, fontFamily: '"Nunito", sans-serif' }}>{item.title}</p>
-                  <p style={{ color: "#b8a898", fontSize: 10, marginTop: 2, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>{item.era}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* ══════════════════════════════════════════
           CAMPAIGN MAP — All chapters
@@ -355,8 +215,8 @@ export default function HomeScreen() {
       </div>
 
       <div className="px-4 lg:px-12 max-w-4xl mx-auto space-y-5 pb-4">
-        {UNITS.map((unit, ui) => {
-          const prevDone = ui === 0 || UNITS[ui - 1].lessons.every(l => user.completedLessons.includes(l.id));
+        {visibleUnits.map((unit, ui) => {
+          const prevDone = ui === 0 || units[ui - 1].lessons.every(l => user.completedLessons.includes(l.id));
           const unitLocked = !prevDone;
           const completedIn = unit.lessons.filter(l => user.completedLessons.includes(l.id)).length;
           const pct = Math.round((completedIn / unit.lessons.length) * 100);
@@ -386,7 +246,7 @@ export default function HomeScreen() {
                 <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 60% at 30% 50%, rgba(255,200,80,0.08) 0%, transparent 70%)" }} />
                 {/* Background art */}
                 <div className="absolute right-5 top-1/2 -translate-y-1/2 select-none pointer-events-none" style={{ fontSize: 60, opacity: 0.14 }}>
-                  {unit.artEmoji}
+
                 </div>
 
                 <div className="relative z-10 px-5 py-4 flex items-center gap-4">
@@ -425,25 +285,7 @@ export default function HomeScreen() {
                     }}>
                       {unit.title}
                     </h2>
-                    {!unitLocked && (
-                      <p style={{ color: "#b09070", fontSize: 11, marginTop: 3, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>{unit.era}</p>
-                    )}
                   </div>
-
-                  {!unitLocked && (
-                    <div
-                      className="shrink-0 px-3.5 py-2.5 rounded-xl text-center"
-                      style={{
-                        background: "rgba(0,0,0,0.3)",
-                        border: "1px solid rgba(255,200,80,0.25)",
-                        backdropFilter: "blur(8px)",
-                      }}
-                    >
-                      <div style={{ color: "#fdd580", fontWeight: 800, fontSize: 16, fontFamily: '"Nunito", sans-serif' }}>{completedIn}</div>
-                      <div style={{ color: "#8a7060", fontSize: 9, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>/ {unit.lessons.length}</div>
-                      <div style={{ color: "#907868", fontSize: 8.5, fontFamily: '"Nunito", sans-serif', fontWeight: 700, marginTop: 1 }}>BÀI HỌC</div>
-                    </div>
-                  )}
                 </div>
 
                 {/* Progress bar */}
@@ -463,39 +305,29 @@ export default function HomeScreen() {
               </div>
 
               {/* Path section — Seamless Vertical Map */}
-              {!unitLocked && (
-                <div 
-                  className="pt-4 pb-0 relative w-full overflow-hidden flex justify-center"
-                  style={{ background: "#ebd2a9" }}
-                >
-                  <UnitPath
-                    unit={unit}
-                    completedLessons={user.completedLessons}
-                    warmAccent={warmBg.accent}
-                    onNavigate={(id) => {
-                      playClick();
-                      const l = unit.lessons.find(x => x.id === id);
-                      if (l) nav(getLessonPath(l));
-                    }}
-                  />
-                </div>
-              )}
-
-              {/* Locked placeholder */}
-              {unitLocked && (
-                <div className="px-5 py-4 flex items-center gap-3.5" style={{ background: "rgba(240,234,218,0.7)" }}>
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: "rgba(220,212,198,0.8)", border: "1px solid rgba(200,190,170,0.6)" }}
-                  >
-                    <Lock className="w-4 h-4" style={{ color: "#a8a29e" }} />
-                  </div>
-                  <div>
-                    <p style={{ color: "#9a8878", fontSize: 12, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>Hoàn thành chương trước để mở khóa</p>
-                    <p style={{ color: "#c4b9ad", fontSize: 11, marginTop: 2, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>{unit.era}</p>
-                  </div>
-                </div>
-              )}
+              <div
+                className="pt-4 pb-0 relative w-full overflow-hidden flex justify-center"
+                style={{
+                  backgroundColor: "#ebd2a9",
+                  backgroundImage: `url(http://localhost:8000/api/v1/lesson-content/assets/${unit.id}/${nextLesson?.id ?? unit.lessons[0]?.id ?? `${unit.id}-l1`}), url(/assets/bg_${unit.id}.png), ${warmBg.path}`,
+                  backgroundSize: "cover, cover, cover",
+                  backgroundPosition: "center top, center top, center",
+                  backgroundRepeat: "no-repeat",
+                  boxShadow: "inset 0 10px 20px rgba(0,0,0,0.15)",
+                }}
+              >
+                <UnitPath
+                  unit={unit}
+                  completedLessons={user.completedLessons}
+                  warmAccent={warmBg.accent}
+                  unitLocked={unitLocked}
+                  onNavigate={(id) => {
+                    playClick();
+                    const l = unit.lessons.find(x => x.id === id);
+                    if (l) handleOpenLesson(l);
+                  }}
+                />
+              </div>
             </motion.div>
           );
         })}
@@ -504,38 +336,91 @@ export default function HomeScreen() {
       {/* ══════════════════════════════════════════
           UPCOMING — Teaser for what's next
       ══════════════════════════════════════════ */}
-      {upcomingUnit && (
+      {upcomingUnits.length > 0 && (
         <div className="px-4 lg:px-12 pt-6 pb-4 max-w-4xl mx-auto">
           <p style={{ color: "#92400e", fontFamily: '"Nunito", sans-serif', fontWeight: 900, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 12 }}>Sắp Tới</p>
-          <div
-            className="flex items-center gap-4 p-4 rounded-2xl"
-            style={{
-              background: "linear-gradient(135deg, rgba(248,244,232,0.9), rgba(242,234,216,0.8))",
-              border: "1.5px dashed rgba(185,160,110,0.45)",
-            }}
-          >
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
-              style={{ background: "rgba(220,210,190,0.7)", border: "1px solid rgba(190,175,145,0.5)" }}
-            >
-              {upcomingUnit.artEmoji}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p style={{ color: "#b09878", fontSize: 11, marginBottom: 3, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>Chương tiếp theo</p>
-              <p style={{ color: "#78614a", fontSize: 14, fontWeight: 800, fontFamily: '"Nunito", sans-serif' }}>{upcomingUnit.title}</p>
-              <p style={{ color: "#c4b9ad", fontSize: 11, marginTop: 2, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>{upcomingUnit.era}</p>
-            </div>
-            <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl" style={{ background: "rgba(210,198,178,0.5)", border: "1px solid rgba(190,178,155,0.4)" }}>
-              <Lock className="w-3.5 h-3.5" style={{ color: "#a8a29e" }} />
-            </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {upcomingUnits.map((unit, idx) => (
+              <motion.div
+                key={unit.id}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 + idx * 0.08 }}
+                className="flex items-center gap-4 p-4 rounded-2xl"
+                style={{
+                  background: "linear-gradient(135deg, rgba(248,244,232,0.94), rgba(242,234,216,0.84))",
+                  border: "1.5px dashed rgba(185,160,110,0.45)",
+                  boxShadow: "0 10px 26px rgba(120, 83, 32, 0.08), inset 0 1px 0 rgba(255,255,255,0.78)",
+                }}
+              >
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
+                  style={{ background: "rgba(220,210,190,0.72)", border: "1px solid rgba(190,175,145,0.5)" }}
+                >
+                  🔒
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p style={{ color: "#b09878", fontSize: 11, marginBottom: 3, fontFamily: '"Nunito", sans-serif', fontWeight: 700 }}>Chương {4 + idx + 1} · Sắp tới</p>
+                  <p style={{ color: "#78614a", fontSize: 14, fontWeight: 900, fontFamily: '"Nunito", sans-serif', lineHeight: 1.25 }}>{unit.title}</p>
+                  <p style={{ color: "#a58a68", fontSize: 11, fontWeight: 650, fontFamily: '"Nunito", sans-serif', marginTop: 4 }}>{unit.description || unit.era}</p>
+                </div>
+                <div className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl" style={{ background: "rgba(210,198,178,0.5)", border: "1px solid rgba(190,178,155,0.4)" }}>
+                  <Lock className="w-3.5 h-3.5" style={{ color: "#a8a29e" }} />
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       )}
+
+      <AnimatePresence>
+        {showOutOfHeartsGate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[80] flex items-center justify-center px-5"
+            style={{ background: "rgba(20, 9, 0, 0.52)", backdropFilter: "blur(14px)" }}
+          >
+            <motion.div
+              initial={{ y: 24, scale: 0.94, opacity: 0 }}
+              animate={{ y: 0, scale: 1, opacity: 1 }}
+              exit={{ y: 12, scale: 0.96, opacity: 0 }}
+              className="w-full max-w-sm rounded-[28px] p-6 text-center"
+              style={{
+                background: "radial-gradient(circle at 50% 0%, rgba(255,216,107,0.18), transparent 38%), linear-gradient(180deg, #21120a, #130904)",
+                border: "1px solid rgba(255,216,107,0.22)",
+                boxShadow: "0 30px 90px rgba(0,0,0,0.48), 0 0 38px rgba(245,158,11,0.18)",
+              }}
+            >
+              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full text-5xl" style={{ background: "rgba(239,68,68,0.13)", color: "#f87171", boxShadow: "0 18px 38px rgba(239,68,68,0.18)" }}>♥</div>
+              <h3 className="mb-2" style={{ color: "#fff7ed", fontSize: 24, fontWeight: 950, fontFamily: '"Nunito", sans-serif' }}>Bạn đã hết năng lượng học tập</h3>
+              <p className="mb-5" style={{ color: "rgba(255,247,237,0.76)", fontSize: 14, lineHeight: 1.55, fontWeight: 700 }}>
+                Bạn cần chờ hồi năng lượng hoặc nâng cấp Pro để tiếp tục mở bài học mới.
+              </p>
+              <button
+                onClick={() => nav("/premium?from=out-of-hearts")}
+                className="w-full rounded-2xl px-5 py-4"
+                style={{ background: "linear-gradient(180deg,#ffd86b,#f59e0b)", color: "#251100", fontWeight: 950, boxShadow: "0 7px 0 #b45309" }}
+              >
+                NÂNG CẤP PRO
+              </button>
+              <button
+                onClick={() => setShowOutOfHeartsGate(false)}
+                className="mt-3 w-full rounded-2xl px-5 py-3"
+                style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,247,237,0.78)", fontWeight: 900 }}
+              >
+                ĐỂ SAU
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-type UnitType = typeof UNITS[0];
+type UnitType = ReturnType<typeof getAllUnits>[0];
 
 // ─── Whimsical Decoration data ──────────────────────────────────────────────────────────
 const DECORATIONS = [
@@ -552,59 +437,67 @@ const DECORATIONS = [
 ] as const;
 
 // ─── UnitPath ─────────────────────────────────────────────────────────────────
-function UnitPath({ unit, completedLessons, warmAccent, onNavigate }: {
+function UnitPath({ unit, completedLessons, warmAccent, unitLocked, onNavigate }: {
   unit: UnitType;
   completedLessons: string[];
   warmAccent: string;
+  unitLocked: boolean;
   onNavigate: (id: string) => void;
 }) {
   const lessons = unit.lessons;
+  const CONT_W = 340;
+  const ROW_H = 110;
+  const TOP_PAD = 70;
+  const totalH = TOP_PAD + lessons.length * ROW_H + 80;
 
-  // Percentage coordinates for the path (bottom to top)
-  const NODE_POSITIONS = [
-    { top: 85, left: 60 },
-    { top: 72, left: 80 },
-    { top: 60, left: 55 },
-    { top: 48, left: 30 },
-    { top: 36, left: 45 },
-    { top: 25, left: 65 },
-    { top: 15, left: 35 },
-    { top: 8,  left: 20 },
-    { top: 4,  left: 50 },
-    { top: 2,  left: 70 },
-  ];
+  // Tính số thứ tự practice trong toàn bộ lessons của unit
+  let practiceCounter = 0;
+  const practiceNumbers: number[] = lessons.map(l => {
+    if (l.type === 'practice') { practiceCounter++; return practiceCounter; }
+    return 0;
+  });
 
   const nodes = lessons.map((lesson, i) => {
     const isDone    = completedLessons.includes(lesson.id);
-    const prevDone  = i === 0 || completedLessons.includes(lessons[i - 1].id);
-    const isLocked  = !prevDone;
-    const isCurrent = !isDone && !isLocked;
+    const isJump    = unitLocked && i === 0;
+    const prevDone  = i === 0 ? !unitLocked : completedLessons.includes(lessons[i - 1].id);
+    const isReview  = lesson.type === "review";
+    const isPractice = lesson.type === "practice";
+    const isLocked  = (!prevDone && !isJump) || (isReview && isDone);
+    const isCurrent = (!isDone && !isLocked) || isJump;
     const isBoss    = lesson.type === "boss";
-    const size = isBoss ? 96 : isCurrent ? 88 : 72;
-    const pos = NODE_POSITIONS[i % NODE_POSITIONS.length];
-    
-    return { lesson, isDone, isLocked, isCurrent, isBoss, size, pos };
+    const practiceNumber = practiceNumbers[i];
+    // Size: boss to hơn 1 chút, review to vừa, current to nhất
+    const size = isCurrent ? 92 : isReview ? 84 : isBoss ? 80 : isPractice ? 76 : 72;
+    const x = CONT_W / 2 + ZIGZAG[i % ZIGZAG.length];
+    const y = TOP_PAD + i * ROW_H + ROW_H / 2;
+
+    return { lesson, isDone, isLocked, isCurrent, isBoss, isReview, isJump, isPractice, practiceNumber, size, x, y };
   });
 
-  return (
-    <div 
-      className="relative w-full max-w-4xl mx-auto" 
-      style={{ aspectRatio: "1/1", minHeight: 600 }}
-    >
-      {/* ── Seamless Painted Map Background ──────────────────────────────── */}
-      <div 
-        className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden"
-        style={{ 
-          backgroundImage: "url('/assets/map_bg_original.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          boxShadow: "inset 0 10px 30px rgba(0,0,0,0.05)",
-          border: "2px solid rgba(255,255,255,0.2)"
-        }}
-      />
+  const svgPath = nodes.map((n, i) => {
+    if (i === 0) return `M ${n.x} ${n.y}`;
+    const prev = nodes[i - 1];
+    const midY = (prev.y + n.y) / 2;
+    return `C ${prev.x} ${midY} ${n.x} ${midY} ${n.x} ${n.y}`;
+  }).join(" ");
 
-      {/* ── Lesson nodes overlay ───────────────────────────────────── */}
-      <div className="absolute inset-0 pointer-events-none">
+  return (
+    <div className="flex justify-center w-full py-6">
+      <div className="relative" style={{ width: CONT_W, height: totalH }}>
+        <svg className="absolute inset-0 pointer-events-none" width={CONT_W} height={totalH} overflow="visible">
+          {/* Lớp viền ngoài (đậm) */}
+          <path d={svgPath} fill="none" stroke="#784212" strokeWidth="52" strokeLinecap="round" strokeLinejoin="round" />
+          {/* Lớp bóng đổ bên trong đường viền */}
+          <path d={svgPath} fill="none" stroke="#935116" strokeWidth="46" strokeLinecap="round" strokeLinejoin="round" />
+          {/* Lớp giữa đường (màu cát/đất) */}
+          <path d={svgPath} fill="none" stroke="#d68910" strokeWidth="40" strokeLinecap="round" strokeLinejoin="round" />
+          {/* Lớp trên cùng mặt đường sáng hơn */}
+          <path d={svgPath} fill="none" stroke="#f5b041" strokeWidth="34" strokeLinecap="round" strokeLinejoin="round" />
+          {/* Thêm chút highlight ở giữa tạo độ cong 3D */}
+          <path d={svgPath} fill="none" stroke="#f8c471" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+
         {nodes.map((node, idx) => (
           <LessonNode
             key={node.lesson.id}
@@ -620,7 +513,7 @@ function UnitPath({ unit, completedLessons, warmAccent, onNavigate }: {
   );
 }
 
-// ─── LessonNode ───────────────────────────────────────────────────────────────
+// ─── LessonNode ─────────────────────────────────────────────────────────────────
 function LessonNode({ node, accent, warmAccent, delay, onClick }: {
   node: {
     lesson: UnitType["lessons"][0];
@@ -628,39 +521,64 @@ function LessonNode({ node, accent, warmAccent, delay, onClick }: {
     isLocked: boolean;
     isCurrent: boolean;
     isBoss: boolean;
+    isReview: boolean;
+    isJump: boolean;
+    isPractice: boolean;
+    practiceNumber: number;
     size: number;
-    pos: { top: number, left: number };
+    x: number;
+    y: number;
   };
   accent: string;
   warmAccent: string;
   delay: number;
   onClick: () => void;
 }) {
-  const { lesson, isDone, isLocked, isCurrent, isBoss, size, pos } = node;
+  const [showLockedTip, setShowLockedTip] = useState(false);
+  const { lesson, isDone, isLocked, isCurrent, isBoss, isReview, isJump, isPractice, practiceNumber, size, x, y } = node;
 
-  // 3D bubble backgrounds (Design Spec)
   const nodeBg = isLocked
-    ? "linear-gradient(180deg, #f3f4f6 0%, #d1d5db 100%)" // Xám sáng giống mây
+    ? "linear-gradient(180deg, #e5e7eb 0%, #cbd5e1 100%)"
+    : isJump
+    ? "radial-gradient(circle at 35% 28%, #fde047 0%, #f97316 45%, #ea580c 80%, #9a3412 100%)"
+    : isReview
+    ? "radial-gradient(circle at 35% 28%, #f3e8ff 0%, #a855f7 45%, #7c3aed 80%, #4c1d95 100%)"
     : isBoss
     ? "radial-gradient(circle at 35% 28%, #fde68a 0%, #f59e0b 35%, #dc2626 75%, #991b1b 100%)"
+    : isPractice && isDone
+    ? "radial-gradient(circle at 35% 28%, #fef08a 0%, #facc15 45%, #ca8a04 80%, #78350f 100%)"
+    : isPractice
+    ? "radial-gradient(circle at 35% 28%, #bfdbfe 0%, #60a5fa 45%, #2563eb 80%, #1e3a8a 100%)"
     : isCurrent
     ? "radial-gradient(circle at 35% 28%, #fde68a 0%, #f59e0b 45%, #d97706 80%, #b45309 100%)"
     : isDone
-    ? "radial-gradient(circle at 38% 28%, #6ee7b7 0%, #10b981 50%, #059669 80%, #065f46 100%)"
+    ? "radial-gradient(circle at 38% 28%, #fde68a 0%, #f59e0b 50%, #d97706 80%, #92400e 100%)"
     : `radial-gradient(circle at 38% 28%, rgba(255,255,255,0.2) 0%, ${accent} 60%)`;
 
   const nodeBorder = isLocked
-    ? "2px solid #ffffff" // Viền trắng nổi bật
+    ? "2.5px solid #e2e8f0"
+    : isJump
+    ? "3px solid rgba(253,224,71,0.9)"
+    : isReview
+    ? "3px solid rgba(216,180,254,0.9)"
     : isBoss
     ? "3px solid rgba(255,220,80,0.9)"
+    : isPractice && isDone
+    ? "3px solid rgba(253,224,71,0.9)"
+    : isPractice
+    ? "3px solid rgba(147,197,253,0.9)"
     : isCurrent
     ? "3px solid rgba(255,220,80,0.9)"
     : isDone
-    ? "2.5px solid rgba(52,211,153,0.7)"
+    ? "3px solid rgba(253,224,71,0.85)"
     : "2px solid rgba(255,210,100,0.7)";
 
   const nodeShadow = isLocked
-    ? "0 6px 0 #9ca3af, 0 8px 15px rgba(0,0,0,0.15)" // Bóng xám đậm
+    ? "0 6px 0 #94a3b8, 0 8px 18px rgba(0,0,0,0.18)"
+    : isJump
+    ? "0 8px 0 #9a3412, 0 0 0 6px rgba(249,115,22,0.25), 0 0 32px rgba(249,115,22,0.55)"
+    : isReview
+    ? "0 8px 0 #4c1d95, 0 0 0 6px rgba(168,85,247,0.22), 0 0 30px rgba(168,85,247,0.5)"
     : isBoss
     ? "0 8px 0 #7f1d1d, 0 0 40px rgba(239,68,68,0.5)"
     : isCurrent
@@ -670,25 +588,29 @@ function LessonNode({ node, accent, warmAccent, delay, onClick }: {
     : `0 5px 0 rgba(0,0,0,0.3)`;
 
   const iconColor = isLocked
-    ? "#ffffff" // Icon khóa màu trắng
+    ? "#94a3b8"
+    : isJump
+    ? "#ffffff"
+    : isReview
+    ? "#f3e8ff"
     : isBoss
     ? "#fef3c7"
+    : isPractice && isDone
+    ? "#fef9c3"
+    : isPractice
+    ? "#dbeafe"
     : isCurrent
     ? "#7c2d12"
     : isDone
-    ? "#d1fae5"
+    ? "#fef3c7"
     : "#fffbeb";
 
-  const labelColor = isLocked
-    ? "rgba(150,150,150,0.8)"
-    : isCurrent
-    ? "#fde68a"
-    : isDone
-    ? "#6ee7b7"
-    : "rgba(220,210,190,0.85)";
-
-  const Icon = isBoss
+  const Icon = isReview
+    ? BookMarked
+    : isBoss
     ? Crown
+    : isPractice
+    ? Dumbbell
     : lesson.type === "story"
     ? Scroll
     : BookOpen;
@@ -699,93 +621,157 @@ function LessonNode({ node, accent, warmAccent, delay, onClick }: {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, type: "spring", stiffness: 300, damping: 20 }}
       className="absolute flex flex-col items-center"
-      style={{ 
-        left: `calc(${pos.left}% - ${size / 2}px)`, 
-        top: `calc(${pos.top}% - ${size / 2}px)`, 
+      style={{
+        left: x - size / 2,
+        top: y - size / 2,
+        width: size,
+        height: size,
         zIndex: 2,
         pointerEvents: "auto"
       }}
     >
-      {/* ── Floating START label ──────────────────────────── */}
-      <AnimatePresence>
-        {isCurrent && (
+      {isCurrent && (
+        <motion.div
+          className="absolute flex flex-col items-center"
+          style={{ bottom: "calc(100% + 4px)", left: "50%", zIndex: 20, pointerEvents: "none" }}
+          initial={{ opacity: 0, x: "-50%", y: 6 }}
+          animate={{ opacity: 1, x: "-50%", y: 0 }}
+        >
           <motion.div
-            className="absolute flex flex-col items-center"
-            style={{
-              top: -54,
-              left: "50%",
-              transform: "translateX(-50%)",
-              zIndex: 20,
-              pointerEvents: "none",
-            }}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center"
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
           >
-            <motion.div
-              className="px-3 py-1.5 rounded-lg whitespace-nowrap"
-              style={{
-                background: "#1b4332",
-                border: "1.5px solid rgba(251,191,36,0.8)",
-                color: "#fde68a",
-                fontFamily: '"Nunito", sans-serif',
-                fontSize: 10,
-                fontWeight: 800,
-                boxShadow: "0 0 16px rgba(251,191,36,0.4)",
-                letterSpacing: "0.06em",
-              }}
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            >
-              {isBoss ? "⚔️ Thử thách" : "▶ Bắt đầu"}
-            </motion.div>
             <div
-              className="w-0 h-0"
+              className="rounded-2xl whitespace-nowrap flex items-center justify-center"
               style={{
-                borderLeft: "5px solid transparent",
-                borderRight: "5px solid transparent",
-                borderTop: "5px solid rgba(251,191,36,0.8)",
+                padding: "10px 18px",
+                background: isJump ? "#37383a" : "#1e3f28",
+                border: isJump ? "3px solid #555759" : "3px solid #dca626",
+                color: isJump ? "#f97316" : "#fde047",
+                fontFamily: '"Nunito", sans-serif',
+                fontSize: 16,
+                fontWeight: 800,
+                boxShadow: "0 6px 16px rgba(0,0,0,0.3)",
+                letterSpacing: isJump ? "0.04em" : "0.02em",
+                gap: "8px",
+                position: "relative",
+                zIndex: 10
+              }}
+            >
+              {isJump ? "HỌC VƯỢT?" : isBoss ? "⚔️ Thử thách" : (
+                <>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 3L19 12L5 21V3Z" />
+                  </svg>
+                  Bắt đầu
+                </>
+              )}
+            </div>
+            {/* Seamless caret overlapping the border */}
+            <div
+              style={{
+                width: 14,
+                height: 14,
+                background: isJump ? "#37383a" : "#1e3f28",
+                borderBottom: isJump ? "3px solid #555759" : "3px solid #dca626",
+                borderRight: isJump ? "3px solid #555759" : "3px solid #dca626",
+                transform: "rotate(45deg)",
+                marginTop: "-8px",
+                position: "relative",
+                zIndex: 11
               }}
             />
           </motion.div>
-        )}
-      </AnimatePresence>
+        </motion.div>
+      )}
 
-      {/* ── Outer glow / pulse ring ───────────────────────── */}
       {isCurrent && (
         <motion.div
           className="absolute rounded-full pointer-events-none"
-          style={{
-            width: size + 28,
-            height: size + 28,
-            left: -14,
-            top: -14,
-            border: "3px solid rgba(251,191,36,0.5)",
-          }}
+          style={{ width: size + 28, height: size + 28, left: -14, top: -14, border: isJump ? "3px solid rgba(249,115,22,0.5)" : "3px solid rgba(251,191,36,0.5)" }}
           animate={{ opacity: [0.6, 0.05, 0.6], scale: [1, 1.22, 1] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         />
       )}
-      {isBoss && (
+
+      {/* ── Practice Locked Tooltip (Duolingo style) ─── */}
+      {isPractice && isLocked && showLockedTip && (
         <motion.div
-          className="absolute rounded-full pointer-events-none"
+          initial={{ opacity: 0, y: 8, x: "-50%" }}
+          animate={{ opacity: 1, y: 0, x: "-50%" }}
+          exit={{ opacity: 0 }}
           style={{
-            width: size + 28,
-            height: size + 28,
-            left: -14,
-            top: -14,
-            border: "3px solid rgba(239,68,68,0.5)",
+            position: "absolute",
+            bottom: "calc(100% + 10px)",
+            left: "50%",
+            width: 200,
+            background: "#1e2535",
+            border: "1.5px solid rgba(255,255,255,0.1)",
+            borderRadius: 14,
+            padding: "14px 14px 10px",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
+            zIndex: 50,
+            pointerEvents: "none",
           }}
-          animate={{ opacity: [0.6, 0.05, 0.6], scale: [1, 1.18, 1] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-        />
+        >
+          {/* Arrow caret */}
+          <div style={{
+            position: "absolute",
+            bottom: -8,
+            left: "50%",
+            transform: "translateX(-50%) rotate(45deg)",
+            width: 14,
+            height: 14,
+            background: "#1e2535",
+            borderBottom: "1.5px solid rgba(255,255,255,0.1)",
+            borderRight: "1.5px solid rgba(255,255,255,0.1)",
+            borderRadius: "0 0 3px 0",
+          }} />
+          <p style={{
+            color: "#e2e8f0",
+            fontFamily: '"Nunito", sans-serif',
+            fontWeight: 800,
+            fontSize: 15,
+            marginBottom: 6,
+          }}>
+            Ôn lại cửa {practiceNumber}
+          </p>
+          <p style={{
+            color: "#94a3b8",
+            fontFamily: '"Nunito", sans-serif',
+            fontWeight: 600,
+            fontSize: 11,
+            lineHeight: 1.5,
+            marginBottom: 10,
+          }}>
+            Hãy hoàn thành tất cả các cấp độ phía trên để mở khóa!
+          </p>
+          <div style={{
+            background: "#2d3748",
+            borderRadius: 8,
+            padding: "7px 0",
+            textAlign: "center",
+          }}>
+            <span style={{
+              color: "#718096",
+              fontFamily: '"Nunito", sans-serif',
+              fontWeight: 800,
+              fontSize: 12,
+              letterSpacing: "0.12em",
+            }}>KHÓA</span>
+          </div>
+        </motion.div>
       )}
 
       {/* ── 3D Bubble Node button ─────────────────────────── */}
       <motion.button
-        whileHover={!isLocked ? { scale: 1.1, y: -4 } : {}}
+        whileHover={!isLocked ? { scale: 1.1, y: -4 } : isPractice ? {} : {}}
         whileTap={!isLocked ? { scale: 0.93, y: 5 } : {}}
-        onClick={onClick}
-        disabled={isLocked}
+        onClick={isLocked && isPractice ? () => setShowLockedTip(t => !t) : onClick}
+        onMouseEnter={() => { if (isLocked && isPractice) setShowLockedTip(true); }}
+        onMouseLeave={() => { if (isLocked && isPractice) setShowLockedTip(false); }}
+        disabled={isLocked && !isPractice}
         className="rounded-full flex items-center justify-center relative"
         style={{
           width: size,
@@ -795,6 +781,7 @@ function LessonNode({ node, accent, warmAccent, delay, onClick }: {
           boxShadow: nodeShadow,
           cursor: isLocked ? "not-allowed" : "pointer",
           flexShrink: 0,
+          overflow: "hidden", // Cắt bỏ các góc vuông của ảnh 3D
         }}
       >
         {/* Inner specular highlight */}
@@ -807,19 +794,70 @@ function LessonNode({ node, accent, warmAccent, delay, onClick }: {
             left: size * 0.18,
             background: "rgba(255,255,255,0.28)",
             filter: "blur(3px)",
+            zIndex: 10,
           }}
         />
-        {isLocked ? (
+        {isJump ? (
+          <svg
+            width={size * 0.44}
+            height={size * 0.44}
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            style={{ color: iconColor, zIndex: 5, position: "relative" }}
+          >
+            <polygon points="13 19 22 12 13 5 13 19" />
+            <polygon points="2 19 11 12 2 5 2 19" />
+          </svg>
+        ) : isReview ? (
+          /* Node ôn tập cuối chương: hiện ảnh Rương vàng */
+          <img
+            src="/assets/treasure_chest.png"
+            alt="Treasure Chest"
+            style={{
+              width: "100%",
+              height: "100%",
+              opacity: isLocked ? 0.6 : 1,
+              objectFit: "cover", // Phóng to phủ kín
+              transform: "scale(1.0)",
+              mixBlendMode: "multiply", // Xóa phông trắng (nếu có)
+              filter: isLocked ? "grayscale(80%) drop-shadow(0 2px 4px rgba(0,0,0,0.2))" : "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
+              position: "relative",
+              zIndex: 5
+            }}
+          />
+        ) : isPractice ? (
+          /* Node Luyện tập (practice): luôn hiện ảnh sách hồng 3D, bất kể bị khóa */
+          <img
+            src="/assets/pink_book.png"
+            alt="Practice Book"
+            style={{
+              width: "100%",
+              height: "100%",
+              opacity: isLocked ? 0.6 : 1,
+              objectFit: "cover", // Phóng to phủ kín
+              transform: "scale(1.2)", // Phóng to để quyển sách vừa khít hình tròn
+              mixBlendMode: "multiply", // Xóa phông trắng
+              filter: isLocked ? "grayscale(80%) drop-shadow(0 2px 4px rgba(0,0,0,0.2))" : "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
+              position: "relative",
+              zIndex: 5
+            }}
+          />
+        ) : isLocked ? (
           <Lock
-            style={{ width: size * 0.36, height: size * 0.36, color: iconColor }}
+            style={{ width: size * 0.36, height: size * 0.36, color: iconColor, zIndex: 5, position: "relative" }}
           />
         ) : isDone ? (
-          <CheckCircle2
-            style={{ width: size * 0.44, height: size * 0.44, color: iconColor }}
+          /* Node hoàn thành: Trophy vàng theo đặc tả */
+          <Trophy
+            style={{ width: size * 0.44, height: size * 0.44, color: iconColor, zIndex: 5, position: "relative" }}
           />
         ) : (
           <Icon
-            style={{ width: size * 0.42, height: size * 0.42, color: iconColor }}
+            style={{ width: size * 0.42, height: size * 0.42, color: iconColor, zIndex: 5, position: "relative" }}
           />
         )}
       </motion.button>

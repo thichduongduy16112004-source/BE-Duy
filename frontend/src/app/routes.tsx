@@ -20,6 +20,11 @@ import StoreScreen from "./screens/StoreScreen";
 import PvPScreen from "./screens/PvPScreen";
 import FlashcardScreen from "./screens/FlashcardScreen";
 
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+
+
+
 function Root() {
   return <Outlet />;
 }
@@ -31,6 +36,8 @@ export const router = createBrowserRouter([
       { path: "/", element: <SplashScreen /> },
       { path: "/login", element: <LoginScreen /> },
       { path: "/register", element: <RegisterScreen /> },
+      { path: "/forgot-password", element: <ForgotPasswordScreen /> },
+      { path: "/reset-password", element: <ResetPasswordScreen /> },
       { path: "/onboarding/name", element: <ChooseNameScreen /> },
       { path: "/onboarding/grade", element: <ChooseGradeScreen /> },
       { path: "/onboarding/time", element: <ChooseStudyTimeScreen /> },
@@ -52,6 +59,7 @@ export const router = createBrowserRouter([
           { path: "/flashcard", element: <FlashcardScreen /> },
         ],
       },
+
       { path: "*", element: <Navigate to="/" replace /> },
     ],
   },

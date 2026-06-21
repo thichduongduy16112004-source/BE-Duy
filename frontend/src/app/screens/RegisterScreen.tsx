@@ -46,6 +46,8 @@ export default function RegisterScreen() {
     }
   };
 
+  const [successMsg, setSuccessMsg] = useState("");
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !email || !password) return setErr("Vui lòng nhập đầy đủ thông tin");
@@ -59,7 +61,7 @@ export default function RegisterScreen() {
       const res = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, username, password }),
+        body: JSON.stringify({ email, username, full_name: username, password }),
       });
 
       const data = await res.json();
@@ -70,9 +72,11 @@ export default function RegisterScreen() {
         return setErr(data.detail || "Đăng ký không thành công");
       }
 
-      localStorage.setItem("ha_token", data.access_token);
-      setUser(data.user);
-      nav("/onboarding/name");
+      setSuccessMsg(data.message || "Đăng ký thành công. Vui lòng kiểm tra email để xác nhận tài khoản.");
+      // Tùy chọn: Xóa form sau khi đăng ký thành công
+      setUsername("");
+      setEmail("");
+      setPassword("");
     } catch (error) {
       setErr("Lỗi kết nối đến máy chủ. Vui lòng thử lại!");
     }
@@ -168,125 +172,153 @@ export default function RegisterScreen() {
             </h1>
             <p className="mb-7" style={{ color: "#a8a29e", fontSize: 14, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>Miễn phí · Dễ dàng · Vui nhộn!</p>
 
-            <form onSubmit={submit} className="space-y-4">
-              <div>
-                <label className="block mb-1.5" style={{ color: "#78716c", fontSize: 13, fontWeight: 800, fontFamily: '"Nunito", sans-serif' }}>
-                  Tên đăng nhập
-                </label>
-                <input
-                  value={username}
-                  onChange={(e) => { setUsername(e.target.value); setErr(""); }}
-                  className="w-full px-4 py-3 rounded-2xl outline-none transition-all"
-                  style={{ background: "#fff", border: "2px solid #fde68a", fontSize: 15, fontFamily: '"Nunito", sans-serif', fontWeight: 600, color: "#1c1917" }}
-                  onFocus={(e) => (e.target.style.borderColor = "#d97706")}
-                  onBlur={(e) => (e.target.style.borderColor = "#fde68a")}
-                  placeholder="Ví dụ: QuangTrung123..."
-                />
-              </div>
+              {successMsg ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-white p-6 rounded-2xl shadow-sm text-center border"
+                  style={{ borderColor: "rgba(16, 185, 129, 0.2)" }}
+                >
+                  <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Đăng ký thành công!</h3>
+                  <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+                    {successMsg}
+                  </p>
+                  <Link 
+                    to="/login"
+                    className="inline-block w-full py-3.5 rounded-xl font-bold text-white transition-all"
+                    style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", boxShadow: "0 4px 0 #b45309" }}
+                  >
+                    Đến trang Đăng nhập
+                  </Link>
+                </motion.div>
+              ) : (
+                <form onSubmit={submit} className="space-y-4">
+                  <div>
+                    <label className="block mb-1.5" style={{ color: "#78716c", fontSize: 13, fontWeight: 800, fontFamily: '"Nunito", sans-serif' }}>
+                      Tên đăng nhập
+                    </label>
+                    <input
+                      value={username}
+                      onChange={(e) => { setUsername(e.target.value); setErr(""); }}
+                      className="w-full px-4 py-3 rounded-2xl outline-none transition-all"
+                      style={{ background: "#fff", border: "2px solid #fde68a", fontSize: 15, fontFamily: '"Nunito", sans-serif', fontWeight: 600, color: "#1c1917" }}
+                      onFocus={(e) => (e.target.style.borderColor = "#d97706")}
+                      onBlur={(e) => (e.target.style.borderColor = "#fde68a")}
+                      placeholder="Ví dụ: QuangTrung123..."
+                    />
+                  </div>
 
-              <div>
-                <label className="block mb-1.5 mt-4" style={{ color: "#78716c", fontSize: 13, fontWeight: 800, fontFamily: '"Nunito", sans-serif' }}>
-                  Email của bạn
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => { setEmail(e.target.value); setErr(""); }}
-                  className="w-full px-4 py-3 rounded-2xl outline-none transition-all"
-                  style={{ background: "#fff", border: "2px solid #fde68a", fontSize: 15, fontFamily: '"Nunito", sans-serif', fontWeight: 600, color: "#1c1917" }}
-                  onFocus={(e) => (e.target.style.borderColor = "#d97706")}
-                  onBlur={(e) => (e.target.style.borderColor = "#fde68a")}
-                  placeholder="email@vidu.com"
-                />
-              </div>
+                  <div>
+                    <label className="block mb-1.5 mt-4" style={{ color: "#78716c", fontSize: 13, fontWeight: 800, fontFamily: '"Nunito", sans-serif' }}>
+                      Email của bạn
+                    </label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => { setEmail(e.target.value); setErr(""); }}
+                      className="w-full px-4 py-3 rounded-2xl outline-none transition-all"
+                      style={{ background: "#fff", border: "2px solid #fde68a", fontSize: 15, fontFamily: '"Nunito", sans-serif', fontWeight: 600, color: "#1c1917" }}
+                      onFocus={(e) => (e.target.style.borderColor = "#d97706")}
+                      onBlur={(e) => (e.target.style.borderColor = "#fde68a")}
+                      placeholder="email@vidu.com"
+                    />
+                  </div>
 
-              <div>
-                <label className="block mb-1.5 mt-4" style={{ color: "#78716c", fontSize: 13, fontWeight: 800, fontFamily: '"Nunito", sans-serif' }}>
-                  Mật khẩu bí mật
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPw ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => { setPassword(e.target.value); setErr(""); }}
-                    className="w-full px-4 py-3 pr-12 rounded-2xl outline-none transition-all"
-                    style={{ background: "#fff", border: "2px solid #fde68a", fontSize: 15, fontFamily: '"Nunito", sans-serif', fontWeight: 600, color: "#1c1917" }}
-                    onFocus={(e) => (e.target.style.borderColor = "#d97706")}
-                    onBlur={(e) => (e.target.style.borderColor = "#fde68a")}
-                    placeholder="Tối thiểu 4 ký tự nha"
-                  />
+                  <div>
+                    <label className="block mb-1.5 mt-4" style={{ color: "#78716c", fontSize: 13, fontWeight: 800, fontFamily: '"Nunito", sans-serif' }}>
+                      Mật khẩu bí mật
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPw ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => { setPassword(e.target.value); setErr(""); }}
+                        className="w-full px-4 py-3 pr-12 rounded-2xl outline-none transition-all"
+                        style={{ background: "#fff", border: "2px solid #fde68a", fontSize: 15, fontFamily: '"Nunito", sans-serif', fontWeight: 600, color: "#1c1917" }}
+                        onFocus={(e) => (e.target.style.borderColor = "#d97706")}
+                        onBlur={(e) => (e.target.style.borderColor = "#fde68a")}
+                        placeholder="Tối thiểu 4 ký tự nha"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPw((v) => !v)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition hover:bg-amber-50"
+                        style={{ color: "#a8a29e" }}
+                      >
+                        {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Terms checkbox */}
                   <button
                     type="button"
-                    onClick={() => setShowPw((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition hover:bg-amber-50"
-                    style={{ color: "#a8a29e" }}
+                    onClick={() => setAgreed((v) => !v)}
+                    className="flex items-start gap-2.5 text-left w-full"
                   >
-                    {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {agreed
+                      ? <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" style={{ color: "#d97706" }} />
+                      : <Circle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: "#d1cdc7" }} />}
+                    <span style={{ fontSize: 13, color: "#78716c", lineHeight: 1.5, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>
+                      Mình đồng ý với{" "}
+                      <span style={{ color: "#d97706", fontWeight: 800 }}>Điều khoản</span>{" "}
+                      và{" "}
+                      <span style={{ color: "#d97706", fontWeight: 800 }}>Bảo mật</span>
+                    </span>
                   </button>
-                </div>
-              </div>
 
-              {/* Terms checkbox */}
-              <button
-                type="button"
-                onClick={() => setAgreed((v) => !v)}
-                className="flex items-start gap-2.5 text-left w-full"
-              >
-                {agreed
-                  ? <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" style={{ color: "#d97706" }} />
-                  : <Circle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: "#d1cdc7" }} />}
-                <span style={{ fontSize: 13, color: "#78716c", lineHeight: 1.5, fontFamily: '"Nunito", sans-serif', fontWeight: 600 }}>
-                  Mình đồng ý với{" "}
-                  <span style={{ color: "#d97706", fontWeight: 800 }}>Điều khoản</span>{" "}
-                  và{" "}
-                  <span style={{ color: "#d97706", fontWeight: 800 }}>Bảo mật</span>
-                </span>
-              </button>
+                  {err && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="px-4 py-2.5 rounded-xl"
+                      style={{ background: "#fef2f2", border: "1px solid #fecaca" }}
+                    >
+                      <p style={{ color: "#dc2626", fontSize: 12 }}>{err}</p>
+                    </motion.div>
+                  )}
 
-              {err && (
-                <motion.div
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="px-4 py-2.5 rounded-xl"
-                  style={{ background: "#fef2f2", border: "1px solid #fecaca" }}
-                >
-                  <p style={{ color: "#dc2626", fontSize: 12 }}>{err}</p>
-                </motion.div>
+                  <motion.button
+                    type="submit"
+                    whileHover={{ y: -2, boxShadow: "0 6px 0 #047857" }}
+                    whileTap={{ y: 4, boxShadow: "0 0px 0 #047857" }}
+                    className="w-full py-3.5 rounded-2xl tracking-wide transition-all mt-4"
+                    style={{
+                      fontSize: 16,
+                      fontFamily: '"Nunito", sans-serif',
+                      fontWeight: 900,
+                      background: "linear-gradient(135deg, #34d399, #10b981)",
+                      boxShadow: "0 4px 0 #047857",
+                      color: "#fff",
+                      border: "none",
+                    }}
+                  >
+                    Bắt đầu ngay! 🚀
+                  </motion.button>
+                </form>
               )}
 
-              <motion.button
-                type="submit"
-                whileHover={{ y: -2, boxShadow: "0 6px 0 #047857" }}
-                whileTap={{ y: 4, boxShadow: "0 0px 0 #047857" }}
-                className="w-full py-3.5 rounded-2xl tracking-wide transition-all mt-4"
-                style={{
-                  fontSize: 16,
-                  fontFamily: '"Nunito", sans-serif',
-                  fontWeight: 900,
-                  background: "linear-gradient(135deg, #34d399, #10b981)",
-                  boxShadow: "0 4px 0 #047857",
-                  color: "#fff",
-                  border: "none",
-                }}
-              >
-                Bắt đầu ngay! 🚀
-              </motion.button>
-            </form>
+            {!successMsg && (
+              <>
+                {/* Divider */}
+                <div className="flex items-center gap-3 my-5">
+                  <div className="flex-1 h-px" style={{ background: "rgba(217,119,6,0.15)" }} />
+                  <span style={{ color: "#a8a29e", fontSize: 11, fontFamily: '"Inter", sans-serif' }}>hoặc</span>
+                  <div className="flex-1 h-px" style={{ background: "rgba(217,119,6,0.15)" }} />
+                </div>
 
-            {/* Divider */}
-            <div className="flex items-center gap-3 my-5">
-              <div className="flex-1 h-px" style={{ background: "rgba(217,119,6,0.15)" }} />
-              <span style={{ color: "#a8a29e", fontSize: 11, fontFamily: '"Inter", sans-serif' }}>hoặc</span>
-              <div className="flex-1 h-px" style={{ background: "rgba(217,119,6,0.15)" }} />
-            </div>
-
-            {/* Google button */}
-            <div className="w-full flex justify-center mt-2">
-              <GoogleLoginButton 
-                onSuccess={handleGoogleSuccess} 
-                onError={() => setErr("Lỗi đăng ký tài khoản Google.")} 
-              />
-            </div>
+                {/* Google button */}
+                <div className="w-full flex justify-center mt-2">
+                  <GoogleLoginButton 
+                    onSuccess={handleGoogleSuccess} 
+                    onError={() => setErr("Lỗi đăng ký tài khoản Google.")} 
+                  />
+                </div>
+              </>
+            )}
 
             <p className="text-center mt-6" style={{ color: "#a8a29e", fontSize: 13 }}>
               Đã có tài khoản?{" "}

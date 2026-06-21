@@ -1,4 +1,4 @@
-import { ACHIEVEMENTS, useApp } from "../store";
+import { ACHIEVEMENTS, useApp, getEarnedAchievements } from "../store";
 import { motion } from "motion/react";
 import { Lock, Crown } from "lucide-react";
 import { useIsPremium } from "../hooks/useIsPremium";
@@ -18,17 +18,9 @@ export default function AchievementsScreen() {
   const nav = useNavigate();
   const { playPop } = useSound();
 
-  const earned = (id: string) => {
-    if (id === "a1") return user.completedLessons.length >= 1;
-    if (id === "a2") return user.xp >= 100;
-    if (id === "a3") return user.completedLessons.some((l) => l.endsWith("-l5") || l.endsWith("-l4"));
-    if (id === "a4") return user.completedLessons.length >= 5;
-    if (id === "a5") return user.completedLessons.length >= 5;
-    if (id === "a6") return user.streak >= 7;
-    return false;
-  };
-
-  const earnedCount = ACHIEVEMENTS.filter((a) => earned(a.id)).length;
+  const earnedAchievements = getEarnedAchievements(user);
+  const earnedCount = earnedAchievements.length;
+  const earned = (id: string) => earnedAchievements.some(a => a.id === id);
 
   return (
     <div className="min-h-screen bg-[#FFF9E6] font-['Nunito',sans-serif] pt-24 pb-24 selection:bg-[#58CC02]/30">

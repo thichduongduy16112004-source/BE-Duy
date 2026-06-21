@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useApp } from "../store";
+import { HEART_POLICY, useApp } from "../store";
 import { useIsPremium } from "./useIsPremium";
 
-export const HEART_REFILL_TIME = 5 * 60 * 1000; // 5 phút / 1 tim
-export const MAX_HEARTS = 5;
+export const HEART_REFILL_TIME = HEART_POLICY.refillMinutesPerHeart * 60 * 1000;
+export const MAX_HEARTS = HEART_POLICY.maxHearts;
 
 export function useHearts() {
   const { user, updateProfile } = useApp();
@@ -17,22 +17,22 @@ export function useHearts() {
       const now = Date.now();
       const lastUpdate = user.lastHeartUpdate || now;
       const diff = now - lastUpdate;
-      
-      if (user.hearts < MAX_HEARTS) {
+      const shouldRefill = user.hearts < MAX_HEARTS;
+
+      if (shouldRefill) {
         const heartsToAdd = Math.floor(diff / HEART_REFILL_TIME);
         if (heartsToAdd > 0) {
           const newHearts = Math.min(MAX_HEARTS, user.hearts + heartsToAdd);
           updateProfile({
             hearts: newHearts,
-            lastHeartUpdate: lastUpdate + (heartsToAdd * HEART_REFILL_TIME)
+            lastHeartUpdate: lastUpdate + (heartsToAdd * HEART_REFILL_TIME),
+            hasDepletedHeartsToday: newHearts < MAX_HEARTS,
+            energyPolicyVersion: HEART_POLICY.version,
           });
         } else {
-          setTimeLeft(Math.floor((HEART_REFILL_TIME - diff) / 1000));
+          setTimeLeft(Math.max(0, Math.floor((HEART_REFILL_TIME - diff) / 1000)));
         }
       } else {
-        if (diff > HEART_REFILL_TIME) {
-          updateProfile({ lastHeartUpdate: now });
-        }
         setTimeLeft(0);
       }
     }, 1000);

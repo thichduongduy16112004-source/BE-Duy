@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ứng dụng trắc nghiệm Lịch Sử lớp 11 với giải thích AI chi tiết - 130 câu hỏi, 6 chủ đề">
+  <title>Trắc nghiệm Lịch Sử 11 | AI Explanation</title>
+  <meta property="og:title" content="Trắc nghiệm Lịch Sử 11 | AI Explanation">
+  <meta property="og:description" content="Ứng dụng trắc nghiệm Lịch Sử lớp 11 với giải thích AI chi tiết - 130 câu hỏi, 6 chủ đề">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container" id="app">
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <div class="brand-text">
+        <h2>Lịch Sử 11 · AI Quiz</h2>
+        <p>Sách Kết Nối Tri Thức – Cả Năm Học</p>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat-pill" id="headerProgress">
+        <span class="stat-dot"></span>
+        <span id="headerProgressText">Chọn chủ đề để bắt đầu</span>
+      </div>
+      <div class="stat-pill" id="headerScore" style="display:none;">
+        ⭐ <span id="headerScoreText">0%</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <div class="main-layout" id="mainLayout" style="display:none;">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <!-- Progress -->
+      <div class="sidebar-header">
+        <div class="question-counter">
+          <div class="counter-main" id="sidebarCurrent">1</div>
+          <div class="counter-label">/ <span id="sidebarTotal">0</span> câu hỏi</div>
+        </div>
+
+        <div class="progress-ring-container">
+          <svg class="progress-ring-svg" width="80" height="80" viewBox="0 0 80 80">
+            <defs>
+              <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#6366f1"/>
+                <stop offset="100%" style="stop-color:#06b6d4"/>
+              </linearGradient>
+            </defs>
+            <circle class="progress-ring-bg" cx="40" cy="40" r="34"/>
+            <circle class="progress-ring-fill" id="progressRing"
+              cx="40" cy="40" r="34"
+              stroke-dasharray="213.6"
+              stroke-dashoffset="213.6"/>
+          </svg>
+          <div class="progress-ring-text">
+            <div class="progress-ring-percent" id="progressPercent">0%</div>
+            <div class="progress-ring-sub">hoàn thành</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Score + Streak -->
+      <div class="score-panel">
+        <div class="score-card correct">
+          <div class="score-value" id="scoreCorrect">0</div>
+          <div class="score-label">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px; vertical-align:-2px;"><polyline points="20 6 9 17 4 12"/></svg>Đúng
+          </div>
+        </div>
+        <div class="score-card wrong">
+          <div class="score-value" id="scoreWrong">0</div>
+          <div class="score-label">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px; vertical-align:-2px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Sai
+          </div>
+        </div>
+        <div class="score-card streak-card">
+          <div class="score-value streak-value" id="streakDisplay">—</div>
+          <div class="score-label">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px; vertical-align:-2px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Chuỗi
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="nav-controls">
+        <button class="btn-nav" id="btnPrev" onclick="App.navigate(-1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
+          Trước
+        </button>
+        <button class="btn-nav" id="btnNext" onclick="App.navigate(1)">
+          Sau
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+
+
+      <!-- Back to home -->
+      <div class="sidebar-footer">
+        <button class="btn-reset" onclick="App.returnHome()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="1,4 1,10 7,10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 .49-4.95"></path>
+          </svg>
+          Về trang chủ
+        </button>
+      </div>
+
+      <!-- Mini Question Map -->
+      <div class="question-map" id="questionMap">
+        <div class="question-map-title">Bản đồ câu hỏi</div>
+        <div class="question-dots" id="questionDots"></div>
+      </div>
+
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content-area">
+      <div class="top-topic-bar">
+        <div class="current-topic-info">
+          <div class="topic-icon-badge" id="sidebarTopicIcon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div class="topic-info-text">
+            <div class="topic-label">CHỦ ĐỀ HIỆN TẠI</div>
+            <div class="topic-name" id="sidebarTopicName">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="question-zone" id="questionZone"></div>
+    </main>
+
+  </div><!-- end main-layout -->
+
+  <!-- HOME SCREEN -->
+  <div id="homeScreen">
+    <div class="home-screen">
+      <div class="home-hero">
+        <span class="home-emoji">
+          <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--apple-teal)"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
+        </span>
+        <h1 class="home-title">Trắc Nghiệm<br>Lịch Sử Lớp 11</h1>
+        <p class="home-subtitle">
+          Hệ thống ôn tập thông minh với <strong>130 câu hỏi</strong>, 6 chủ đề trọng tâm.
+          Chọn đáp án — xem kết quả ngay — đọc giải thích AI chuyên sâu.
+        </p>
+        <div class="home-features">
+          <div class="feature-tag">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Phản hồi tức thì
+          </div>
+          <div class="feature-tag">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+            Giải thích AI chuyên sâu
+          </div>
+          <div class="feature-tag">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            Streak counter
+          </div>
+          <div class="feature-tag">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Timeline sự kiện
+          </div>
+          <div class="feature-tag">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01"/><path d="M10 10h.01"/><path d="M14 10h.01"/><path d="M18 10h.01"/><path d="M8 14h8"/></svg>
+            Phím tắt
+          </div>
+        </div>
+      </div>
+
+      <div class="topics-grid" id="homeTopicsGrid"></div>
+
+      <div class="home-actions">
+        <button class="btn-start-all" onclick="App.startAll()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="10,8 16,12 10,16 10,8"></polygon>
+          </svg>
+          Làm tất cả 130 câu
+        </button>
+        <button class="btn-review-bookmarked" id="btnReviewBookmarked" onclick="App.startBookmarked()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+          Ôn lại đã lưu (<span id="bookmarkCount">0</span>)
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end app -->
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
+<!-- Force Update Timestamp for Github -->

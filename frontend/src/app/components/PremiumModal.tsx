@@ -37,8 +37,9 @@ const TRIGGER_TEXT = {
 };
 
 export default function PremiumModal({ onClose, trigger = "general", onSuccess }: PremiumModalProps) {
-  const { startTrial } = useApp();
+  const { startTrial, user } = useApp();
   const nav = useNavigate();
+  const hasUsedTrial = user.trialEndDate !== null;
 
   const { emoji, title, subtitle } = TRIGGER_TEXT[trigger];
 
@@ -156,32 +157,55 @@ export default function PremiumModal({ onClose, trigger = "general", onSuccess }
           </div>
 
           {/* CTA buttons */}
-          <motion.button
-            whileHover={{ y: -2, boxShadow: "0 10px 0 #7c2d0a, 0 0 32px rgba(255,180,40,0.45)" }}
-            whileTap={{ y: 3, boxShadow: "0 2px 0 #7c2d0a" }}
-            onClick={handleTrial}
-            className="w-full py-4 rounded-2xl mb-3 flex items-center justify-center gap-2"
-            style={{
-              background: "linear-gradient(135deg, #b85c00 0%, #d97706 40%, #f5b830 70%, #d97706 100%)",
-              boxShadow: "0 6px 0 #7c2d0a, 0 0 24px rgba(217,119,6,0.3)",
-              color: "#1c0800",
-              fontFamily: '"Cinzel", serif',
-              fontWeight: 700,
-              fontSize: 14,
-              letterSpacing: "0.06em",
-            }}
-          >
-            <Crown className="w-4 h-4" />
-            Bắt Đầu 3 Ngày Miễn Phí
-          </motion.button>
+          {hasUsedTrial ? (
+            <motion.button
+              whileHover={{ y: -2, boxShadow: "0 10px 0 #7c2d0a, 0 0 32px rgba(255,180,40,0.45)" }}
+              whileTap={{ y: 3, boxShadow: "0 2px 0 #7c2d0a" }}
+              onClick={handleSeePricing}
+              className="w-full py-4 rounded-2xl mb-3 flex items-center justify-center gap-2"
+              style={{
+                background: "linear-gradient(135deg, #b85c00 0%, #d97706 40%, #f5b830 70%, #d97706 100%)",
+                boxShadow: "0 6px 0 #7c2d0a, 0 0 24px rgba(217,119,6,0.3)",
+                color: "#1c0800",
+                fontFamily: '"Cinzel", serif',
+                fontWeight: 700,
+                fontSize: 14,
+                letterSpacing: "0.06em",
+              }}
+            >
+              <Crown className="w-4 h-4" />
+              Nâng Cấp Pro Ngay
+            </motion.button>
+          ) : (
+            <>
+              <motion.button
+                whileHover={{ y: -2, boxShadow: "0 10px 0 #7c2d0a, 0 0 32px rgba(255,180,40,0.45)" }}
+                whileTap={{ y: 3, boxShadow: "0 2px 0 #7c2d0a" }}
+                onClick={handleTrial}
+                className="w-full py-4 rounded-2xl mb-3 flex items-center justify-center gap-2"
+                style={{
+                  background: "linear-gradient(135deg, #b85c00 0%, #d97706 40%, #f5b830 70%, #d97706 100%)",
+                  boxShadow: "0 6px 0 #7c2d0a, 0 0 24px rgba(217,119,6,0.3)",
+                  color: "#1c0800",
+                  fontFamily: '"Cinzel", serif',
+                  fontWeight: 700,
+                  fontSize: 14,
+                  letterSpacing: "0.06em",
+                }}
+              >
+                <Crown className="w-4 h-4" />
+                Bắt Đầu 3 Ngày Miễn Phí
+              </motion.button>
 
-          <button
-            onClick={handleSeePricing}
-            className="w-full py-2.5 text-center"
-            style={{ color: "#7a6040", fontSize: 13, fontFamily: '"Inter", sans-serif' }}
-          >
-            Xem tất cả gói →
-          </button>
+              <button
+                onClick={handleSeePricing}
+                className="w-full py-2.5 text-center"
+                style={{ color: "#7a6040", fontSize: 13, fontFamily: '"Inter", sans-serif' }}
+              >
+                Xem tất cả gói →
+              </button>
+            </>
+          )}
 
           <button
             onClick={onClose}
