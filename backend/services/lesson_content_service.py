@@ -13,6 +13,9 @@ DRAFT_ID = "lesson-content-draft"
 PUBLISHED_ID = "lesson-content-published"
 MAX_ASSET_BYTES = 8 * 1024 * 1024
 ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp", "image/gif"}
+QUESTION_NODE_TYPES = {"lesson", "story"}
+MAP_ONLY_NODE_TYPES = {"practice", "boss", "review"}
+CANONICAL_NODE_TYPES = ["lesson", "lesson", "practice", "lesson", "lesson", "practice", "boss"]
 
 
 def dataset_summary(dataset: DataJsDataset) -> dict[str, Any]:
@@ -39,50 +42,124 @@ def unit_id_from_topic(topic_id: int | str) -> str:
     return text if text.startswith("u") else f"u{text}"
 
 
-def build_default_nodes(unit_id: str, question_count: int, node_size: int = 5) -> list[dict[str, Any]]:
+def build_default_nodes(unit_id: str, question_count: int) -> list[dict[str, Any]]:
+    lesson_node_indexes = [index for index, node_type in enumerate(CANONICAL_NODE_TYPES) if node_type in QUESTION_NODE_TYPES]
+    counts = distribute_questions(question_count, len(lesson_node_indexes))
+    lesson_cursor = 0
     nodes = []
-    cursor = 0
-    while cursor < question_count:
-        index = len(nodes) + 1
-        count = min(node_size, question_count - cursor)
-        nodes.append({"id": f"{unit_id}-l{index}", "title": f"Node {index}", "questionStart": cursor, "questionCount": count})
-        cursor += count
+    for index, node_type in enumerate(CANONICAL_NODE_TYPES, start=1):
+        node_id = f"{unit_id}-l{index}"
+        if node_type in QUESTION_NODE_TYPES:
+            question_count_for_node = counts[lesson_cursor] if lesson_cursor < len(counts) else 0
+            question_start = sum(counts[:lesson_cursor])
+            lesson_cursor += 1
+            nodes.append(
+                {
+                    "id": node_id,
+                    "title": f"Bài học {lesson_cursor}",
+                    "questionStart": question_start,
+                    "questionCount": question_count_for_node,
+                    "type": node_type,
+                    "xp": max(10, question_count_for_node * 10),
+                }
+            )
+            continue
+        nodes.append(
+            {
+                "id": node_id,
+                "title": map_only_title(node_type),
+                "questionStart": 0,
+                "questionCount": 0,
+                "type": node_type,
+                "xp": default_node_xp(node_type, 0),
+            }
+        )
     return nodes
 
 
 def normalize_nodes(unit_id: str, question_count: int, nodes: list[DataJsLessonNode]) -> list[dict[str, Any]]:
-    raw_nodes = [node.model_dump(mode="json") for node in nodes] or build_default_nodes(unit_id, question_count)
+    raw_nodes = [node.model_dump(mode="json") for node in nodes]
+    source_nodes = raw_nodes if any(node.get("type") for node in raw_nodes) else build_default_nodes(unit_id, question_count)
     normalized = []
     cursor = 0
-    for index, node in enumerate(raw_nodes, start=1):
-        if cursor >= question_count:
-            break
-        count = min(max(int(node.get("questionCount") or 5), 1), 10, question_count - cursor)
+    for index, node in enumerate(source_nodes, start=1):
+        node_type = normalize_node_type(node.get("type"), index - 1)
+        is_question_node = node_type in QUESTION_NODE_TYPES
+        remaining = max(question_count - cursor, 0)
+        count = min(max(int(node.get("questionCount") or 0), 0), 10, remaining) if is_question_node else 0
+        if is_question_node and count == 0 and question_count > 0:
+            continue
         normalized.append(
             {
                 "id": node.get("id") or f"{unit_id}-l{index}",
-                "title": node.get("title") or f"Node {index}",
-                "questionStart": cursor,
+                "title": node.get("title") or default_node_title(node_type, len(normalized) + 1),
+                "questionStart": cursor if is_question_node else 0,
                 "questionCount": count,
+                "type": node_type,
+                "xp": node.get("xp") if node.get("xp") is not None else default_node_xp(node_type, count),
             }
         )
-        cursor += count
-    while cursor < question_count:
-        index = len(normalized) + 1
-        count = min(5, question_count - cursor)
-        normalized.append({"id": f"{unit_id}-l{index}", "title": f"Node {index}", "questionStart": cursor, "questionCount": count})
-        cursor += count
+        if is_question_node:
+            cursor += count
+    if cursor < question_count:
+        for node in [node for node in build_default_nodes(unit_id, question_count - cursor) if node.get("type") in QUESTION_NODE_TYPES]:
+            normalized.append({**node, "id": f"{unit_id}-l{len(normalized) + 1}", "questionStart": cursor})
+            cursor += int(node["questionCount"])
     return normalized
 
 
 def lesson_id_for_question(index: int, nodes: list[dict[str, Any]], fallback_unit_id: str) -> str:
     zero_based_index = index - 1
     for node in nodes:
+        if node.get("type") not in QUESTION_NODE_TYPES:
+            continue
         start = int(node["questionStart"])
         end = start + int(node["questionCount"])
         if start <= zero_based_index < end:
             return str(node["id"])
-    return f"{fallback_unit_id}-l{((index - 1) // 5) + 1}"
+    return f"{fallback_unit_id}-l1"
+
+
+def distribute_questions(question_count: int, lesson_node_count: int) -> list[int]:
+    if lesson_node_count <= 0:
+        return []
+    base = question_count // lesson_node_count
+    remainder = question_count % lesson_node_count
+    return [base + (1 if index < remainder else 0) for index in range(lesson_node_count)]
+
+
+def normalize_node_type(node_type: str | None, index: int) -> str:
+    if node_type in QUESTION_NODE_TYPES or node_type in MAP_ONLY_NODE_TYPES:
+        return str(node_type)
+    return CANONICAL_NODE_TYPES[index] if index < len(CANONICAL_NODE_TYPES) else "lesson"
+
+
+def map_only_title(node_type: str) -> str:
+    if node_type == "practice":
+        return "Luyện tập"
+    if node_type == "boss":
+        return "Tổng ôn chương"
+    if node_type == "review":
+        return "Ôn tập ngẫu nhiên"
+    return "Bài học"
+
+
+def default_node_title(node_type: str, index: int) -> str:
+    if node_type == "practice":
+        return f"Luyện tập {index}"
+    if node_type in MAP_ONLY_NODE_TYPES:
+        return map_only_title(node_type)
+    return f"Bài học {index}"
+
+
+def default_node_xp(node_type: str, question_count: int) -> int:
+    if node_type == "practice":
+        return 30
+    if node_type == "boss":
+        return 60
+    if node_type == "review":
+        return 50
+    return max(10, question_count * 10)
 
 
 def normalize_dataset(dataset: DataJsDataset) -> dict[str, Any]:

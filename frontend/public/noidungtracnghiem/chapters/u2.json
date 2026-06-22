@@ -8,27 +8,59 @@
   "lessonNodes": [
     {
       "id": "u2-l1",
-      "title": "Node 1",
+      "title": "Bài học 1",
       "questionStart": 0,
-      "questionCount": 5
+      "questionCount": 5,
+      "type": "lesson",
+      "xp": 50
     },
     {
       "id": "u2-l2",
-      "title": "Node 2",
+      "title": "Bài học 2",
       "questionStart": 5,
-      "questionCount": 5
+      "questionCount": 5,
+      "type": "lesson",
+      "xp": 50
     },
     {
       "id": "u2-l3",
-      "title": "Node 3",
-      "questionStart": 10,
-      "questionCount": 5
+      "title": "Luyện tập",
+      "questionStart": 0,
+      "questionCount": 0,
+      "type": "practice",
+      "xp": 30
     },
     {
       "id": "u2-l4",
-      "title": "Node 4",
+      "title": "Bài học 3",
+      "questionStart": 10,
+      "questionCount": 5,
+      "type": "lesson",
+      "xp": 50
+    },
+    {
+      "id": "u2-l5",
+      "title": "Bài học 4",
       "questionStart": 15,
-      "questionCount": 5
+      "questionCount": 5,
+      "type": "lesson",
+      "xp": 50
+    },
+    {
+      "id": "u2-l6",
+      "title": "Luyện tập",
+      "questionStart": 0,
+      "questionCount": 0,
+      "type": "practice",
+      "xp": 30
+    },
+    {
+      "id": "u2-l7",
+      "title": "Tổng ôn chương",
+      "questionStart": 0,
+      "questionCount": 0,
+      "type": "boss",
+      "xp": 60
     }
   ],
   "questions": [
@@ -287,7 +319,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l3",
+      "lessonId": "u2-l4",
       "unitId": "u2",
       "globalId": 10,
       "topicId": 2,
@@ -311,7 +343,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l3",
+      "lessonId": "u2-l4",
       "unitId": "u2",
       "globalId": 11,
       "topicId": 2,
@@ -335,7 +367,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l3",
+      "lessonId": "u2-l4",
       "unitId": "u2",
       "globalId": 12,
       "topicId": 2,
@@ -359,7 +391,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l3",
+      "lessonId": "u2-l4",
       "unitId": "u2",
       "globalId": 13,
       "topicId": 2,
@@ -383,7 +415,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l3",
+      "lessonId": "u2-l4",
       "unitId": "u2",
       "globalId": 14,
       "topicId": 2,
@@ -407,7 +439,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l4",
+      "lessonId": "u2-l5",
       "unitId": "u2",
       "globalId": 15,
       "topicId": 2,
@@ -431,7 +463,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l4",
+      "lessonId": "u2-l5",
       "unitId": "u2",
       "globalId": 16,
       "topicId": 2,
@@ -455,7 +487,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l4",
+      "lessonId": "u2-l5",
       "unitId": "u2",
       "globalId": 17,
       "topicId": 2,
@@ -479,7 +511,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l4",
+      "lessonId": "u2-l5",
       "unitId": "u2",
       "globalId": 18,
       "topicId": 2,
@@ -503,7 +535,7 @@
       "text": null,
       "columnA": null,
       "columnB": null,
-      "lessonId": "u2-l4",
+      "lessonId": "u2-l5",
       "unitId": "u2",
       "globalId": 19,
       "topicId": 2,

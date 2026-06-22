@@ -92,8 +92,10 @@ class DataJsLessonNode(BaseModel):
 
     id: str = Field(min_length=1, max_length=80)
     title: str = Field(default="", max_length=180)
+    type: str | None = Field(default=None, max_length=40)
+    xp: int | None = Field(default=None, ge=0, le=500)
     questionStart: int = Field(default=0, ge=0)
-    questionCount: int = Field(default=5, ge=1, le=10)
+    questionCount: int = Field(default=0, ge=0, le=10)
 
 
 class DataJsTopic(BaseModel):

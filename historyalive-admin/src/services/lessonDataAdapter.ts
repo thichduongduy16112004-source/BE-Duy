@@ -11,11 +11,15 @@ export type QuizQuestion = Record<string, unknown> & {
   lessonId?: string;
 };
 
+export type LessonNodeType = 'lesson' | 'story' | 'boss' | 'review' | 'practice';
+
 export type LessonNode = {
   id: string;
   title: string;
   questionStart: number;
   questionCount: number;
+  type?: LessonNodeType;
+  xp?: number;
 };
 
 export type QuizTopic = {
@@ -55,6 +59,9 @@ export type ValidationIssue = {
 
 const MIN_NODE_SIZE = 5;
 const MAX_NODE_SIZE = 10;
+const QUESTION_NODE_TYPES = new Set<LessonNodeType>(['lesson', 'story']);
+const MAP_ONLY_NODE_TYPES = new Set<LessonNodeType>(['practice', 'boss', 'review']);
+const CANONICAL_NODE_TYPES: LessonNodeType[] = ['lesson', 'lesson', 'practice', 'lesson', 'lesson', 'practice', 'boss'];
 
 export function unitIdFromTopic(topicId: string | number) {
   const text = String(topicId).trim();
@@ -130,33 +137,54 @@ export function validateDataset(value: unknown): QuizDataset {
   return dataset;
 }
 
-export function buildDefaultNodes(unitId: string, questionCount: number, preferredSize = MIN_NODE_SIZE): LessonNode[] {
-  const size = clampNodeSize(preferredSize);
-  const nodes: LessonNode[] = [];
-  for (let start = 0; start < questionCount; start += size) {
-    const nodeIndex = nodes.length + 1;
-    nodes.push({
-      id: `${unitId}-l${nodeIndex}`,
-      title: `Node ${nodeIndex}`,
-      questionStart: start,
-      questionCount: Math.min(size, questionCount - start),
-    });
-  }
-  return nodes;
+export function buildDefaultNodes(unitId: string, questionCount: number): LessonNode[] {
+  const lessonNodeIds = CANONICAL_NODE_TYPES
+    .map((type, index) => ({ type, index }))
+    .filter(({ type }) => isQuestionNodeType(type))
+    .map(({ index }) => `${unitId}-l${index + 1}`);
+  const counts = distributeQuestions(questionCount, lessonNodeIds.length);
+  let lessonIndex = 0;
+
+  return CANONICAL_NODE_TYPES.map((type, index) => {
+    const id = `${unitId}-l${index + 1}`;
+    if (isQuestionNodeType(type)) {
+      const questionCountForNode = counts[lessonIndex] ?? 0;
+      const questionStart = counts.slice(0, lessonIndex).reduce((total, count) => total + count, 0);
+      lessonIndex += 1;
+      return {
+        id,
+        title: `Bài học ${lessonIndex}`,
+        questionStart,
+        questionCount: questionCountForNode,
+        type,
+        xp: Math.max(10, questionCountForNode * 10),
+      };
+    }
+
+    return {
+      id,
+      title: getMapOnlyTitle(type),
+      questionStart: 0,
+      questionCount: 0,
+      type,
+      xp: type === 'boss' ? 60 : type === 'review' ? 50 : 30,
+    };
+  });
 }
 
 export function normalizeTopic(topic: QuizTopic): QuizTopic {
   const unitId = topic.unitId || unitIdFromTopic(topic.id);
   const questions = topic.questions || [];
   const nodes = topic.lessonNodes?.length ? topic.lessonNodes : buildDefaultNodes(unitId, questions.length);
+  const normalizedNodes = normalizeNodes(unitId, questions.length, nodes);
   return {
     ...topic,
     unitId,
-    lessonNodes: normalizeNodes(unitId, questions.length, nodes),
+    lessonNodes: normalizedNodes,
     questions: questions.map((question, index) => ({
       ...question,
       unitId: question.unitId || unitId,
-      lessonId: getNodeForQuestion(index, nodes)?.id || question.lessonId || `${unitId}-l${Math.floor(index / MIN_NODE_SIZE) + 1}`,
+      lessonId: getNodeForQuestion(index, normalizedNodes)?.id || question.lessonId || `${unitId}-l1`,
     })),
   };
 }
@@ -276,6 +304,9 @@ export function validateChapter(chapter: ChapterModel | null): ValidationIssue[]
     issues.push({ tone: 'error', message: 'Chương chưa có lessonNodes.' });
   }
   chapter.nodes.forEach((node) => {
+    if (!isQuestionNode(node)) {
+      return;
+    }
     if (node.questionCount < MIN_NODE_SIZE && chapter.questionCount >= MIN_NODE_SIZE) {
       issues.push({ tone: 'warning', message: `${node.id} có dưới ${MIN_NODE_SIZE} câu.` });
     }
@@ -283,7 +314,7 @@ export function validateChapter(chapter: ChapterModel | null): ValidationIssue[]
       issues.push({ tone: 'error', message: `${node.id} vượt quá ${MAX_NODE_SIZE} câu.` });
     }
   });
-  const covered = chapter.nodes.reduce((total, node) => total + node.questionCount, 0);
+  const covered = chapter.nodes.filter(isQuestionNode).reduce((total, node) => total + node.questionCount, 0);
   if (covered !== chapter.questionCount) {
     issues.push({ tone: 'error', message: `Node đang phủ ${covered}/${chapter.questionCount} câu.` });
   }
@@ -295,39 +326,95 @@ export function nodeQuestions(questions: QuizQuestion[], node: LessonNode) {
 }
 
 function clampNodeSize(size: number) {
-  return Math.max(MIN_NODE_SIZE, Math.min(MAX_NODE_SIZE, Math.round(size || MIN_NODE_SIZE)));
+  return Math.max(0, Math.min(MAX_NODE_SIZE, Math.round(size || 0)));
 }
 
 function normalizeNodes(unitId: string, questionCount: number, nodes: LessonNode[]) {
   const normalized: LessonNode[] = [];
   let cursor = 0;
-  nodes.forEach((node, index) => {
-    if (cursor >= questionCount) {
+  const sourceNodes = nodes.some((node) => node.type) ? nodes : buildDefaultNodes(unitId, questionCount);
+  sourceNodes.forEach((node, index) => {
+    const type = normalizeNodeType(node.type, index);
+    const isQuestionBearing = isQuestionNodeType(type);
+    const remaining = Math.max(questionCount - cursor, 0);
+    const count = isQuestionBearing ? Math.min(clampNodeSize(node.questionCount || MIN_NODE_SIZE), remaining) : 0;
+
+    if (isQuestionBearing && count === 0 && questionCount > 0) {
       return;
     }
-    const remaining = questionCount - cursor;
+
     normalized.push({
       id: node.id || `${unitId}-l${index + 1}`,
-      title: node.title || `Node ${index + 1}`,
-      questionStart: cursor,
-      questionCount: Math.min(clampNodeSize(node.questionCount), remaining),
+      title: node.title || getDefaultNodeTitle(type, normalized.length + 1),
+      questionStart: isQuestionBearing ? cursor : 0,
+      questionCount: count,
+      type,
+      xp: node.xp ?? getDefaultNodeXp(type, count),
     });
-    cursor += normalized[normalized.length - 1].questionCount;
+
+    if (isQuestionBearing) {
+      cursor += count;
+    }
   });
 
-  while (cursor < questionCount) {
-    const index = normalized.length + 1;
-    normalized.push({
-      id: `${unitId}-l${index}`,
-      title: `Node ${index}`,
-      questionStart: cursor,
-      questionCount: Math.min(MIN_NODE_SIZE, questionCount - cursor),
+  if (cursor < questionCount) {
+    const extraNodes = buildDefaultNodes(unitId, questionCount - cursor).filter(isQuestionNode);
+    extraNodes.forEach((node) => {
+      normalized.push({
+        ...node,
+        id: `${unitId}-l${normalized.length + 1}`,
+        questionStart: cursor,
+      });
+      cursor += node.questionCount;
     });
-    cursor += normalized[normalized.length - 1].questionCount;
   }
+
   return normalized;
 }
 
 function getNodeForQuestion(index: number, nodes: LessonNode[]) {
-  return nodes.find((node) => index >= node.questionStart && index < node.questionStart + node.questionCount);
+  return nodes.find((node) => isQuestionNode(node) && index >= node.questionStart && index < node.questionStart + node.questionCount);
+}
+
+function normalizeNodeType(type: LessonNode['type'], index: number): LessonNodeType {
+  if (type && (QUESTION_NODE_TYPES.has(type) || MAP_ONLY_NODE_TYPES.has(type))) {
+    return type;
+  }
+  return CANONICAL_NODE_TYPES[index] || 'lesson';
+}
+
+function isQuestionNode(node: LessonNode) {
+  return isQuestionNodeType(normalizeNodeType(node.type, 0)) && node.questionCount > 0;
+}
+
+function isQuestionNodeType(type: LessonNodeType) {
+  return QUESTION_NODE_TYPES.has(type);
+}
+
+function distributeQuestions(questionCount: number, lessonNodeCount: number) {
+  if (lessonNodeCount <= 0) {
+    return [];
+  }
+  const base = Math.floor(questionCount / lessonNodeCount);
+  const remainder = questionCount % lessonNodeCount;
+  return Array.from({ length: lessonNodeCount }, (_, index) => base + (index < remainder ? 1 : 0));
+}
+
+function getMapOnlyTitle(type: LessonNodeType) {
+  if (type === 'practice') return 'Luyện tập';
+  if (type === 'boss') return 'Tổng ôn chương';
+  if (type === 'review') return 'Ôn tập ngẫu nhiên';
+  return 'Bài học';
+}
+
+function getDefaultNodeTitle(type: LessonNodeType, index: number) {
+  if (type === 'practice') return `Luyện tập ${index}`;
+  return getMapOnlyTitle(type) || `Bài học ${index}`;
+}
+
+function getDefaultNodeXp(type: LessonNodeType, questionCount: number) {
+  if (type === 'practice') return 30;
+  if (type === 'boss') return 60;
+  if (type === 'review') return 50;
+  return Math.max(10, questionCount * 10);
 }

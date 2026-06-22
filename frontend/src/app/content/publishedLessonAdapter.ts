@@ -69,6 +69,9 @@ function getLessonKind(node: PublishedLessonNode, index: number, total: number):
 }
 
 function getLessonXp(node: PublishedLessonNode, index: number) {
+  if (typeof node.xp === "number") {
+    return node.xp;
+  }
   const questionCount = node.questionCount ?? NODE_SIZE;
   return Math.max(10, Math.min(80, questionCount * 10 + index * 2));
 }

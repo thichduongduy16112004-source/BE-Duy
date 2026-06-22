@@ -2,6 +2,7 @@ export type PublishedLessonNode = {
   id?: string;
   title?: string;
   type?: string;
+  xp?: number;
   questionStart?: number;
   questionCount?: number;
 };
