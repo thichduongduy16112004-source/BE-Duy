@@ -10,7 +10,7 @@ def _current_day() -> str:
 
 
 def _is_premium(user: dict) -> bool:
-    return user.get("subscription_type", "free") == "premium"
+    return user.get("isPremium", False) or user.get("subscription_type", "free") in ["premium", "trial"]
 
 
 async def assert_chat_allowed(user: dict) -> None:
