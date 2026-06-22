@@ -107,7 +107,7 @@ class DataJsTopic(BaseModel):
     backgroundImage: str | None = Field(default=None, max_length=500)
     unitId: str | None = Field(default=None, max_length=80)
     lessonNodes: list[DataJsLessonNode] = Field(default_factory=list)
-    questions: list[DataJsQuestion] = Field(default_factory=list, min_length=1)
+    questions: list[DataJsQuestion] = Field(default_factory=list)
 
     @field_validator("icon")
     @classmethod

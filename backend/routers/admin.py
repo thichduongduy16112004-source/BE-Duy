@@ -1,3 +1,4 @@
+import base64
 import csv
 import io
 import json
@@ -21,6 +22,8 @@ router = APIRouter(prefix="/admin", tags=["Admin"])
 
 CharacterStatus = Literal["draft", "active", "archived"]
 ClaimStatus = Literal["verified", "disputed", "contextual"]
+MAX_PORTRAIT_BYTES = 1024 * 1024
+ALLOWED_PORTRAIT_TYPES = {"image/jpeg", "image/png", "image/webp"}
 
 
 class PersonaContext(BaseModel):
@@ -93,7 +96,7 @@ class CharacterCreate(BaseModel):
     death_year: int | None = None
     short_bio: str = Field(default="", max_length=2000)
     personality_prompt: str = Field(default="", max_length=6000)
-    portrait_url: str = Field(default="", max_length=1000)
+    portrait_url: str = Field(default="", max_length=800000)
     tts_voice_id: str = Field(default="vi-VN-default", max_length=120)
     status: CharacterStatus = "draft"
     ai_policy: AiPolicy = Field(default_factory=AiPolicy)
@@ -107,7 +110,7 @@ class CharacterUpdate(BaseModel):
     death_year: int | None = None
     short_bio: str | None = Field(default=None, max_length=2000)
     personality_prompt: str | None = Field(default=None, max_length=6000)
-    portrait_url: str | None = Field(default=None, max_length=1000)
+    portrait_url: str | None = Field(default=None, max_length=800000)
     tts_voice_id: str | None = Field(default=None, max_length=120)
     status: CharacterStatus | None = None
     ai_policy: AiPolicy | None = None
@@ -128,7 +131,6 @@ async def _ensure_indexes(db) -> None:
     await db["knowledge_chunks"].create_index("chunk_id", unique=True)
     await db["knowledge_chunks"].create_index([("text", "text"), ("fact", "text")])
     await db["admin_audit_logs"].create_index("timestamp")
-    await db["system_settings"].create_index("_id", unique=True)
 
 
 async def log_admin_action(db, admin_id: str, action: str, target_id: str = "", details: dict[str, Any] | None = None) -> None:
@@ -573,6 +575,33 @@ async def update_character(character_id: str, body: CharacterUpdate):
 
     character = await db["characters"].find_one({"character_id": character_id})
     return {"message": "Cập nhật nhân vật thành công", "character": _serialize_character(character)}
+
+
+@router.post("/characters/{character_id}/portrait", dependencies=[Depends(require_admin)])
+async def upload_character_portrait(character_id: str, file: UploadFile = File(...)):
+    db = get_database()
+    character = await db["characters"].find_one({"character_id": character_id})
+    if character is None:
+        raise HTTPException(status_code=404, detail="Không tìm thấy nhân vật")
+
+    content_type = file.content_type or ""
+    if content_type not in ALLOWED_PORTRAIT_TYPES:
+        raise HTTPException(status_code=400, detail="Ảnh phải là PNG, JPG hoặc WebP")
+
+    image_bytes = await file.read(MAX_PORTRAIT_BYTES + 1)
+    if not image_bytes:
+        raise HTTPException(status_code=400, detail="File ảnh không hợp lệ")
+    if len(image_bytes) > MAX_PORTRAIT_BYTES:
+        raise HTTPException(status_code=413, detail="Ảnh đại diện tối đa 1 MB")
+
+    encoded_image = base64.b64encode(image_bytes).decode("ascii")
+    portrait_url = f"data:{content_type};base64,{encoded_image}"
+    await db["characters"].update_one(
+        {"character_id": character_id},
+        {"$set": {"portrait_url": portrait_url, "updated_at": datetime.utcnow()}},
+    )
+    updated_character = await db["characters"].find_one({"character_id": character_id})
+    return {"message": "Cập nhật ảnh nhân vật thành công", "character": _serialize_character(updated_character)}
 
 
 @router.delete("/characters/{character_id}", dependencies=[Depends(require_admin)])

@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useApp, MASCOTS } from "../store";
 import { motion, AnimatePresence } from "motion/react";
 import { Lock, Trophy, Flame, Crown, Scroll, BookOpen, BookMarked, ChevronRight, Zap, Star, FastForward, Dumbbell } from "lucide-react";
 import { useAppSound } from "../hooks/useAppSound";
 import { getAllUnits } from "../content/contentRepository";
+import { CONTENT_UNITS } from "../content/mockContent";
+import { fetchPublishedLessonDataset } from "../content/publishedLessonApi";
+import { mapPublishedDatasetToUnits } from "../content/publishedLessonAdapter";
+import { mergePublishedUnits } from "../content/mergePublishedUnits";
+import { setPublishedUnitsCache } from "../content/publishedUnitsCache";
 
 const ZIGZAG = [0, 72, 0, -72, 0, 72, 0, -72, 0, 72];
 
@@ -42,20 +47,42 @@ export default function HomeScreen() {
   const { user } = useApp();
   const nav = useNavigate();
   const playClick = useAppSound("click");
-  const units = getAllUnits();
-  const visibleUnits = units.slice(0, 4);
-  const upcomingUnits = units.slice(4, 6);
+  const mockUnits = CONTENT_UNITS;
+  const [units, setUnits] = useState(mockUnits);
+  const [isLoadingPublishedLessons, setIsLoadingPublishedLessons] = useState(true);
+  const [isUsingMockFallback, setIsUsingMockFallback] = useState(true);
+  const upcomingUnits = isUsingMockFallback ? units.slice(4, 6) : [];
   const userMascot = MASCOTS.find(m => m.id === user.mascotId) || MASCOTS[0];
 
-  const activeUnitIdx = (() => {
-    for (let i = 0; i < visibleUnits.length; i++) {
-      const prevDone = i === 0 || visibleUnits[i - 1].lessons.every(l => user.completedLessons.includes(l.id));
-      if (prevDone && !visibleUnits[i].lessons.every(l => user.completedLessons.includes(l.id))) return i;
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadPublishedLessons() {
+      setIsLoadingPublishedLessons(true);
+      const dataset = await fetchPublishedLessonDataset(controller.signal);
+      if (controller.signal.aborted) return;
+
+      const publishedUnits = dataset ? mapPublishedDatasetToUnits(dataset) : [];
+      setPublishedUnitsCache(publishedUnits);
+      setUnits(mergePublishedUnits(mockUnits, publishedUnits));
+      setIsUsingMockFallback(publishedUnits.length === 0);
+      setIsLoadingPublishedLessons(false);
     }
-    return visibleUnits.length - 1;
+
+    loadPublishedLessons();
+
+    return () => controller.abort();
+  }, []);
+
+  const activeUnitIdx = (() => {
+    for (let i = 0; i < units.length; i++) {
+      const prevDone = i === 0 || units[i - 1].lessons.every(l => user.completedLessons.includes(l.id));
+      if (prevDone && !units[i].lessons.every(l => user.completedLessons.includes(l.id))) return i;
+    }
+    return Math.max(units.length - 1, 0);
   })();
 
-  const activeUnit = visibleUnits[activeUnitIdx];
+  const activeUnit = units[activeUnitIdx] ?? mockUnits[0];
   const completedInActive = activeUnit.lessons.filter(l => user.completedLessons.includes(l.id)).length;
   const nextLesson = activeUnit.lessons.find(l => !user.completedLessons.includes(l.id));
   const [showOutOfHeartsGate, setShowOutOfHeartsGate] = useState(false);
@@ -212,16 +239,20 @@ export default function HomeScreen() {
           letterSpacing: "-0.01em",
         }}>Bản đồ chiến dịch</p>
         <div style={{ flex: 1, height: 2, background: "linear-gradient(to right, rgba(180,100,0,0.2), transparent)", borderRadius: 99 }} />
+        <span style={{ color: "#a16207", fontSize: 11, fontFamily: '"Nunito", sans-serif', fontWeight: 800 }}>
+          {isLoadingPublishedLessons ? "Đang đồng bộ Admin..." : isUsingMockFallback ? "Nội dung mẫu" : "Đã đồng bộ Admin"}
+        </span>
       </div>
 
       <div className="px-4 lg:px-12 max-w-4xl mx-auto space-y-5 pb-4">
-        {visibleUnits.map((unit, ui) => {
+        {units.map((unit, ui) => {
           const prevDone = ui === 0 || units[ui - 1].lessons.every(l => user.completedLessons.includes(l.id));
           const unitLocked = !prevDone;
           const completedIn = unit.lessons.filter(l => user.completedLessons.includes(l.id)).length;
           const pct = Math.round((completedIn / unit.lessons.length) * 100);
           const isActive = ui === activeUnitIdx;
-          const warmBg = UNIT_WARM_BG[unit.id] || UNIT_WARM_BG.u1;
+          const warmBg = UNIT_WARM_BG[unit.originalUnitId ?? unit.id] || UNIT_WARM_BG[unit.id] || UNIT_WARM_BG.u1;
+          const chapterBackground = getUnitBackgroundImage(unit, warmBg.path);
 
           return (
             <motion.div
@@ -309,7 +340,7 @@ export default function HomeScreen() {
                 className="pt-4 pb-0 relative w-full overflow-hidden flex justify-center"
                 style={{
                   backgroundColor: "#ebd2a9",
-                  backgroundImage: `url(http://localhost:8000/api/v1/lesson-content/assets/${unit.id}/${nextLesson?.id ?? unit.lessons[0]?.id ?? `${unit.id}-l1`}), url(/assets/bg_${unit.id}.png), ${warmBg.path}`,
+                  backgroundImage: chapterBackground,
                   backgroundSize: "cover, cover, cover",
                   backgroundPosition: "center top, center top, center",
                   backgroundRepeat: "no-repeat",
@@ -421,6 +452,23 @@ export default function HomeScreen() {
 }
 
 type UnitType = ReturnType<typeof getAllUnits>[0];
+
+function getUnitBackgroundImage(unit: UnitType, fallbackPath: string) {
+  const assetUnitId = unit.originalUnitId ?? unit.id;
+  const localAsset = `url(/assets/bg_${assetUnitId}.png)`;
+
+  if (unit.backgroundImage) {
+    return `url(${unit.backgroundImage}), ${localAsset}, ${fallbackPath}`;
+  }
+
+  if (unit.source === "published") {
+    const apiUnitId = encodeURIComponent(assetUnitId);
+    const apiLessonId = encodeURIComponent(unit.lessons[0]?.id ?? `${assetUnitId}-l1`);
+    return `url(http://localhost:8000/api/v1/lesson-content/assets/${apiUnitId}/${apiLessonId}), ${localAsset}, ${fallbackPath}`;
+  }
+
+  return `${localAsset}, ${fallbackPath}, ${fallbackPath}`;
+}
 
 // ─── Whimsical Decoration data ──────────────────────────────────────────────────────────
 const DECORATIONS = [

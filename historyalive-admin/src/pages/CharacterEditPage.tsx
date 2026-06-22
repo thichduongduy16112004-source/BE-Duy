@@ -64,6 +64,8 @@ export default function CharacterEditPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(isEditing);
   const [isSaving, setIsSaving] = useState(false);
+  const [pendingPortrait, setPendingPortrait] = useState<File | null>(null);
+  const [isUploadingPortrait, setIsUploadingPortrait] = useState(false);
 
   useEffect(() => {
     if (!id) {
@@ -139,6 +141,41 @@ export default function CharacterEditPage() {
     setForm((current) => ({ ...current, rag_templates: current.rag_templates.filter((_, templateIndex) => templateIndex !== index) }));
   };
 
+  const handlePortraitChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setError('Vui lòng chọn file ảnh');
+      return;
+    }
+
+    if (file.size > 1024 * 1024) {
+      setError('Ảnh tối đa 1 MB');
+      return;
+    }
+
+    if (isEditing && id) {
+      setIsUploadingPortrait(true);
+      setError('');
+      try {
+        const result = await apiService.uploadCharacterPortrait(id, file);
+        setForm((current) => ({ ...current, portrait_url: result.character.portrait_url }));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Không thể upload ảnh');
+      } finally {
+        setIsUploadingPortrait(false);
+      }
+    } else {
+      setPendingPortrait(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setForm((current) => ({ ...current, portrait_url: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError('');
@@ -148,10 +185,14 @@ export default function CharacterEditPage() {
       const payload = normalizePayload(form);
       if (isEditing && id) {
         await apiService.updateCharacter(id, payload);
+        navigate('/characters');
       } else {
-        await apiService.createCharacter(payload as CharacterPayload & { character_id: string });
+        const result = await apiService.createCharacter(payload as CharacterPayload & { character_id: string });
+        if (pendingPortrait && result.character.character_id) {
+          await apiService.uploadCharacterPortrait(result.character.character_id, pendingPortrait);
+        }
+        navigate('/characters');
       }
-      navigate('/characters');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Không thể lưu nhân vật.');
     } finally {
@@ -191,10 +232,28 @@ export default function CharacterEditPage() {
               <span>Năm mất</span>
               <input id="character-death-year" type="number" value={form.death_year ?? ''} onChange={(event) => updateField('death_year', event.target.value ? Number(event.target.value) : null)} placeholder="1300" />
             </label>
-            <label className="field-group">
-              <span>Portrait URL</span>
-              <input id="character-portrait-url" value={form.portrait_url} onChange={(event) => updateField('portrait_url', event.target.value)} placeholder="https://..." />
-            </label>
+            <div className="field-group">
+              <span>Ảnh đại diện</span>
+              <div className="portrait-upload-zone">
+                {form.portrait_url && (
+                  <div className="portrait-preview">
+                    <img src={form.portrait_url} alt="Preview" />
+                  </div>
+                )}
+                <label htmlFor="character-portrait-input" className="portrait-upload-button">
+                  {isUploadingPortrait ? 'Đang upload...' : form.portrait_url ? 'Đổi ảnh' : 'Chọn ảnh'}
+                  <input
+                    id="character-portrait-input"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    onChange={handlePortraitChange}
+                    disabled={isUploadingPortrait}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+                <small>PNG, JPG, WebP • Tối đa 1 MB</small>
+              </div>
+            </div>
             <label className="field-group">
               <span>TTS Voice ID</span>
               <input id="character-tts-voice" value={form.tts_voice_id} onChange={(event) => updateField('tts_voice_id', event.target.value)} placeholder="vi-VN-default" />

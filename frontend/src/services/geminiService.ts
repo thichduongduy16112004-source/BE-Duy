@@ -1,5 +1,4 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
-const DEFAULT_CHARACTER_ID = "tran_hung_dao";
 
 type ChatHistoryItem = {
   role: "user" | "assistant" | "ai";
@@ -7,6 +6,7 @@ type ChatHistoryItem = {
 };
 
 type StreamHandlers = {
+  characterId: string;
   onToken: (token: string) => void;
   onFinal?: (metadata: Record<string, unknown>) => void;
 };
@@ -44,7 +44,7 @@ export async function streamAIMessage(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      character_id: DEFAULT_CHARACTER_ID,
+      character_id: handlers.characterId,
       message,
       history: history.slice(-10),
     }),

@@ -1,6 +1,7 @@
 import type { ArenaQuestion, ArenaQuestionFilter, ContentQuestion, LessonQuizQuestion } from "./content.types";
 import { getContentProvider } from "./contentProvider";
-import { DEFAULT_TENANT_ID } from "./mockContent";
+import { CONTENT_UNITS, DEFAULT_TENANT_ID } from "./mockContent";
+import { getPublishedUnitsCache } from "./publishedUnitsCache";
 
 const getPublishedQuestions = () => getContentProvider().getQuestions().filter((question) => question.status === "published");
 
@@ -9,7 +10,7 @@ export function getAllUnits() {
 }
 
 export function getLessonById(id: string) {
-  for (const unit of getAllUnits()) {
+  for (const unit of [...getAllUnits(), ...CONTENT_UNITS, ...getPublishedUnitsCache()]) {
     const lesson = unit.lessons.find((item) => item.id === id);
     if (lesson) return { ...lesson, unit };
   }

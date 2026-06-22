@@ -1,0 +1,411 @@
+{
+  "id": "u4",
+  "unitId": "u4",
+  "name": "Chủ đề 4",
+  "title": "Chiến tranh bảo vệ Tổ quốc & Giải phóng dân tộc (trước 1945)",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg>",
+  "color": "#d97706",
+  "lessonNodes": [
+    {
+      "id": "u4-l1",
+      "title": "Node 1",
+      "questionStart": 0,
+      "questionCount": 6
+    },
+    {
+      "id": "u4-l2",
+      "title": "Node 2",
+      "questionStart": 6,
+      "questionCount": 6
+    },
+    {
+      "id": "u4-l3",
+      "title": "Node 3",
+      "questionStart": 12,
+      "questionCount": 6
+    },
+    {
+      "id": "u4-l4",
+      "title": "Node 4",
+      "questionStart": 18,
+      "questionCount": 7
+    }
+  ],
+  "questions": [
+    {
+      "id": "u4-q1",
+      "question": "Năm 938, Ngô Quyền đánh bại quân Nam Hán bằng chiến thuật gì, trên sông nào?",
+      "options": [
+        "Trận địa mai phục, sông Hồng",
+        "Trận địa cọc, sông Bạch Đằng",
+        "Phục kích đêm tối, sông Lục Đầu",
+        "Chiến thuật vườn không nhà trống, sông Đà"
+      ],
+      "answer": 1,
+      "explanation": "Ngô Quyền (898–944) dùng <strong>trận địa cọc</strong> trên <strong>sông Bạch Đằng</strong>: cắm cọc gỗ đầu nhọn bịt sắt dưới lòng sông, dụ thuyền địch vào lúc thủy triều lên rồi chặn đánh khi thủy triều xuống – thuyền địch bị cọc đâm thủng và bị tiêu diệt. Chiến thắng 938 chấm dứt hơn 1000 năm Bắc thuộc (từ 111 TCN), mở ra thời đại độc lập tự chủ.",
+      "unitId": "u4",
+      "lessonId": "u4-l1",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q2",
+      "question": "Trong cuộc kháng chiến chống Tống lần 1 (981), ai là người lãnh đạo và tướng Tống nào bị tử trận?",
+      "options": [
+        "Lý Thường Kiệt lãnh đạo, Triệu Tiết tử trận",
+        "Lê Hoàn lãnh đạo, Hầu Nhân Bảo tử trận",
+        "Trần Quốc Tuấn lãnh đạo, Quách Quỳ tử trận",
+        "Ngô Quyền lãnh đạo, Tôn Toàn Hưng tử trận"
+      ],
+      "answer": 1,
+      "explanation": "<strong>Lê Hoàn</strong> (Lê Đại Hành, sáng lập nhà Tiền Lê) lãnh đạo kháng chiến chống Tống lần 1 (981). Quân Tống do Hầu Nhân Bảo chỉ huy bị đánh bại, Hầu Nhân Bảo tử trận. Lê Hoàn vừa vừa cầm quân đánh thủy ở sông Bạch Đằng vừa đánh bộ ở Chi Lăng. Đây là chiến thắng quan trọng củng cố nền độc lập non trẻ của Đại Cồ Việt.",
+      "unitId": "u4",
+      "lessonId": "u4-l1",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q3",
+      "question": "Lý Thường Kiệt tổ chức kháng chiến chống Tống lần 2 (1075–1077) bằng chiến lược gì?",
+      "options": [
+        "Chỉ phòng thủ, chờ địch tấn công",
+        "Chủ động tiêu diệt kho lương và trại biên giới địch; lập phòng tuyến sông Như Nguyệt; chủ động giảng hoà",
+        "Rút lui chiến lược, bỏ kinh thành",
+        "Đánh du kích trong rừng núi"
+      ],
+      "answer": 1,
+      "explanation": "Lý Thường Kiệt dùng chiến lược <strong>'tiên phát chế nhân'</strong> (đánh trước để chế ngự địch): (1) chủ động tấn công sang đất Tống (1075), phá hủy kho lương ở Ung Châu, Khâm Châu; (2) rút về lập phòng tuyến sông Như Nguyệt; (3) đánh lui quân Tống (bài thơ 'Nam quốc sơn hà'); (4) <strong>chủ động giảng hòa</strong> khi thế nước đã mạnh để tránh tổn thất.",
+      "unitId": "u4",
+      "lessonId": "u4-l1",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q4",
+      "question": "Trong lần kháng chiến chống Mông – Nguyên lần 2 (1285), tướng Mông Nguyên nào phải chui vào ống đồng chạy về nước?",
+      "options": [
+        "Ngột Lương Hợp Thai",
+        "Ô Mã Nhi",
+        "Toa Đô",
+        "Thoát Hoan"
+      ],
+      "answer": 3,
+      "explanation": "<strong>Thoát Hoan</strong> (con Hốt Tất Liệt) là chỉ huy quân Nguyên lần 2 (1285). Bị quân Trần đánh bại hoàn toàn, Thoát Hoan phải chui vào ống đồng để quân lính khiêng chạy về nước. Chi tiết 'ống đồng' là hình ảnh biểu trưng cho sự thảm bại nhục nhã của đội quân từng chinh phục khắp Á-Âu.",
+      "unitId": "u4",
+      "lessonId": "u4-l1",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q5",
+      "question": "Chiến thắng Rạch Gầm – Xoài Mút năm 1785 do ai chỉ huy và đánh bại quân xâm lược nào?",
+      "options": [
+        "Nguyễn Nhạc, đánh bại quân Thanh",
+        "Nguyễn Huệ, đánh bại quân Xiêm",
+        "Nguyễn Lữ, đánh bại quân Nguyên",
+        "Lê Lợi, đánh bại quân Minh"
+      ],
+      "answer": 1,
+      "explanation": "<strong>Nguyễn Huệ</strong> chỉ huy trận Rạch Gầm – Xoài Mút (1/1785) trên sông Tiền (Tiền Giang), đánh bại <strong>quân Xiêm</strong> (do Nguyễn Ánh cầu viện) gồm 5 vạn quân và 300 thuyền chiến. Đây là một trong những trận thủy chiến lớn nhất lịch sử Việt Nam, tiêu diệt gần hoàn toàn quân Xiêm chỉ trong một ngày.",
+      "unitId": "u4",
+      "lessonId": "u4-l1",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q6",
+      "question": "Năm 1789, vua Quang Trung đánh bại bao nhiêu vạn quân Thanh và giải phóng Thăng Long?",
+      "options": [
+        "10 vạn",
+        "20 vạn",
+        "29 vạn",
+        "50 vạn"
+      ],
+      "answer": 2,
+      "explanation": "Vua <strong>Quang Trung (Nguyễn Huệ)</strong> thần tốc tiến quân từ Phú Xuân, đánh bại <strong>29 vạn quân Thanh</strong> (do Tôn Sĩ Nghị chỉ huy) trong chiến dịch mùa xuân Kỷ Dậu 1789. Chỉ 5 ngày từ 30/12 âm lịch đến mùng 5 Tết, Quang Trung giải phóng Thăng Long. Đây là chiến thắng lẫy lừng nhất trong lịch sử chống ngoại xâm.",
+      "unitId": "u4",
+      "lessonId": "u4-l1",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q7",
+      "question": "Nguyên nhân thắng lợi CHỦ QUAN của các cuộc kháng chiến chống ngoại xâm trong lịch sử Việt Nam là gì?",
+      "options": [
+        "Kẻ thù thiếu lương thực và xa lạ với địa hình",
+        "Tính chính nghĩa của cuộc chiến, sức mạnh toàn dân tộc, lãnh đạo tài giỏi",
+        "Được sự giúp đỡ quân sự của các nước láng giềng",
+        "Quân địch phạm nhiều sai lầm chiến lược"
+      ],
+      "answer": 1,
+      "explanation": "Nguyên nhân <strong>chủ quan</strong> (xuất phát từ bên trong dân tộc Việt): <strong>(1) Tính chính nghĩa</strong> – bảo vệ quê hương, chống xâm lược phi nghĩa; <strong>(2) Đoàn kết toàn dân</strong> – mọi tầng lớp, dân tộc cùng chiến đấu; <strong>(3) Lãnh đạo tài ba</strong> – Ngô Quyền, Lê Hoàn, Lý Thường Kiệt, Trần Hưng Đạo, Lê Lợi, Quang Trung. Đây là yếu tố quyết định.",
+      "unitId": "u4",
+      "lessonId": "u4-l2",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q8",
+      "question": "Kháng chiến chống quân Triệu thất bại vì nguyên nhân gì?",
+      "options": [
+        "Quân Triệu có vũ khí quá hiện đại",
+        "Triệu Đà dùng kế giảng hoà, làm An Dương Vương mất cảnh giác, nội bộ bất hoà",
+        "Thành Cổ Loa không đủ kiên cố",
+        "Dân số Âu Lạc quá ít"
+      ],
+      "answer": 1,
+      "explanation": "Bài học đắt giá: <strong>mất cảnh giác và nội bộ bất hòa</strong> dẫn đến thất bại. Triệu Đà dùng 'mỹ nhân kế' (cho con trai Trọng Thủy lấy Mỵ Châu) để do thám, phá hoại nỏ thần. An Dương Vương mất cảnh giác, tin tưởng rể quá mức, bị Triệu Đà tấn công bất ngờ khi không còn vũ khí phòng thủ. Câu chuyện Mỵ Châu – Trọng Thủy là bài học muôn đời về cảnh giác quốc phòng.",
+      "unitId": "u4",
+      "lessonId": "u4-l2",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q9",
+      "question": "Khởi nghĩa Hai Bà Trưng (40–43) chống lại sự đô hộ của nhà nào?",
+      "options": [
+        "Nhà Hán",
+        "Nhà Đông Hán",
+        "Nhà Ngô",
+        "Nhà Lương"
+      ],
+      "answer": 1,
+      "explanation": "Hai Bà Trưng (Trưng Trắc và Trưng Nhị) nổi dậy năm 40 SCN chống <strong>nhà Đông Hán</strong> (phân biệt với Tây Hán trước đó). Nguyên nhân: chồng Trưng Trắc là Thi Sách bị Tô Định giết, cộng với ách áp bức tàn bạo của thực dân Hán. Hai Bà giải phóng 65 thành trì, lập nước độc lập được 3 năm (40–43) trước khi bị Mã Viện đàn áp.",
+      "unitId": "u4",
+      "lessonId": "u4-l2",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q10",
+      "question": "Khởi nghĩa Lý Bí (542–544) kết quả là lập ra nhà nước gì, chống lại triều đại nào?",
+      "options": [
+        "Đại Việt, chống nhà Tống",
+        "Vạn Xuân, chống nhà Lương",
+        "Đại Cồ Việt, chống nhà Đường",
+        "Âu Lạc, chống nhà Hán"
+      ],
+      "answer": 1,
+      "explanation": "Lý Bí (Lý Nam Đế) lãnh đạo cuộc khởi nghĩa chống nhà <strong>Lương</strong> (544), thành lập nhà nước độc lập đặt tên là <strong>Vạn Xuân</strong> (ý nghĩa: muôn năm tươi xanh), đặt kinh đô ở Long Biên. Đây là nhà nước độc lập đầu tiên của người Việt sau 500 năm Bắc thuộc. Tuy thất bại sau đó nhưng là mốc quan trọng trong lịch sử.",
+      "unitId": "u4",
+      "lessonId": "u4-l2",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q11",
+      "question": "Khởi nghĩa Phùng Hưng (766–791) chống nhà Đường đã đạt kết quả gì?",
+      "options": [
+        "Lập nhà nước độc lập hoàn toàn",
+        "Củng cố chính quyền tự chủ",
+        "Thống nhất đất nước",
+        "Đánh đuổi hoàn toàn quân Đường"
+      ],
+      "answer": 1,
+      "explanation": "Phùng Hưng (Bố Cái Đại Vương) lãnh đạo khởi nghĩa 766–791, làm chủ được Giao Châu một thời gian và <strong>củng cố chính quyền tự chủ</strong>. Ông không lập được nhà nước độc lập hoàn toàn (nhà Đường vẫn còn tồn tại), nhưng đã tạo điều kiện cho ý chí độc lập của người Việt tiếp tục phát triển đến khởi nghĩa Khúc Thừa Dụ (905) và chiến thắng 938.",
+      "unitId": "u4",
+      "lessonId": "u4-l2",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q12",
+      "question": "Lê Lợi dựng cờ khởi nghĩa Lam Sơn vào năm nào, ở đâu?",
+      "options": [
+        "1407, ở Nghệ An",
+        "1416, ở Thăng Long",
+        "1418, ở Lam Sơn – Thanh Hoá",
+        "1420, ở Quy Nhơn"
+      ],
+      "answer": 2,
+      "explanation": "<strong>1418</strong> – Lê Lợi (1385–1433) dựng cờ khởi nghĩa tại <strong>Lam Sơn, Thanh Hóa</strong>, đặt tên là Khởi nghĩa Lam Sơn. Lê Lợi xuất thân là hào trưởng địa phương, từ chối hợp tác với nhà Minh để đứng lên chống ách đô hộ. 1407 là năm nhà Minh xâm lược và nhà Hồ thất bại.",
+      "unitId": "u4",
+      "lessonId": "u4-l2",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q13",
+      "question": "Trong giai đoạn 1418–1423 của khởi nghĩa Lam Sơn, nghĩa quân thực hiện kế sách gì?",
+      "options": [
+        "Tiến công ra Bắc ngay lập tức",
+        "Tạm hoà hoãn với quân Minh để củng cố lực lượng",
+        "Cầu viện nước ngoài",
+        "Tập trung phòng thủ căn cứ"
+      ],
+      "answer": 1,
+      "explanation": "Giai đoạn 1418–1423 là thời kỳ khó khăn nhất: nghĩa quân ba lần phải rút lên núi Chí Linh, nhiều lần suýt bị tiêu diệt. Nguyễn Trãi hiến kế <strong>tạm hòa hoãn với Minh (1423)</strong> để có thời gian củng cố lực lượng, phát triển căn cứ. Đây là sách lược linh hoạt 'Biết kẻ biết ta, trăm trận trăm thắng'.",
+      "unitId": "u4",
+      "lessonId": "u4-l3",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q14",
+      "question": "Khởi nghĩa Lam Sơn kết thúc thắng lợi bằng chiến thắng nào, chấm dứt bao nhiêu năm đô hộ Minh?",
+      "options": [
+        "Đông Bộ Đầu, 15 năm",
+        "Hàm Tử, 25 năm",
+        "Chi Lăng – Xương Giang (cuối 1427), 20 năm đô hộ Minh",
+        "Tây Kết, 10 năm"
+      ],
+      "answer": 2,
+      "explanation": "Chiến thắng <strong>Chi Lăng – Xương Giang</strong> (cuối 1427): quân Lam Sơn phục kích tiêu diệt đạo quân tiếp viện 10 vạn quân Minh (tướng Liễu Thăng bị giết ở Chi Lăng, Mộc Thạnh tháo chạy). Sau đó Vương Thông trong thành Đông Quan phải đầu hàng, rút quân về nước. Chấm dứt <strong>20 năm đô hộ Minh</strong> (1407–1427), lập nhà Lê sơ.",
+      "unitId": "u4",
+      "lessonId": "u4-l3",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q15",
+      "question": "Ba anh em Tây Sơn gồm những ai?",
+      "options": [
+        "Nguyễn Nhạc, Nguyễn Huệ, Nguyễn Lữ",
+        "Nguyễn Huệ, Nguyễn Ánh, Nguyễn Lữ",
+        "Nguyễn Nhạc, Nguyễn Ánh, Nguyễn Huệ",
+        "Nguyễn Lữ, Nguyễn Nhạc, Nguyễn Phúc"
+      ],
+      "answer": 0,
+      "explanation": "Ba anh em Tây Sơn: <strong>Nguyễn Nhạc</strong> (anh cả, người khởi xướng), <strong>Nguyễn Huệ</strong> (em thứ hai, tài ba nhất – sau là Quang Trung), <strong>Nguyễn Lữ</strong> (em út). Phân biệt với Nguyễn Ánh – là chúa Nguyễn (kẻ thù của Tây Sơn, sau trở thành vua Gia Long nhà Nguyễn).",
+      "unitId": "u4",
+      "lessonId": "u4-l3",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q16",
+      "question": "Phong trào Tây Sơn bùng nổ ở đâu và nhanh chóng làm chủ các vùng nào vào giai đoạn 1771–1773?",
+      "options": [
+        "Ở Thanh Hoá, làm chủ Bắc Hà",
+        "Ở Tây Sơn, làm chủ Quy Nhơn, Quảng Ngãi, Quảng Nam",
+        "Ở Gia Định, làm chủ miền Nam",
+        "Ở Huế, làm chủ toàn bộ Đàng Trong"
+      ],
+      "answer": 1,
+      "explanation": "Phong trào Tây Sơn bùng nổ năm 1771 tại <strong>ấp Tây Sơn (Bình Định – Quy Nhơn)</strong>, nhanh chóng mở rộng ra <strong>Quy Nhơn, Quảng Ngãi, Quảng Nam</strong> vào 1771–1773. Với khẩu hiệu 'Lấy của nhà giàu chia cho người nghèo', Tây Sơn được nhân dân ủng hộ rộng rãi.",
+      "unitId": "u4",
+      "lessonId": "u4-l3",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q17",
+      "question": "Ý nghĩa chủ yếu của phong trào Tây Sơn là gì?",
+      "options": [
+        "Lật đổ nhà Nguyễn, thiết lập chế độ phong kiến mới",
+        "Lật đổ Trịnh–Nguyễn, thống nhất đất nước; giải quyết đồng thời đấu tranh giai cấp và đấu tranh dân tộc",
+        "Giúp đỡ nhân dân Lào và Campuchia chống ngoại xâm",
+        "Đặt nền tảng cho thực dân Pháp xâm lược"
+      ],
+      "answer": 1,
+      "explanation": "Phong trào Tây Sơn vừa giải quyết <strong>đấu tranh giai cấp</strong> (lật đổ chúa Trịnh – chúa Nguyễn, phân phong ruộng đất) vừa <strong>đấu tranh dân tộc</strong> (đánh Xiêm 1785, đánh Thanh 1789). Đây là phong trào duy nhất trong lịch sử VN đồng thời hoàn thành cả hai nhiệm vụ này, thống nhất đất nước sau gần 200 năm Trịnh–Nguyễn phân tranh.",
+      "unitId": "u4",
+      "lessonId": "u4-l3",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q18",
+      "question": "Nguyên nhân thất bại của cuộc kháng chiến chống quân Minh thời nhà Hồ là gì?",
+      "options": [
+        "Quân Minh có vũ khí quá hiện đại",
+        "Sai lầm trong đường lối kháng chiến, không tập hợp được sức mạnh nhân dân",
+        "Không có lãnh đạo tài năng",
+        "Thiên tai và dịch bệnh"
+      ],
+      "answer": 1,
+      "explanation": "Nhà Hồ thất bại (1407) vì <strong>sai lầm đường lối</strong>: (1) Hồ Quý Ly cướp ngôi nhà Trần – mất lòng dân; (2) Cải cách nóng vội làm quý tộc, quan lại oán; (3) Đường lối kháng chiến dựa vào thành lũy, không dựa vào nhân dân. Nhà Minh lợi dụng danh nghĩa 'Phù Trần diệt Hồ' để xâm lược, nhiều người VN ban đầu không chống. Bài học: đường lối phải đúng và phải dựa vào nhân dân.",
+      "unitId": "u4",
+      "lessonId": "u4-l3",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q19",
+      "question": "Trong ba lần kháng chiến chống Mông – Nguyên, lần nào quân ta đại phá thủy binh địch trên sông Bạch Đằng?",
+      "options": [
+        "Lần 1 (1258)",
+        "Lần 2 (1285)",
+        "Lần 3 (1287–1288)",
+        "Cả ba lần đều diễn ra trên sông Bạch Đằng"
+      ],
+      "answer": 2,
+      "explanation": "<strong>Lần 3 (1287–1288)</strong> – Trận Bạch Đằng lịch sử: Trần Hưng Đạo dùng lại chiến thuật cọc của Ngô Quyền năm 938, tiêu diệt đoàn thuyền lương của Ô Mã Nhi. Lần 1 (1258): chiến thắng ở Đông Bộ Đầu (Hà Nội). Lần 2 (1285): chiến thắng ở Chương Dương, Hàm Tử, Tây Kết. Chỉ lần 3 mới có trận Bạch Đằng.",
+      "unitId": "u4",
+      "lessonId": "u4-l4",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q20",
+      "question": "Bài học nghệ thuật quân sự nào được rút ra từ các cuộc kháng chiến chống ngoại xâm của dân tộc Việt Nam?",
+      "options": [
+        "Chỉ dựa vào quân chính quy",
+        "Chiến tranh nhân dân, 'toàn dân đánh giặc', 'Lấy ít địch nhiều, lấy yếu chống mạnh', 'Tâm công'",
+        "Chờ thời cơ để tấn công tổng lực",
+        "Dựa vào viện trợ nước ngoài"
+      ],
+      "answer": 1,
+      "explanation": "Nghệ thuật quân sự Việt Nam: <strong>(1) Chiến tranh nhân dân</strong> – toàn dân tham chiến; <strong>(2) Lấy ít địch nhiều, lấy yếu chống mạnh</strong> – dùng mưu trí và địa hình; <strong>(3) Tâm công</strong> – đánh vào lòng người, làm địch mất tinh thần (Hịch tướng sĩ của Trần Hưng Đạo, Bình Ngô đại cáo của Nguyễn Trãi); <strong>(4) Triệt lương thực địch</strong>; <strong>(5) Phòng tuyến sông ngòi</strong>.",
+      "unitId": "u4",
+      "lessonId": "u4-l4",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q21",
+      "question": "Nguyên nhân KHÁCH QUAN của thắng lợi trong các cuộc kháng chiến chống ngoại xâm của Việt Nam là gì?",
+      "options": [
+        "Quân Việt Nam đông hơn",
+        "Cuộc chiến tranh xâm lược là phi nghĩa nên tất yếu thất bại; các đội quân xâm lược thiếu hậu cần",
+        "Địa hình thuận lợi cho phòng thủ",
+        "Các nước láng giềng hỗ trợ"
+      ],
+      "answer": 1,
+      "explanation": "Nguyên nhân <strong>khách quan</strong> (từ phía kẻ thù): (1) <strong>Chiến tranh phi nghĩa</strong> – xâm lược phi nghĩa không được lòng người, bộ đội mất tinh thần chiến đấu khi ở đất xa quê; (2) <strong>Thiếu hậu cần</strong> – đường tiếp tế dài, khí hậu nhiệt đới khắc nghiệt (dịch bệnh, nóng ẩm) làm quân xâm lược suy yếu. Khác với nguyên nhân chủ quan (từ phía Việt Nam).",
+      "unitId": "u4",
+      "lessonId": "u4-l4",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q22",
+      "question": "Khởi nghĩa Bà Triệu (248) chống lại triều đại nào và kết quả ra sao?",
+      "options": [
+        "Chống nhà Đông Hán, giành được quyền tự chủ",
+        "Chống nhà Ngô, bị đàn áp và thất bại",
+        "Chống nhà Lương, lập nhà nước Vạn Xuân",
+        "Chống nhà Minh, giành được độc lập"
+      ],
+      "answer": 1,
+      "explanation": "Bà Triệu (Triệu Thị Trinh, 225–248) khởi nghĩa năm 248 chống <strong>nhà Ngô</strong> (thời Tam Quốc – Ngô, Thục, Ngụy). Câu nói nổi tiếng: 'Tôi muốn cưỡi cơn gió mạnh, đạp sóng dữ, chém cá kình ở biển Đông'. Cuộc khởi nghĩa bị đàn áp sau 6 tháng, Bà Triệu tuẫn tiết. Dù thất bại, đây là biểu tượng tinh thần bất khuất của người Việt.",
+      "unitId": "u4",
+      "lessonId": "u4-l4",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q23",
+      "question": "Bài học về 'khối đại đoàn kết dân tộc' trong lịch sử kháng chiến Việt Nam được thể hiện như thế nào?",
+      "options": [
+        "Chỉ đoàn kết ở cấp lãnh đạo",
+        "Đoàn kết từ chỉ huy, mở rộng ra quân đội và quần chúng nhân dân; từ miền xuôi đến miền ngược",
+        "Chỉ đoàn kết khi có nguy cơ xâm lược",
+        "Đoàn kết một số tầng lớp nhất định"
+      ],
+      "answer": 1,
+      "explanation": "Đoàn kết dân tộc là sức mạnh cốt lõi: <strong>từ vua đến dân, từ Kinh đến Thượng, từ miền xuôi đến miền núi</strong> đều tham gia. Tiêu biểu: Hội nghị Diên Hồng (1284) – vua hỏi ý dân; Lê Lợi tập hợp nghĩa quân từ miền núi Thanh Hóa; Quang Trung tập hợp quân khắp Đàng Trong. Không có đoàn kết, không thể thắng được quân xâm lược mạnh hơn nhiều.",
+      "unitId": "u4",
+      "lessonId": "u4-l4",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q24",
+      "question": "Năm 1407, nhà Minh xâm lược với lý do gì và kết quả là gì?",
+      "options": [
+        "'Phù Trần, diệt Hồ' – Nhà Hồ nhanh chóng thất bại, nước ta bị đô hộ",
+        "'Khai hoá văn minh' – Nhà Hồ kháng cự được 10 năm",
+        "'Trả thù' – Nhà Hồ đánh bại quân Minh",
+        "Không có lý do chính đáng – Nhà Hồ cầu viện nước ngoài"
+      ],
+      "answer": 0,
+      "explanation": "Nhà Minh lấy lý do <strong>'Phù Trần diệt Hồ'</strong> (giúp đỡ nhà Trần, diệt nhà Hồ soán ngôi) để xâm lược. Thực chất đây là cớ để thôn tính. Hồ Hán Thương (con Hồ Quý Ly) bị bắt, VN bị đô hộ 20 năm (1407–1427). Đây là hệ quả của việc Hồ Quý Ly nóng vội cải cách, làm mất lòng dân khiến nhiều người không chống Minh.",
+      "unitId": "u4",
+      "lessonId": "u4-l4",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "u4-q25",
+      "question": "Năm 179 TCN, Âu Lạc rơi vào tay ai và vì sao?",
+      "options": [
+        "Quân Hán, vì tấn công bất ngờ",
+        "Triệu Đà (Nam Việt), vì dùng mưu kế giảng hoà làm An Dương Vương mất cảnh giác, nội bộ bất hoà",
+        "Quân Mông Cổ, vì vũ khí hiện đại",
+        "Nhà Đông Hán, vì nội loạn"
+      ],
+      "answer": 1,
+      "explanation": "Triệu Đà (người Hán, lập nước Nam Việt ở Quảng Đông) dùng <strong>mưu kế hôn nhân</strong>: cho con trai Trọng Thủy lấy Mỵ Châu (con An Dương Vương), Trọng Thủy đánh cắp bí mật nỏ thần. Triệu Đà giả vờ giảng hòa, khi An Dương Vương mất cảnh giác thì tấn công. An Dương Vương bỏ chạy, Mỵ Châu bị giết. Bài học: cần cảnh giác cả với kẻ thù giả làm bạn.",
+      "unitId": "u4",
+      "lessonId": "u4-l4",
+      "type": "multiple_choice"
+    }
+  ]
+}

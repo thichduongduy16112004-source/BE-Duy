@@ -4,6 +4,7 @@ from core.database import get_database
 from core.permissions import require_admin
 from models.lesson import LessonContentImportRequest, LessonContentPatchRequest
 from services.lesson_content_service import (
+    delete_draft_topic,
     get_dataset_doc,
     get_lesson_asset,
     get_public_dataset,
@@ -70,6 +71,12 @@ async def publish_lesson_content(current_admin: dict = Depends(require_admin)):
 async def update_lesson_content_topic(body: LessonContentPatchRequest, current_admin: dict = Depends(require_admin)):
     db = get_database()
     return await patch_draft_topic(db, body.topic, body.source_name, str(current_admin.get("_id", "")))
+
+
+@router.delete("/admin/topic/{topic_id}")
+async def delete_lesson_content_topic(topic_id: str, current_admin: dict = Depends(require_admin)):
+    db = get_database()
+    return await delete_draft_topic(db, topic_id, str(current_admin.get("_id", "")))
 
 
 @router.get("/admin/assets", dependencies=[Depends(require_admin)])

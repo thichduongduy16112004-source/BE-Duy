@@ -563,6 +563,12 @@ export const apiService = {
     });
   },
 
+  async deleteLessonContentTopic(topicId: string): Promise<{ message: string; summary: LessonContentSummary; deleted_topic_id: string }> {
+    return request<{ message: string; summary: LessonContentSummary; deleted_topic_id: string }>(`/lesson-content/admin/topic/${topicId}`, {
+      method: 'DELETE',
+    });
+  },
+
   async getLessonContentDraft(): Promise<LessonContentDocument> {
     return request<LessonContentDocument>('/lesson-content/admin/draft');
   },
@@ -609,6 +615,12 @@ export const apiService = {
       method: 'PUT',
       body: JSON.stringify(payload),
     });
+  },
+
+  async uploadCharacterPortrait(characterId: string, file: File): Promise<{ message: string; character: Character }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return uploadRequest<{ message: string; character: Character }>(`/admin/characters/${characterId}/portrait`, formData);
   },
 
   async archiveCharacter(characterId: string): Promise<{ message: string }> {

@@ -19,6 +19,9 @@ export type ContentUnit = {
   bgTo: string;
   description: string;
   lessons: ContentLesson[];
+  backgroundImage?: string;
+  source?: "mock" | "published";
+  originalUnitId?: string;
 };
 
 export type QuestionDifficulty = "easy" | "medium" | "hard";

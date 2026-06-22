@@ -179,6 +179,25 @@ async def patch_draft_topic(db, topic: DataJsTopic, source_name: str, admin_id: 
     return await save_draft_dataset(db, next_dataset, source_name, admin_id)
 
 
+async def delete_draft_topic(db, topic_id: str, admin_id: str) -> dict[str, Any]:
+    draft = await db[DATASETS_COLLECTION].find_one({"_id": DRAFT_ID})
+    if draft is None:
+        raise HTTPException(status_code=404, detail="Chưa có draft để xóa chương")
+
+    dataset = DataJsDataset(**draft["dataset"])
+    topics = [item for item in dataset.topics if str(item.id) != str(topic_id) and str(item.unitId) != str(topic_id)]
+    
+    if len(topics) == len(dataset.topics):
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy chương {topic_id} trong draft")
+    
+    if len(topics) == 0:
+        raise HTTPException(status_code=400, detail="Không thể xóa chương cuối cùng. Dataset phải có ít nhất 1 chương.")
+    
+    next_dataset = DataJsDataset(title=dataset.title, subtitle=dataset.subtitle, topics=topics)
+    result = await save_draft_dataset(db, next_dataset, f"Xóa chương {topic_id}", admin_id)
+    return {**result, "deleted_topic_id": topic_id}
+
+
 async def upload_lesson_asset(db, file: UploadFile, unit_id: str, lesson_id: str, admin_id: str) -> dict[str, Any]:
     content_type = file.content_type or "application/octet-stream"
     if content_type not in ALLOWED_IMAGE_TYPES:

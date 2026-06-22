@@ -208,9 +208,63 @@ export function replaceTopic(dataset: QuizDataset, nextTopic: QuizTopic): QuizDa
   return normalizeDataset({ ...dataset, topics: nextTopics });
 }
 
+export function topicExists(dataset: QuizDataset, topicId: string | number) {
+  const targetId = String(topicId).trim();
+  const targetUnitId = unitIdFromTopic(targetId);
+  return (dataset.topics || []).some((topic) => {
+    const topicUnitId = topic.unitId || unitIdFromTopic(topic.id);
+    return String(topic.id) === targetId || topicUnitId === targetUnitId;
+  });
+}
+
+export function addTopic(dataset: QuizDataset, topic: QuizTopic): QuizDataset {
+  const topicId = String(topic.id || topic.unitId || '').trim();
+  if (!topicId) {
+    throw new Error('Chương mới cần có id hoặc unitId.');
+  }
+  if (topicExists(dataset, topicId)) {
+    throw new Error(`Chương ${unitIdFromTopic(topicId)} đã tồn tại. Hãy dùng Update chương hoặc chọn ID khác.`);
+  }
+
+  const nextTopic = normalizeTopic({ ...topic, id: topic.id || topicId });
+  return normalizeDataset({ ...dataset, topics: [...(dataset.topics || []), nextTopic] });
+}
+
 export function updateChapterBackground(topic: QuizTopic, backgroundImage: string): QuizTopic {
   const normalizedImage = backgroundImage.trim();
   return normalizeTopic({ ...topic, backgroundImage: normalizedImage || undefined });
+}
+
+export function getQuestionKey(question: QuizQuestion, index: number) {
+  return String(question.globalId ?? question.id ?? `${question.unitId || 'question'}-${question.lessonId || 'node'}-${index}`);
+}
+
+export function formatQuestionJson(question: QuizQuestion) {
+  return JSON.stringify(question, null, 2);
+}
+
+export function parseQuestionJson(text: string): QuizQuestion {
+  try {
+    const parsed = JSON.parse(text) as unknown;
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      throw new Error('JSON câu hỏi phải là object.');
+    }
+    return parsed as QuizQuestion;
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      throw new Error(`JSON không hợp lệ: ${error.message}`);
+    }
+    throw error instanceof Error ? error : new Error('Không thể đọc JSON câu hỏi.');
+  }
+}
+
+export function updateQuestionInTopic(topic: QuizTopic, questionIndex: number, nextQuestion: QuizQuestion): QuizTopic {
+  const questions = [...(topic.questions || [])];
+  if (questionIndex < 0 || questionIndex >= questions.length) {
+    throw new Error('Không tìm thấy câu hỏi cần cập nhật trong chương này.');
+  }
+  questions[questionIndex] = { ...questions[questionIndex], ...nextQuestion };
+  return normalizeTopic({ ...topic, questions });
 }
 
 export function validateChapter(chapter: ChapterModel | null): ValidationIssue[] {
