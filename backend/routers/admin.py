@@ -15,7 +15,7 @@ from core.permissions import require_admin
 from core.serializers import serialize_doc, serialize_docs
 from models.lesson import LessonCreate, LessonUpdate
 from models.system import SystemSettings, SystemSettingsUpdate
-from services.rag_client import RagServiceError, RagServiceUnavailable, stream_chat
+from services.rag_client import RagServiceError, RagServiceUnavailable, stream_chat, notify_reload_cache
 from services.token_usage_service import TOKEN_USAGE_COLLECTION
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
@@ -574,6 +574,7 @@ async def update_character(character_id: str, body: CharacterUpdate):
         raise HTTPException(status_code=404, detail="Không tìm thấy nhân vật")
 
     character = await db["characters"].find_one({"character_id": character_id})
+    await notify_reload_cache()
     return {"message": "Cập nhật nhân vật thành công", "character": _serialize_character(character)}
 
 
@@ -601,6 +602,7 @@ async def upload_character_portrait(character_id: str, file: UploadFile = File(.
         {"$set": {"portrait_url": portrait_url, "updated_at": datetime.utcnow()}},
     )
     updated_character = await db["characters"].find_one({"character_id": character_id})
+    await notify_reload_cache()
     return {"message": "Cập nhật ảnh nhân vật thành công", "character": _serialize_character(updated_character)}
 
 

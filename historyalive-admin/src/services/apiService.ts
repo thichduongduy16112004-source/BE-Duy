@@ -1,8 +1,8 @@
 // src/services/apiService.ts
 import type { Character, CharacterPayload, InferResult, KnowledgeImportReport, PersistedReviewFeedback, ReviewFeedbackPayload } from '../types/admin';
 
-const API_BASE_URL = 'http://localhost:8000/api/v1';
-const HISTORY_API_BASE_URL = 'http://localhost:8001';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+const HISTORY_API_BASE_URL = import.meta.env.VITE_HISTORY_API_BASE_URL || 'http://localhost:8001';
 
 export const CHAPTER_BACKGROUND_LESSON_ID = '__chapter_background__';
 

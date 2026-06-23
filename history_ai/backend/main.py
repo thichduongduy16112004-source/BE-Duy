@@ -579,6 +579,12 @@ def rebuild_knowledge_index(character_id: str = DEFAULT_CHARACTER_ID) -> dict:
     return rebuild_character_dataset(character_id)
 
 
+@app.post("/admin/cache/reload")
+def reload_cache() -> dict:
+    runtime.preload()
+    return {"message": "Cache reloaded successfully"}
+
+
 @app.get("/api/characters")
 def characters() -> dict:
     if not runtime.loaded:

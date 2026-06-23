@@ -19,6 +19,14 @@ def _rag_url(path: str) -> str:
     return f"{base_url}{path}"
 
 
+async def notify_reload_cache() -> None:
+    try:
+        async with httpx.AsyncClient() as client:
+            await client.post(_rag_url("/admin/cache/reload"), timeout=5.0)
+    except Exception as e:
+        print(f"Failed to notify RAG service to reload cache: {e}")
+
+
 async def stream_chat(payload: dict[str, Any]) -> AsyncGenerator[bytes, None]:
     timeout = httpx.Timeout(settings.RAG_TIMEOUT_SECONDS, connect=5.0)
 
