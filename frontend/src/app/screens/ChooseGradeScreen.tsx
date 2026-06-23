@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useApp } from "../store";
+import { useApp, API_URL } from "../store";
 import { motion } from "motion/react";
 import OnboardingLayout from "../components/OnboardingLayout";
 import { Backpack, BookOpen, BookMarked, Library, GraduationCap } from "lucide-react";
@@ -25,9 +25,39 @@ export default function ChooseGradeScreen() {
     <motion.button
       whileHover={{ y: -2, boxShadow: "0 7px 0 #b45309" }}
       whileTap={{ y: 3, boxShadow: "0 2px 0 #b45309" }}
-      onClick={() => {
+      onClick={async () => {
         if (!grade) return;
-        setUser({ ...user, grade });
+
+        const nextUser = { ...user, grade, onboarding_completed: true, isNewUser: false };
+        setUser(nextUser);
+        localStorage.setItem("ha_user", JSON.stringify(nextUser));
+
+        const token = localStorage.getItem("ha_token");
+        if (token) {
+          try {
+            const res = await fetch(`${API_URL}/users/me/onboarding`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                name: user.name,
+                mascotId: user.mascotId,
+                grade,
+                studyMinutes: user.studyMinutes || 15,
+              }),
+            });
+
+            const data = await res.json();
+            if (res.ok && data.user) {
+              setUser(data.user);
+            }
+          } catch {
+            // Giữ fallback local để user không bị kẹt onboarding khi mạng chập chờn.
+          }
+        }
+
         nav("/home");
       }}
       disabled={!grade}

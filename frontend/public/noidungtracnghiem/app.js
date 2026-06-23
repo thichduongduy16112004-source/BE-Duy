@@ -28,6 +28,29 @@ const App = (() => {
     bookmarks: new Set()
   };
 
+  function getCorrectAnswerIndex(q) {
+    const rawAnswer = q && (q.answer !== undefined ? q.answer : (q.correctOptionIndex !== undefined ? q.correctOptionIndex : q.ans));
+    if (typeof rawAnswer === 'number' && Number.isFinite(rawAnswer)) return rawAnswer;
+    if (typeof rawAnswer === 'string') {
+      const normalized = rawAnswer.trim();
+      const upper = normalized.toUpperCase();
+      const letterIndex = ['A', 'B', 'C', 'D'].indexOf(upper);
+      if (letterIndex >= 0) return letterIndex;
+      const parsed = Number.parseInt(upper, 10);
+      if (Number.isFinite(parsed) && String(parsed) === normalized) return parsed;
+      if (Array.isArray(q.options)) {
+        const textIndex = q.options.findIndex(option => String(option).trim().toLowerCase() === normalized.toLowerCase());
+        if (textIndex >= 0) return textIndex;
+      }
+    }
+    return -1;
+  }
+
+  function hasValidCorrectAnswer(q) {
+    const idx = getCorrectAnswerIndex(q);
+    return idx >= 0 && Array.isArray(q.options) && idx < q.options.length;
+  }
+
   // ===== INIT =====
   function init() {
     loadBookmarks();
@@ -159,10 +182,10 @@ const App = (() => {
   }
 
   function returnHome() {
-    if (state.mode === 'quiz') {
-      if (!confirm('Bạn có muốn thoát? Tiến độ hiện tại sẽ bị mất.')) return;
-    }
-    resetAll();
+    const exitModal = document.getElementById('exitConfirmOverlay');
+    if (exitModal) exitModal.remove();
+    
+    // Bỏ qua confirm mặc định vì đã có showExitConfirm    resetAll();
     showHome();
   }
 
@@ -357,18 +380,6 @@ const App = (() => {
       </div>
 
       <div id="feedbackZone"></div>
-
-      <div class="question-nav-hint" id="navHint" style="display:none;">
-        <div class="nav-hint-inner">
-          <span>Nhấn phím <kbd>→</kbd> để câu tiếp theo</span>
-          <button class="btn-next-inline" onclick="App.navigate(1)">
-            Câu tiếp theo
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="9,18 15,12 9,6"></polyline>
-            </svg>
-          </button>
-        </div>
-      </div>
     `;
 
     // Restore if already answered
@@ -384,15 +395,18 @@ const App = (() => {
 
   function restoreAnswerState(q) {
     // Show correct answer highlighted, no wrong mark (since we don't track what was selected)
-    document.getElementById(`opt-${q.answer}`).classList.add('correct', 'disabled');
-    document.getElementById(`optStatus-${q.answer}`).innerHTML = svgCheck();
+    const correctIdx = getCorrectAnswerIndex(q);
     q.options.forEach((_, i) => {
       const el = document.getElementById(`opt-${i}`);
-      if (el) el.classList.add('disabled');
+      if (!el) return;
+      el.classList.add('disabled');
+      if (i === correctIdx) {
+        el.classList.add('correct');
+        const statusEl = document.getElementById(`optStatus-${i}`);
+        if (statusEl) statusEl.innerHTML = svgCheck();
+      }
     });
-    document.getElementById('feedbackZone').innerHTML = buildAIExplanation(q);
-    const hint = document.getElementById('navHint');
-    if (hint) hint.style.display = 'flex';
+    document.getElementById('feedbackZone').innerHTML = buildAIExplanation(q) + buildNextAction();
   }
 
   // ===== SELECT OPTION (INSTANT FEEDBACK) =====
@@ -405,7 +419,15 @@ const App = (() => {
     state.checked = true;
 
     const q = state.questions[state.current];
-    const correct = idx === q.answer;
+    const selectedIdx = state.selected;
+    const realAnswerIdx = getCorrectAnswerIndex(q);
+    if (!hasValidCorrectAnswer(q)) {
+      console.warn('[NoidungQuiz] Không xác định được đáp án đúng cho câu hỏi:', q);
+      state.isAnimating = false;
+      state.checked = false;
+      return;
+    }
+    const correct = selectedIdx === realAnswerIdx;
     const elapsed = state.questionStartTime ? Math.round((Date.now() - state.questionStartTime) / 1000) : 0;
     state.timePerQuestion[q.globalId] = elapsed;
 
@@ -438,29 +460,31 @@ const App = (() => {
   function revealAnswer(q, selectedIdx, correct) {
     const letters = ['A', 'B', 'C', 'D'];
 
+    const realAnswerIdx = getCorrectAnswerIndex(q);
+    if (!hasValidCorrectAnswer(q)) {
+      console.warn('[NoidungQuiz] Không thể tô đáp án đúng vì dữ liệu đáp án không hợp lệ:', q);
+    }
+
     // Disable all options
     q.options.forEach((_, i) => {
       const el = document.getElementById(`opt-${i}`);
       if (!el) return;
-      el.classList.remove('selecting');
+      el.classList.remove('selecting', 'selected-pending');
       el.classList.add('disabled');
 
-      if (i === q.answer) {
+      if (i === realAnswerIdx) {
         el.classList.add('correct');
-        document.getElementById(`optStatus-${i}`).innerHTML = svgCheck();
+        const statusEl = document.getElementById(`optStatus-${i}`);
+        if (statusEl) statusEl.innerHTML = svgCheck();
       } else if (i === selectedIdx && !correct) {
         el.classList.add('wrong');
-        document.getElementById(`optStatus-${i}`).innerHTML = svgX();
+        const statusEl = document.getElementById(`optStatus-${i}`);
+        if (statusEl) statusEl.innerHTML = svgX();
       }
     });
 
-    // Feedback + AI Explanation
     const feedbackZone = document.getElementById('feedbackZone');
-    feedbackZone.innerHTML = buildResultBanner(correct, q, letters) + buildAIExplanation(q);
-
-    // Show nav hint
-    const hint = document.getElementById('navHint');
-    if (hint) hint.style.display = 'flex';
+    feedbackZone.innerHTML = buildResultBanner(correct, q, letters, realAnswerIdx) + buildAIExplanation(q) + buildNextAction();
 
     renderSidebar();
     updateHeader();
@@ -472,7 +496,7 @@ const App = (() => {
   }
 
   // ===== RESULT BANNER =====
-  function buildResultBanner(correct, q, letters) {
+  function buildResultBanner(correct, q, letters, realAnswerIdx) {
     if (correct) {
       const streakMsg = state.streak >= 3 ? `Chuỗi ${state.streak} câu đúng!` : 'Chính xác!';
       const streakSub = state.streak >= 5
@@ -495,11 +519,25 @@ const App = (() => {
           <div class="result-banner-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
           <div class="result-banner-text">
             <strong>Chưa đúng!</strong>
-            <span>Đáp án đúng: <em>${letters[q.answer]}. ${q.options[q.answer]}</em> — Đọc giải thích bên dưới nhé.</span>
+            <span>Đáp án đúng: <em>${(q.options && q.options[realAnswerIdx] !== undefined) ? (letters[realAnswerIdx] + '. ' + q.options[realAnswerIdx]) : 'Hãy xem giải thích AI'}</em></span>
           </div>
         </div>
       `;
     }
+  }
+
+  function buildNextAction() {
+    if (state.current >= state.questions.length - 1) return '';
+    return `
+      <div class="feedback-next-action">
+        <button class="feedback-next-button" onclick="App.navigate(1)" aria-label="Sang câu tiếp theo">
+          <span>Tiếp theo</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
+      </div>
+    `;
   }
 
   // ===== AI EXPLANATION =====
@@ -567,6 +605,83 @@ const App = (() => {
 
   // ===== FINISH =====
   function showFinish() {
+    const existing = document.getElementById('finishCelebrationOverlay');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'finishCelebrationOverlay';
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 9999; display: flex; align-items: center; justify-content: center;';
+    modal.innerHTML = `
+      <div style="background: white; width: 90%; max-width: 340px; border-radius: 28px; padding: 32px 24px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        <style>
+          @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+          .game-btn { font-family: 'Nunito', system-ui, sans-serif; width: 100%; padding: 16px; border-radius: 16px; font-weight: 800; font-size: 15px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.1s; margin-bottom: 12px; display: block; }
+          .game-btn-blue { background: #1cb0f6; color: white; box-shadow: 0 4px 0 #1899d6; }
+          .game-btn-blue:active { transform: translateY(4px); box-shadow: 0 0 0 #1899d6; }
+        </style>
+        <div style="font-size: 64px; margin-bottom: 16px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));">🎉</div>
+        <h3 style="margin-bottom: 28px; font-size: 22px; color: #374151; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800; line-height: 1.4;">Hoàn thành xuất sắc!<br/>Bài học kết thúc</h3>
+        <button class="game-btn game-btn-blue" onclick="App.triggerQuizFinished()">TIẾP TỤC</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  function closeHeartModal() {
+    const modal = document.getElementById('heartLossOverlay');
+    if (modal) modal.remove();
+  }
+
+  function showExitConfirm() {
+    const existing = document.getElementById('exitConfirmOverlay');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'exitConfirmOverlay';
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 9999; display: flex; align-items: center; justify-content: center;';
+    modal.innerHTML = `
+      <div style="background: #111827; width: 90%; max-width: 320px; border-radius: 28px; padding: 32px 24px; text-align: center; border: 2px solid #374151; box-shadow: 0 10px 40px rgba(0,0,0,0.5); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        <style>
+          @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+          .game-btn { font-family: 'Nunito', system-ui, sans-serif; width: 100%; padding: 16px; border-radius: 16px; font-weight: 800; font-size: 15px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.1s; margin-bottom: 12px; display: block; }
+          .game-btn-blue { background: #1cb0f6; color: white; box-shadow: 0 4px 0 #1899d6; }
+          .game-btn-blue:active { transform: translateY(4px); box-shadow: 0 0 0 #1899d6; }
+          .game-btn-danger { background: transparent; color: #ff4b4b; }
+          .game-btn-danger:active { background: rgba(255, 75, 75, 0.15); }
+        </style>
+        <div style="width: 64px; height: 64px; background: rgba(255, 75, 75, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff4b4b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+        <h3 style="margin-bottom: 8px; font-size: 20px; color: #f3f4f6; font-family: 'Nunito', system-ui, sans-serif; font-weight: 800;">Bạn muốn thoát thật sao?</h3>
+        <p style="margin-bottom: 24px; font-size: 14px; color: #9ca3af; font-family: 'Nunito', system-ui, sans-serif; line-height: 1.5;">Toàn bộ tiến trình bài học này sẽ bị mất nếu bạn thoát bây giờ.</p>
+        <button class="game-btn game-btn-blue" onclick="App.closeExitConfirm()">TIẾP TỤC HỌC</button>
+        <button class="game-btn game-btn-danger" onclick="App.returnHome()">THOÁT BÀI HỌC</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  function closeExitConfirm() {
+    const modal = document.getElementById('exitConfirmOverlay');
+    if (modal) modal.remove();
+  }
+
+  function triggerQuizFinished() {
+    const modal = document.getElementById('finishCelebrationOverlay');
+    if (modal) modal.remove();
+    
+    // Iframe message
+    const params = new URLSearchParams(window.location.search);
+    const hasParams = params.get('unit') && params.get('lesson');
+
+    if (window.parent && window.parent !== window && hasParams) {
+      window.parent.postMessage({ type: 'QUIZ_FINISHED', correct: state.score.correct, total: state.questions.length, maxStreak: state.maxStreak }, '*');
+    } else {
+      renderFinishStats();
+    }
+  }
+
+  function renderFinishStats() {
     state.mode = 'finish';
     const total = state.questions.length;
     const pct = total > 0 ? Math.round((state.score.correct / total) * 100) : 0;
@@ -719,7 +834,7 @@ const App = (() => {
   }
 
   // ===== PUBLIC =====
-  return { init, startAll, startTopic, filterByTopic, selectOption, navigate, jumpTo, showFinish, restartQuiz, returnHome, toggleBookmark, startBookmarked };
+  return { init, startAll, startTopic, filterByTopic, selectOption, navigate, jumpTo, showFinish, restartQuiz, returnHome, toggleBookmark, startBookmarked, closeHeartModal, showExitConfirm, closeExitConfirm, triggerQuizFinished, renderFinishStats };
 
 })();
 

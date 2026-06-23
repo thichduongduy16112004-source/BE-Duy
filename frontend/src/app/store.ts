@@ -72,6 +72,7 @@ export type User = {
   trialEndDate: string | null;
   premiumEndDate: string | null;
   isNewUser: boolean;
+  onboarding_completed?: boolean;
   lastHeartUpdate: number;
   hasUsedFreeHeartRecovery: boolean;
   lastFreeHeartRecoveryDate?: string;
@@ -106,11 +107,23 @@ export const defaultUser: User = {
   trialEndDate: null,
   premiumEndDate: null,
   isNewUser: false,
+  onboarding_completed: false,
   lastHeartUpdate: Date.now(),
   hasUsedFreeHeartRecovery: false,
   lastFreeHeartRecoveryDate: undefined,
   hasDepletedHeartsToday: false,
   energyPolicyVersion: HEART_POLICY.version,
+};
+
+export const isOnboardingComplete = (user: Partial<User> | null | undefined) => {
+  if (!user) return false;
+  if (user.onboarding_completed === true) return true;
+  return Boolean(user.name?.trim() && user.mascotId && user.grade);
+};
+
+export const getPostAuthRoute = (user: Partial<User> | null | undefined, isNew?: boolean) => {
+  if (isNew || !isOnboardingComplete(user)) return "/onboarding/name";
+  return "/home";
 };
 
 export type AppCtx = {

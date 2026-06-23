@@ -23,14 +23,17 @@ const App = (() => {
     questionStartTime: null,    // Đo thời gian mỗi câu
     timePerQuestion: {},
     bookmarks: new Set(),
-    hearts: 25,
-    maxHearts: 25,
+    hearts: 0,
+    maxHearts: 5,
+    heartsSynced: false,
     isPremium: false,
     hasUsedFreeHeartRecovery: false,
     canUseDailyRecovery: true,
     dailyRecoveryAmount: 5,
     isOutOfHeartsLocked: false,
-    lastHeartLoss: null
+    lastHeartLoss: null,
+    aiHintsUsed: new Set(),
+    aiExplanationOpen: new Set()
   };
 
   // ===== INIT =====
@@ -46,6 +49,29 @@ const App = (() => {
     const imageUrl = resolveChapterBackground(topic);
     document.body.style.setProperty('--chapter-bg-image', imageUrl ? `url("${imageUrl.replace(/"/g, '%22')}")` : 'none');
     document.body.classList.toggle('has-chapter-background', Boolean(imageUrl));
+  }
+
+  function getCorrectAnswerIndex(q) {
+    const rawAnswer = q && (q.answer !== undefined ? q.answer : (q.correctOptionIndex !== undefined ? q.correctOptionIndex : q.ans));
+    if (typeof rawAnswer === 'number' && Number.isFinite(rawAnswer)) return rawAnswer;
+    if (typeof rawAnswer === 'string') {
+      const normalized = rawAnswer.trim();
+      const upper = normalized.toUpperCase();
+      const letterIndex = ['A', 'B', 'C', 'D'].indexOf(upper);
+      if (letterIndex >= 0) return letterIndex;
+      const parsed = Number.parseInt(upper, 10);
+      if (Number.isFinite(parsed) && String(parsed) === normalized) return parsed;
+      if (Array.isArray(q.options)) {
+        const textIndex = q.options.findIndex(option => String(option).trim().toLowerCase() === normalized.toLowerCase());
+        if (textIndex >= 0) return textIndex;
+      }
+    }
+    return -1;
+  }
+
+  function hasValidCorrectAnswer(q) {
+    const idx = getCorrectAnswerIndex(q);
+    return idx >= 0 && Array.isArray(q.options) && idx < q.options.length;
   }
 
   async function init() {
@@ -230,10 +256,10 @@ const App = (() => {
   }
 
   function returnHome() {
-    if (state.mode === 'quiz') {
-      if (!confirm('Bạn có muốn thoát? Tiến độ hiện tại sẽ bị mất.')) return;
-    }
-
+    const exitModal = document.getElementById('exitConfirmOverlay');
+    if (exitModal) exitModal.remove();
+    
+    // Bỏ qua confirm mặc định vì đã có showExitConfirm
     // Check if launched with specific params (Lesson mode vs Practice mode)
     const params = new URLSearchParams(window.location.search);
     const hasParams = params.get('unit') && params.get('lesson');
@@ -262,6 +288,8 @@ const App = (() => {
     state.startTime = null;
     state.questionStartTime = null;
     state.timePerQuestion = {};
+    state.aiHintsUsed = new Set();
+    state.aiExplanationOpen = new Set();
   }
 
   // ===== START =====
@@ -406,8 +434,9 @@ const App = (() => {
     if (!data || typeof data !== 'object') return;
 
     if (data.type === 'HEARTS_SYNC') {
-      state.maxHearts = Number(data.maxHearts) || state.maxHearts || 25;
+      state.maxHearts = Number(data.maxHearts) || state.maxHearts || 5;
       state.hearts = normalizeHeartCount(data.hearts, state.maxHearts);
+      state.heartsSynced = true;
       state.isPremium = Boolean(data.isPremium);
       state.hasUsedFreeHeartRecovery = Boolean(data.hasUsedFreeHeartRecovery);
       state.canUseDailyRecovery = Boolean(data.canUseDailyRecovery);
@@ -418,8 +447,9 @@ const App = (() => {
     }
 
     if (data.type === 'HEARTS_UPDATED') {
-      state.maxHearts = Number(data.maxHearts) || state.maxHearts || 25;
+      state.maxHearts = Number(data.maxHearts) || state.maxHearts || 5;
       state.hearts = normalizeHeartCount(data.afterHearts ?? data.hearts, state.maxHearts);
+      state.heartsSynced = true;
       state.isPremium = Boolean(data.isPremium);
       state.hasUsedFreeHeartRecovery = Boolean(data.hasUsedFreeHeartRecovery);
       state.canUseDailyRecovery = Boolean(data.canUseDailyRecovery);
@@ -431,18 +461,34 @@ const App = (() => {
     }
   }
 
-  function normalizeHeartCount(value, maxHearts = 25) {
+  function normalizeHeartCount(value, maxHearts = 5) {
     const parsed = Number(value);
-    if (!Number.isFinite(parsed)) return maxHearts;
+    if (!Number.isFinite(parsed)) return 0;
     return Math.max(0, Math.min(maxHearts, parsed));
   }
 
   function renderHeartsPill() {
-    const countText = state.isPremium ? '∞' : state.hearts;
-    const label = state.isPremium ? 'Tim vô hạn' : `${state.hearts}/${state.maxHearts} tim`;
+    const countText = !state.heartsSynced ? '...' : (state.isPremium ? '∞' : state.hearts);
+    const label = !state.heartsSynced
+      ? 'Đang đồng bộ năng lượng'
+      : state.isPremium
+      ? 'Năng lượng vô hạn'
+      : `${state.hearts}/${state.maxHearts} năng lượng`;
+    const empty = state.heartsSynced && !state.isPremium && state.hearts <= 0;
     return `
-      <div class="quiz-hearts-pill" id="quizHeartsPill" aria-label="${label}" title="${label}">
-        <span class="quiz-heart-icon" aria-hidden="true">♥</span>
+      <div class="quiz-hearts-pill${empty ? ' is-empty' : ''}" id="quizHeartsPill" aria-label="${label}" title="${label}">
+        <svg class="quiz-heart-icon-svg quiz-energy-icon-svg" width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="1" y="2" width="23" height="14" rx="5" fill="url(#quizEnergyGrad)" opacity="${empty ? '0.42' : '1'}"/>
+          <rect x="3.5" y="4.5" width="${empty ? '4' : '18'}" height="9" rx="3.2" fill="${empty ? '#ef4444' : 'rgba(255,255,255,0.24)'}"/>
+          <path d="M26 6V12" stroke="${empty ? '#ef4444' : '#d97706'}" stroke-width="2.7" stroke-linecap="round"/>
+          <path d="M13.3 4.7 9.3 10.2h3.05l-1.05 3.35 4.25-5.65h-3.05l.8-3.2Z" fill="white"/>
+          <defs>
+            <linearGradient id="quizEnergyGrad" x1="1" y1="2" x2="24" y2="16" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#fbbf24"/>
+              <stop offset="1" stop-color="#d97706"/>
+            </linearGradient>
+          </defs>
+        </svg>
         <span class="quiz-heart-count" id="quizHeartCount">${countText}</span>
       </div>
     `;
@@ -453,7 +499,7 @@ const App = (() => {
     const count = document.getElementById('quizHeartCount');
     if (!pill || !count) return;
     const countText = state.isPremium ? '∞' : state.hearts;
-    const label = state.isPremium ? 'Tim vô hạn' : `${state.hearts}/${state.maxHearts} tim`;
+    const label = state.isPremium ? 'Năng lượng vô hạn' : `${state.hearts}/${state.maxHearts} năng lượng`;
     count.textContent = countText;
     pill.setAttribute('aria-label', label);
     pill.setAttribute('title', label);
@@ -485,13 +531,73 @@ const App = (() => {
     });
   }
 
-  function requestHeartLoss(q) {
+  function requestHeartLoss(q, reason = 'wrong_answer') {
     window.parent.postMessage({
       type: 'LOSE_HEART',
       questionId: q.globalId,
       retry: Boolean(q.retry),
-      questionType: q.type || 'quiz'
+      questionType: q.type || 'quiz',
+      reason
     }, '*');
+  }
+
+  function getQuestionKey(q) {
+    return q ? (q.retryOf || q.globalId) : '';
+  }
+
+  function isAIExplanationOpen(q) {
+    return state.aiExplanationOpen.has(getQuestionKey(q));
+  }
+
+  function buildAIExplanationIfOpen(q) {
+    return isAIExplanationOpen(q) ? buildAIExplanation(q) : '';
+  }
+
+  function renderQuestionActions(q) {
+    const key = getQuestionKey(q);
+    const bookmarked = state.bookmarks.has(q.globalId);
+    const aiOpen = state.aiExplanationOpen.has(key);
+    const usedHint = state.aiHintsUsed.has(key);
+    return `
+      <div class="question-actions" aria-label="Công cụ câu hỏi">
+        <button class="question-action-button question-action-flag${bookmarked ? ' active' : ''}" id="btnBookmark" onclick="App.toggleBookmark('${q.globalId}')" aria-label="${bookmarked ? 'Bỏ lưu câu hỏi' : 'Lưu câu hỏi'}" title="${bookmarked ? 'Bỏ lưu câu hỏi' : 'Lưu câu hỏi'}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V5.8c0-.7.5-1.25 1.2-1.25h8.45c.45 0 .85.18 1.15.5l.75.78c.3.32.72.5 1.16.5H19v9.7h-1.32c-.44 0-.86-.18-1.16-.5l-.76-.78a1.57 1.57 0 0 0-1.14-.5H6.2"/></svg>
+        </button>
+        <button class="question-action-button question-action-ai${aiOpen ? ' active' : ''}${usedHint ? ' used' : ''}" id="btnAIHint" onclick="App.handleAIHintClick()" aria-label="Mở Giải thích AI" title="${state.checked ? 'Xem Giải thích AI' : 'Nhận gợi ý AI (-1 năng lượng)'}">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-5.9-1.52a.5.5 0 0 1 0-.96l5.9-1.52A2 2 0 0 0 9.94 8.5l1.52-5.9a.5.5 0 0 1 .96 0l1.52 5.9a2 2 0 0 0 1.44 1.56l5.9 1.52a.5.5 0 0 1 0 .96l-5.9 1.52a2 2 0 0 0-1.44 1.44l-1.52 5.9a.5.5 0 0 1-.96 0z"/><path d="M19 2v4"/><path d="M21 4h-4"/></svg>
+        </button>
+      </div>
+    `;
+  }
+
+  function renderFeedbackZone(q, resultBannerHtml = '') {
+    const feedbackZone = document.getElementById('feedbackZone');
+    if (!feedbackZone || !q) return;
+    feedbackZone.innerHTML = `${resultBannerHtml}${buildAIExplanationIfOpen(q)}${state.checked ? buildNextAction() : ''}`;
+  }
+
+  function handleAIHintClick() {
+    const q = state.questions[state.current];
+    if (!q) return;
+    const key = getQuestionKey(q);
+
+    if (!state.checked && !state.aiHintsUsed.has(key)) {
+      if (!canSubmitQuestionNow(q)) {
+        showOutOfHeartsProGate();
+        return;
+      }
+      state.aiHintsUsed.add(key);
+      if (!state.isPremium) requestHeartLoss(q, 'ai_hint');
+    }
+
+    state.aiExplanationOpen.add(key);
+    const btn = document.getElementById('btnAIHint');
+    if (btn) btn.classList.add('active', 'used');
+    renderFeedbackZone(q);
+    const feedbackZone = document.getElementById('feedbackZone');
+    if (feedbackZone) {
+      setTimeout(() => feedbackZone.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    }
   }
 
   function renderHeartLossPreview(beforeHearts, afterHearts) {
@@ -540,7 +646,10 @@ const App = (() => {
       });
       contentHtml = `
         <div class="question-card fill-blank-card">
-          <div class="fill-blank-text">${textHtml}</div>
+          <div class="question-topline">
+            <div class="fill-blank-text">${textHtml}</div>
+            ${renderQuestionActions(q)}
+          </div>
           <div class="word-blocks-pool" id="wordBlocksPool">
             ${q.options.map((opt, i) => `<div class="word-block" id="wordBlock-${i}" onclick="App.handleWordClick(${i})">${opt}</div>`).join('')}
           </div>
@@ -551,7 +660,10 @@ const App = (() => {
     } else if (q.type === 'matching') {
       contentHtml = `
         <div class="question-card matching-question-card">
-          <div class="question-text">${q.question}</div>
+          <div class="question-topline">
+            <div class="question-text">${q.question}</div>
+            ${renderQuestionActions(q)}
+          </div>
           <div class="matching-stage" id="matchingStage">
             <svg class="matching-lines" id="matchingLines" aria-hidden="true"></svg>
             <div class="matching-container">
@@ -569,7 +681,10 @@ const App = (() => {
     } else {
       contentHtml = `
         <div class="question-card">
-          <div class="question-text">${q.question}</div>
+          <div class="question-topline">
+            <div class="question-text">${q.question}</div>
+            ${renderQuestionActions(q)}
+          </div>
         </div>
         <div class="options-grid" id="optionsGrid">
           ${q.options.map((opt, i) => `
@@ -586,7 +701,7 @@ const App = (() => {
 
     zone.innerHTML = `
       <div class="question-header progress-question-header">
-        <button class="quiz-close-button" onclick="App.returnHome()" aria-label="Thoát bài học" title="Thoát bài học">
+        <button class="quiz-close-button" onclick="App.showExitConfirm()" aria-label="Thoát bài học" title="Thoát bài học">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <path d="M18 6 6 18"></path>
             <path d="m6 6 12 12"></path>
@@ -599,17 +714,6 @@ const App = (() => {
       </div>
       ${contentHtml}
       <div id="feedbackZone"></div>
-      <div class="question-nav-hint" id="navHint" style="display:none;">
-        <div class="nav-hint-inner">
-          <span>Nhấn phím <kbd>→</kbd> để câu tiếp theo</span>
-          <button class="btn-next-inline" onclick="App.navigate(1)">
-            Câu tiếp theo
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="9,18 15,12 9,6"></polyline>
-            </svg>
-          </button>
-        </div>
-      </div>
     `;
 
     if (isAnswered) {
@@ -624,11 +728,16 @@ const App = (() => {
 
   function restoreAnswerState(q) {
     if (!q.type || q.type === 'quiz') {
-      document.getElementById(`opt-${q.answer}`).classList.add('correct', 'disabled');
-      document.getElementById(`optStatus-${q.answer}`).innerHTML = svgCheck();
+      const correctIdx = getCorrectAnswerIndex(q);
       q.options.forEach((_, i) => {
         const el = document.getElementById(`opt-${i}`);
-        if (el) el.classList.add('disabled');
+        if (!el) return;
+        el.classList.add('disabled');
+        if (i === correctIdx) {
+          el.classList.add('correct');
+          const statusEl = document.getElementById(`optStatus-${i}`);
+          if (statusEl) statusEl.innerHTML = svgCheck();
+        }
       });
     } else if (q.type === 'fill_blank') {
       q.answer.forEach((optIdx, blankIdx) => {
@@ -648,9 +757,7 @@ const App = (() => {
       });
     }
 
-    document.getElementById('feedbackZone').innerHTML = buildAIExplanation(q);
-    const hint = document.getElementById('navHint');
-    if (hint) hint.style.display = 'flex';
+    renderFeedbackZone(q);
   }
 
   function selectOption(idx) {
@@ -681,7 +788,14 @@ const App = (() => {
       return;
     }
     const selectedIdx = state.selected;
-    const correct = selectedIdx === q.answer;
+    const realAnswerIdx = getCorrectAnswerIndex(q);
+    if (!hasValidCorrectAnswer(q)) {
+      console.warn('[Quiz] Không xác định được đáp án đúng cho câu hỏi:', q);
+      state.isAnimating = false;
+      state.checked = false;
+      return;
+    }
+    const correct = selectedIdx === realAnswerIdx;
     const elapsed = state.questionStartTime ? Math.round((Date.now() - state.questionStartTime) / 1000) : 0;
     state.timePerQuestion[q.globalId] = elapsed;
 
@@ -761,6 +875,11 @@ const App = (() => {
   function revealAnswer(q, selectedIdx, correct) {
     const letters = ['A', 'B', 'C', 'D'];
 
+    const realAnswerIdx = getCorrectAnswerIndex(q);
+    if (!hasValidCorrectAnswer(q)) {
+      console.warn('[Quiz] Không thể tô đáp án đúng vì dữ liệu đáp án không hợp lệ:', q);
+    }
+
     // Disable all options
     q.options.forEach((_, i) => {
       const el = document.getElementById(`opt-${i}`);
@@ -768,34 +887,36 @@ const App = (() => {
       el.classList.remove('selecting', 'selected-pending');
       el.classList.add('disabled');
 
-      if (i === q.answer) {
+      if (i === realAnswerIdx) {
         el.classList.add('correct');
-        document.getElementById(`optStatus-${i}`).innerHTML = svgCheck();
+        const statusEl = document.getElementById(`optStatus-${i}`);
+        if (statusEl) statusEl.innerHTML = svgCheck();
       } else if (i === selectedIdx && !correct) {
         el.classList.add('wrong');
-        document.getElementById(`optStatus-${i}`).innerHTML = svgX();
+        const statusEl = document.getElementById(`optStatus-${i}`);
+        if (statusEl) statusEl.innerHTML = svgX();
       }
     });
 
-    // Feedback + AI Explanation
-    const feedbackZone = document.getElementById('feedbackZone');
-    feedbackZone.innerHTML = buildResultBanner(correct, q, letters) + buildAIExplanation(q);
-
-    // Show nav hint
-    const hint = document.getElementById('navHint');
-    if (hint) hint.style.display = 'flex';
+    const resultBannerHtml = buildResultBanner(correct, q, letters, realAnswerIdx);
+    renderFeedbackZone(q, resultBannerHtml);
 
     renderSidebar();
     updateHeader();
 
-    // Auto-scroll to explanation
+    if (shouldShowFinishAfterAnswer()) {
+      setTimeout(showFinish, 600);
+    }
+
+    // Auto-scroll to the feedback card so the answer area feels connected.
+    const feedbackZone = document.getElementById('feedbackZone');
     setTimeout(() => {
-      feedbackZone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 250);
+      if (feedbackZone) feedbackZone.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 180);
   }
 
   // ===== RESULT BANNER =====
-  function buildResultBanner(correct, q, letters) {
+  function buildResultBanner(correct, q, letters, realAnswerIdx) {
     if (correct) {
       const streakMsg = state.streak >= 3 ? `Chuỗi ${state.streak} câu đúng!` : 'Chính xác!';
       const streakSub = state.streak >= 5
@@ -818,11 +939,33 @@ const App = (() => {
           <div class="result-banner-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
           <div class="result-banner-text">
             <strong>Chưa đúng!</strong>
-            <span>Đáp án đúng: <em>${letters[q.answer]}. ${q.options[q.answer]}</em> — Đọc giải thích bên dưới nhé.</span>
+            <span>Đáp án đúng: <em>${(q.options && q.options[realAnswerIdx] !== undefined) ? (letters[realAnswerIdx] + '. ' + q.options[realAnswerIdx]) : 'Hãy xem giải thích AI'}</em></span>
           </div>
         </div>
       `;
     }
+  }
+
+  function hasNextQuestion() {
+    return state.current < state.questions.length - 1;
+  }
+
+  function shouldShowFinishAfterAnswer() {
+    return state.checked && !hasNextQuestion();
+  }
+
+  function buildNextAction() {
+    if (!hasNextQuestion() || shouldShowFinishAfterAnswer()) return '';
+    return `
+      <div class="feedback-next-action">
+        <button class="feedback-next-button" onclick="App.navigate(1)" aria-label="Sang câu tiếp theo">
+          <span>Tiếp theo</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
+      </div>
+    `;
   }
 
   // ===== AI EXPLANATION =====
@@ -833,7 +976,7 @@ const App = (() => {
         <div class="ai-header">
           <div class="ai-logo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg></div>
           <div class="ai-title-group">
-            <div class="ai-title">Giải thích chuyên sâu · AI</div>
+            <div class="ai-title">Giải thích bởi AI</div>
           </div>
         </div>
         <div class="ai-body">
@@ -890,6 +1033,42 @@ const App = (() => {
 
   // ===== FINISH =====
   function showFinish() {
+    const existing = document.getElementById('finishCelebrationOverlay');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'finishCelebrationOverlay';
+    modal.className = 'lesson-modal-overlay';
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2147483647; display: flex; align-items: center; justify-content: center; background: rgba(248, 250, 255, 0.95);';
+    modal.innerHTML = `
+      <div class="lesson-modal-card is-finish" role="dialog" aria-modal="true" aria-labelledby="finishModalTitle">
+        <div class="lesson-modal-hero" aria-hidden="true">
+          <img src="/quiz/assets/congratulations_party.png" alt="" style="max-width: 100%; height: auto;" />
+        </div>
+        <h3 class="lesson-modal-title" id="finishModalTitle">Chúc mừng!</h3>
+        <p class="lesson-modal-subtitle">Bạn đã hoàn thành bài học. Tiếp tục để nhận thành tích và quay lại lộ trình.</p>
+        <button class="lesson-modal-primary" onclick="App.triggerQuizFinished()">TIẾP TỤC</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  function triggerQuizFinished() {
+    const modal = document.getElementById('finishCelebrationOverlay');
+    if (modal) modal.remove();
+    
+    // Iframe message
+    const params = new URLSearchParams(window.location.search);
+    const hasParams = params.get('unit') && params.get('lesson');
+
+    if (window.parent && window.parent !== window && hasParams) {
+      window.parent.postMessage({ type: 'QUIZ_FINISHED', correct: state.score.correct, total: state.questions.length, maxStreak: state.maxStreak }, '*');
+    } else {
+      renderFinishStats();
+    }
+  }
+
+  function renderFinishStats() {
     state.mode = 'finish';
     const total = state.questions.length;
     const pct = total > 0 ? Math.round((state.score.correct / total) * 100) : 0;
@@ -972,15 +1151,7 @@ const App = (() => {
     renderSidebar();
     updateHeader();
 
-    // Iframe message
-    const params = new URLSearchParams(window.location.search);
-    const hasParams = params.get('unit') && params.get('lesson');
-
-    if (window.parent && window.parent !== window && hasParams) {
-      const fb = document.getElementById('finishButtons');
-      if (fb) fb.style.display = 'none';
-      window.parent.postMessage({ type: 'QUIZ_FINISHED', correct: state.score.correct, total: state.questions.length, maxStreak: state.maxStreak }, '*');
-    }
+    // Iframe message logic has moved to triggerQuizFinished
   }
 
   function restartQuiz() {
@@ -1001,8 +1172,10 @@ const App = (() => {
     const total = state.questions.length;
     const answered = Object.keys(state.results).length;
     const pct = total > 0 ? Math.round((state.score.correct / Math.max(answered,1)) * 100) : 0;
-    document.getElementById('headerProgressText').textContent =
-      `${state.modeLabel} · ${answered}/${total} đã làm`;
+    const headerProgressText = document.getElementById('headerProgressText');
+    if (headerProgressText) {
+      headerProgressText.textContent = `${state.modeLabel} · ${answered}/${total} đã làm`;
+    }
     const scoreEl = document.getElementById('headerScore');
     if (scoreEl) {
       scoreEl.style.display = answered > 0 ? 'flex' : 'none';
@@ -1386,6 +1559,36 @@ const App = (() => {
     window.parent.postMessage({ type: 'OPEN_PREMIUM' }, '*');
   }
 
+  function showExitConfirm() {
+    const existing = document.getElementById('exitConfirmOverlay');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'exitConfirmOverlay';
+    modal.className = 'lesson-modal-overlay';
+    modal.innerHTML = `
+      <div class="lesson-modal-card is-exit" role="dialog" aria-modal="true" aria-labelledby="exitModalTitle">
+        <div class="lesson-modal-icon" aria-hidden="true">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </div>
+        <h3 class="lesson-modal-title" id="exitModalTitle">Bạn có muốn tiếp tục bài học?</h3>
+        <p class="lesson-modal-subtitle">Tiến trình hiện tại có thể bị gián đoạn nếu bạn rời khỏi bài học bây giờ.</p>
+        <button class="lesson-modal-primary" onclick="App.closeExitConfirm()">TIẾP TỤC HỌC</button>
+        <button class="lesson-modal-secondary" onclick="App.returnHome()">THOÁT BÀI HỌC</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  function closeExitConfirm() {
+    const modal = document.getElementById('exitConfirmOverlay');
+    if (modal) modal.remove();
+  }
+
   function submitComplexAnswer(correct, options = {}) {
     const q = state.questions[state.current];
     if (!canSubmitQuestionNow(q)) {
@@ -1406,7 +1609,8 @@ const App = (() => {
     const feedbackZone = document.getElementById('feedbackZone');
     if (!options.skipFeedback) {
       const letters = ['A', 'B', 'C', 'D'];
-      feedbackZone.innerHTML = buildResultBanner(correct, q, letters) + buildAIExplanation(q);
+      const realAnswerIdx = getCorrectAnswerIndex(q);
+      renderFeedbackZone(q, buildResultBanner(correct, q, letters, realAnswerIdx));
     }
 
     const hint = document.getElementById('navHint');
@@ -1414,9 +1618,13 @@ const App = (() => {
 
     renderSidebar();
     updateHeader();
+
+    if (shouldShowFinishAfterAnswer()) {
+      setTimeout(showFinish, 600);
+    }
   }
 
-  return { init, startAll, startTopic, filterByTopic, selectOption, checkSelectedOption, navigate, jumpTo, showFinish, restartQuiz, returnHome, toggleBookmark, startBookmarked, handleWordClick, handleBlankClick, checkFillBlankAnswer, handleMatchAClick, handleMatchBClick, checkMatchingAnswer, closeHeartModal, requestFreeHeartRecovery, openPremiumFromHeartModal };
+  return { init, startAll, startTopic, filterByTopic, selectOption, checkSelectedOption, navigate, jumpTo, showFinish, restartQuiz, returnHome, toggleBookmark, startBookmarked, handleWordClick, handleBlankClick, checkFillBlankAnswer, handleMatchAClick, handleMatchBClick, checkMatchingAnswer, closeHeartModal, requestFreeHeartRecovery, openPremiumFromHeartModal, showExitConfirm, closeExitConfirm, triggerQuizFinished, renderFinishStats, handleAIHintClick };
 
 })();
 

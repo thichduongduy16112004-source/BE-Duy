@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
-import { useApp, API_URL } from "../store";
+import { useApp, API_URL, getPostAuthRoute } from "../store";
 import { motion } from "motion/react";
 import { Eye, EyeOff, CheckCircle2, Circle } from "lucide-react";
 import GoogleLoginButton from "../components/GoogleLoginButton";
@@ -35,12 +35,7 @@ export default function RegisterScreen() {
 
       localStorage.setItem("ha_token", data.access_token);
       setUser(data.user);
-      
-      if (data.is_new || !data.user.onboarding_completed) {
-        nav("/onboarding/name");
-      } else {
-        nav("/home");
-      }
+      nav(getPostAuthRoute(data.user, data.is_new));
     } catch (error) {
       setErr("Lỗi kết nối đến máy chủ khi đăng ký bằng Google. Vui lòng thử lại!");
     }

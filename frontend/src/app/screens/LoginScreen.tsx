@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router";
-import { useApp, API_URL } from "../store";
+import { useApp, API_URL, getPostAuthRoute } from "../store";
 import { motion, AnimatePresence } from "motion/react";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import explorerImg from "../../imports/explorer.jpg";
@@ -39,7 +39,7 @@ export default function LoginScreen() {
 
       localStorage.setItem("ha_token", data.access_token);
       setUser(data.user);
-      nav("/home");
+      nav(getPostAuthRoute(data.user, data.is_new));
     } catch (error) {
       setErr("Lỗi kết nối đến máy chủ khi đăng nhập Google. Vui lòng thử lại!");
     }
@@ -73,7 +73,7 @@ export default function LoginScreen() {
 
       localStorage.setItem("ha_token", data.access_token);
       setUser(data.user);
-      nav("/home");
+      nav(getPostAuthRoute(data.user, data.is_new));
     } catch (error) {
       setErr("Lỗi kết nối đến máy chủ. Vui lòng thử lại!");
     }

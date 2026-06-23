@@ -6,15 +6,19 @@
     let globalId = 1;
     dataset.topics.forEach((topic) => {
       topic.questions.forEach((question) => {
-        questions.push({
-          ...question,
-          globalId: question.globalId || globalId,
-          topicId: question.topicId || topic.id,
-          topicName: question.topicName || topic.name,
-          topicTitle: question.topicTitle || topic.title,
-          topicIcon: question.topicIcon || topic.icon,
-          topicColor: question.topicColor || topic.color,
-        });
+          const normalizedQuestion = {
+            ...question,
+            answer: question.answer !== undefined
+              ? question.answer
+              : (question.correctOptionIndex !== undefined ? question.correctOptionIndex : question.ans),
+            globalId: question.globalId || globalId,
+            topicId: question.topicId || topic.id,
+            topicName: question.topicName || topic.name,
+            topicTitle: question.topicTitle || topic.title,
+            topicIcon: question.topicIcon || topic.icon,
+            topicColor: question.topicColor || topic.color,
+          };
+          questions.push(normalizedQuestion);
         globalId += 1;
       });
     });

@@ -246,6 +246,11 @@ export default function LessonScreen() {
     const handleMessage = (event: MessageEvent) => {
       if (!event.data) return;
 
+      if (event.data.type === "QUIZ_READY") {
+        syncHeartsToQuiz();
+        return;
+      }
+
       // Hearts: trừ tim khi sai và gửi lại state thật cho iframe
       if (event.data.type === "LOSE_HEART") {
         const isPremium = Boolean(user.isPremium || user.planType === "premium");
@@ -267,6 +272,7 @@ export default function LessonScreen() {
           afterHearts,
           lost: !isPremium && beforeHearts > afterHearts,
           recoveryOffer,
+          reason: event.data.reason,
         });
         return;
       }
