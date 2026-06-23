@@ -149,13 +149,13 @@ export default function LoginScreen() {
             <motion.div
               animate={{ boxShadow: ["0 0 20px rgba(240,180,41,0.2)", "0 0 40px rgba(240,180,41,0.38)", "0 0 20px rgba(240,180,41,0.2)"] }}
               transition={{ duration: 3, repeat: Infinity }}
-              className="w-14 h-14 rounded-full flex items-center justify-center text-2xl mb-5"
+              className="w-20 h-20 rounded-full flex items-center justify-center text-2xl mb-5"
               style={{
                 background: "radial-gradient(circle at 38% 32%, rgba(240,180,41,0.28) 0%, rgba(18,8,0,0.95) 65%)",
                 border: "1.5px solid rgba(240,180,41,0.5)",
               }}
             >
-              🏛️
+              <img src="/logo.png" alt="History Alive Logo" className="w-full h-full object-contain" />
             </motion.div>
 
             <div className="mb-1 flex items-center gap-2">
@@ -203,14 +203,14 @@ export default function LoginScreen() {
             {/* Mobile logo */}
             <div className="lg:hidden text-center mb-8">
               <div
-                className="w-14 h-14 rounded-full flex items-center justify-center text-2xl mx-auto mb-3"
+                className="w-20 h-20 rounded-full flex items-center justify-center text-2xl mx-auto mb-3"
                 style={{
                   background: "radial-gradient(circle, rgba(217,119,6,0.12), rgba(255,251,235,0.9))",
                   border: "2px solid rgba(217,119,6,0.3)",
                   boxShadow: "0 4px 16px rgba(217,119,6,0.15)",
                 }}
               >
-                🏛️
+                <img src="/logo.png" alt="History Alive Logo" className="w-full h-full object-contain p-1" />
               </div>
               <p style={{ fontFamily: '"Cinzel", serif', color: "#92400e", fontSize: 12, letterSpacing: "0.18em" }}>
                 HISTORY ALIVE

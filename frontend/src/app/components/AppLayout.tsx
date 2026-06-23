@@ -52,14 +52,12 @@ export default function AppLayout() {
             <motion.div
               animate={{ rotate: [0, 5, -5, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-xl"
+              className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center shrink-0"
               style={{
-                background: "linear-gradient(135deg, rgba(45,20,0,0.95), rgba(15,8,0,0.95))",
-                border: "1.5px solid rgba(240,180,41,0.4)",
-                boxShadow: "0 2px 12px rgba(217,119,6,0.25), 0 0 0 1px rgba(240,180,41,0.1) inset",
+                boxShadow: "0 2px 12px rgba(217,119,6,0.25)",
               }}
             >
-              🏛️
+              <img src="/logo.png" alt="History Alive Logo" className="w-full h-full object-contain" />
             </motion.div>
             <div className="hidden sm:block">
               <span

@@ -114,13 +114,13 @@ export default function SplashScreen() {
               ],
             }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-28 h-28 rounded-full flex items-center justify-center text-6xl mx-auto relative"
+            className="w-32 h-32 rounded-full flex items-center justify-center text-6xl mx-auto relative"
             style={{
               background: "radial-gradient(circle at 38% 30%, rgba(240,180,41,0.3) 0%, rgba(25,12,0,0.97) 60%)",
               border: "1.5px solid rgba(240,180,41,0.55)",
             }}
           >
-            🏛️
+            <img src="/logo.png" alt="History Alive Logo" className="w-full h-full object-contain p-2" />
             {/* Inner ring */}
             <div
               className="absolute inset-2 rounded-full border pointer-events-none"
