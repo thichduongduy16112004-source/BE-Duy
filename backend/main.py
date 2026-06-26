@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from core.database import connect_db, close_db, get_database
-from routers import auth, users, characters, chat, flashcards, lessons, lesson_content, admin, quizzes, payments, progress
+from routers import auth, users, characters, chat, flashcards, lessons, lesson_content, admin, quizzes, payments, progress, teacher
 from datetime import datetime
 
 scheduler = AsyncIOScheduler(timezone="Asia/Ho_Chi_Minh")
@@ -144,6 +144,8 @@ app.add_middleware(
 
 for r in [auth.router, users.router, characters.router, chat.router, flashcards.router, lessons.router, lesson_content.router, admin.router, quizzes.router, payments.router, progress.router]:
     app.include_router(r, prefix="/api/v1")
+
+app.include_router(teacher.router, prefix="/api/v1")
 
 @app.get("/")
 async def health_check():
