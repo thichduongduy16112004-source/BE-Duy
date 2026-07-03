@@ -1,6 +1,35 @@
 # CHANGELOG_DungTuan
 
-Ngày cập nhật gần nhất: 2026-07-03 15:40 GMT+7
+Ngày cập nhật gần nhất: 2026-07-03 15:44 GMT+7
+
+## 2026-07-03 15:44 GMT+7 — Hotfix navbar responsive theo ảnh user gửi
+
+### Lỗi phát hiện
+
+- User kiểm tra bản Git/port `1234` và gửi ảnh cho thấy navbar bị chen chữ: `LIÊN HỆ` nằm sát/đè với `ĐĂNG NHẬP`.
+- Nguyên nhân trực tiếp: khi thêm CTA `ĐĂNG NHẬP`, breakpoint desktop vẫn dùng `lg`, trong khi không gian ngang ở một số viewport không đủ cho logo + nav giữa + cụm CTA phải.
+
+### Cần thay đổi
+
+- Không đổi lại thiết kế gốc hoặc copy nội dung.
+- Chỉ sửa responsive breakpoint của navbar để tránh overlap.
+- Giữ CTA `ĐĂNG NHẬP` trỏ `/login` và `BẮT ĐẦU NGAY` trỏ `/register`.
+- Giữ route `/`, `/landing`, `/splash`, `/login`, `/register` như đã đồng bộ.
+
+### Files thay đổi
+
+- `frontend/src/app/screens/LandingPage.tsx`
+  - Đổi desktop nav center từ `hidden lg:flex` sang `hidden xl:flex`.
+  - Đổi CTA desktop `ĐĂNG NHẬP` và `BẮT ĐẦU NGAY` từ `hidden lg:flex` sang `hidden xl:flex`.
+  - Đổi hamburger/menu overlay từ `lg:hidden` sang `xl:hidden`.
+
+### Kết quả kỳ vọng
+
+- Ở viewport trung bình như ảnh user gửi, navbar chuyển sang hamburger thay vì ép đủ nav link + CTA trên một hàng.
+- Không còn lỗi chữ `LIÊN HỆ` chen vào `ĐĂNG NHẬP`.
+- Visual parity với bản gốc `5173` được khôi phục tốt hơn mà không phá login/register logic.
+
+---
 
 ## 2026-07-03 15:40 GMT+7 — Hotfix khôi phục hiệu ứng Landing Page trên Git
 

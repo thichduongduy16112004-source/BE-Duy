@@ -209,7 +209,7 @@ function Navbar() {
           </div>
 
           {/* Center: Nav Links (Desktop) */}
-          <div className="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          <div className="hidden xl:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             {navLinks.map((item) => (
               <div key={item.id} className="relative group/nav">
                 <a 
@@ -256,7 +256,7 @@ function Navbar() {
             
             <button
               onClick={() => nav("/login")}
-              className="hidden lg:flex items-center gap-2 text-[#2d1400] dark:text-white/85 hover:text-[#d97706] dark:hover:text-[#fde68a] px-4 py-3 rounded-full text-xs font-black tracking-widest uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-1"
+              className="hidden xl:flex items-center gap-2 text-[#2d1400] dark:text-white/85 hover:text-[#d97706] dark:hover:text-[#fde68a] px-4 py-3 rounded-full text-xs font-black tracking-widest uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-1"
               style={{ fontFamily: '"Nunito", sans-serif' }}
             >
               ĐĂNG NHẬP
@@ -265,7 +265,7 @@ function Navbar() {
             {/* Get In Touch (Desktop) */}
             <button 
               onClick={() => nav("/register")}
-              className="hidden lg:flex items-center gap-2 border border-[#d97706]/30 dark:border-[#d97706]/50 bg-[#d97706]/5 hover:bg-[#d97706] text-[#92400e] dark:text-[#fde68a] hover:text-white px-7 py-3 rounded-full text-xs font-black tracking-widest uppercase transition-all duration-300 shadow-sm hover:shadow-[0_0_20px_rgba(217,119,6,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-1"
+              className="hidden xl:flex items-center gap-2 border border-[#d97706]/30 dark:border-[#d97706]/50 bg-[#d97706]/5 hover:bg-[#d97706] text-[#92400e] dark:text-[#fde68a] hover:text-white px-7 py-3 rounded-full text-xs font-black tracking-widest uppercase transition-all duration-300 shadow-sm hover:shadow-[0_0_20px_rgba(217,119,6,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-1"
               style={{ fontFamily: '"Nunito", sans-serif' }}
             >
               BẮT ĐẦU NGAY <ArrowUpRight className="w-4 h-4" />
@@ -273,7 +273,7 @@ function Navbar() {
 
             {/* Hamburger (Mobile) */}
             <button 
-              className="lg:hidden flex flex-col items-end justify-center w-10 h-10 space-y-1.5 p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fdf8ef] dark:focus-visible:ring-offset-[#0a0a0a]"
+              className="xl:hidden flex flex-col items-end justify-center w-10 h-10 space-y-1.5 p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fdf8ef] dark:focus-visible:ring-offset-[#0a0a0a]"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? "Đóng menu" : "Mở menu điều hướng"}
               aria-expanded={menuOpen}
@@ -290,7 +290,7 @@ function Navbar() {
       {/* Fullscreen Mobile Menu Overlay */}
       <div 
         id="mobile-menu"
-        className={`fixed inset-0 z-40 bg-[#fdfaf2]/98 dark:bg-[#0a0600]/98 backdrop-blur-md transition-all duration-500 lg:hidden flex flex-col justify-center items-center ${
+        className={`fixed inset-0 z-40 bg-[#fdfaf2]/98 dark:bg-[#0a0600]/98 backdrop-blur-md transition-all duration-500 xl:hidden flex flex-col justify-center items-center ${
           menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
       >
