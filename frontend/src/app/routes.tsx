@@ -19,6 +19,7 @@ import AIChatScreen from "./screens/AIChatScreen";
 import StoreScreen from "./screens/StoreScreen";
 import PvPScreen from "./screens/PvPScreen";
 import FlashcardScreen from "./screens/FlashcardScreen";
+import LandingPage from "./screens/LandingPage";
 
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
@@ -33,7 +34,9 @@ export const router = createBrowserRouter([
   {
     element: <Root />,
     children: [
-      { path: "/", element: <SplashScreen /> },
+      { path: "/", element: <LandingPage /> },
+      { path: "/landing", element: <LandingPage /> },
+      { path: "/splash", element: <SplashScreen /> },
       { path: "/login", element: <LoginScreen /> },
       { path: "/register", element: <RegisterScreen /> },
       { path: "/forgot-password", element: <ForgotPasswordScreen /> },

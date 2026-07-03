@@ -1,5 +1,83 @@
 # CHANGELOG_DungTuan
 
+Ngày cập nhật gần nhất: 2026-07-03 15:18 GMT+7
+
+## 2026-07-03 15:18 GMT+7 — Đồng bộ Landing Page vào `frontend`
+
+### Phạm vi
+
+- Chỉ xử lý trong thư mục `frontend`.
+- Không chỉnh backend, Docker, admin app hoặc thư mục ngoài `frontend`.
+- Giữ nguyên logic đăng nhập/đăng ký/onboarding hiện có; Landing Page chỉ điều hướng sang các route sẵn có.
+
+### Files thay đổi
+
+- `frontend/src/app/screens/LandingPage.tsx`
+  - Thêm Landing Page hiện tại của History Alive vào app GitHub.
+  - Giữ các chỉnh sửa UI gần nhất: mascot carousel, copy nhân vật, typography, CTA, fix ghost text `BẠN ĐỒNG HÀNH`.
+  - Bỏ phụ thuộc runtime vào `lenis` vì `frontend/package.json` hiện chưa có dependency này và `ENABLE_LENIS` đang tắt; tránh thêm dependency mới.
+  - Thêm CTA `ĐĂNG NHẬP` trên desktop/mobile để đi tới `/login`.
+  - Các CTA bắt đầu học tiếp tục đi tới `/register`.
+- `frontend/src/app/routes.tsx`
+  - Route `/` trỏ tới Landing Page.
+  - Route `/landing` vẫn trỏ tới Landing Page để giữ link cũ.
+  - Route `/splash` giữ lại SplashScreen cũ.
+  - Route `/login`, `/register`, onboarding và app routes giữ nguyên.
+- `frontend/public/assets/logo.png`
+  - Bổ sung logo cần cho navbar Landing Page.
+- `frontend/CHANGELOG_DungTuan.md`
+  - Ghi log thay đổi, hướng dẫn kiểm tra và đồng bộ Git.
+
+### Route sau cập nhật
+
+- `http://localhost:5173/` → Landing Page chính.
+- `http://localhost:5173/landing` → Landing Page, dùng cho link cũ.
+- `http://localhost:5173/landing#features` → Landing Page tại section tính năng.
+- `http://localhost:5173/splash` → SplashScreen cũ.
+- `http://localhost:5173/login` → LoginScreen hiện có.
+- `http://localhost:5173/register` → RegisterScreen hiện có.
+
+### Hướng dẫn chạy local
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Checklist kiểm tra thủ công
+
+1. Mở `/` thấy Landing Page.
+2. Mở `/landing` thấy cùng Landing Page.
+3. Mở `/landing#features` vẫn vào đúng section tính năng.
+4. Bấm `ĐĂNG NHẬP` trên desktop/mobile → `/login`.
+5. Bấm CTA `BẮT ĐẦU NGAY` → `/register`.
+6. Mở `/login` xác nhận login cũ không bị thay đổi.
+7. Mở `/register` xác nhận register cũ không bị thay đổi.
+8. Mở `/splash` xác nhận SplashScreen vẫn còn.
+
+### Hướng dẫn đồng bộ Git an toàn
+
+Không dùng `git add .`. Chỉ stage đúng file trong phạm vi `frontend`:
+
+```bash
+git status
+git add frontend/src/app/screens/LandingPage.tsx \
+        frontend/src/app/routes.tsx \
+        frontend/public/assets/logo.png \
+        frontend/CHANGELOG_DungTuan.md
+git commit -m "feat(frontend): add landing page with login UX links"
+git push origin main
+```
+
+### Ghi chú kỹ thuật
+
+- Không thêm dependency mới vào `package.json`.
+- Không sửa `LoginScreen.tsx`, `RegisterScreen.tsx`, `store.ts` hoặc auth flow.
+- Landing Page chỉ dùng route navigation để nối UX với login/register.
+
+---
+
 Ngày cập nhật: 2026-06-23
 
 Tài liệu này ghi lại chi tiết các thay đổi frontend/UI/logic đã được thực hiện trong phiên làm việc để dễ đồng bộ với repository `BE-Duy`.
