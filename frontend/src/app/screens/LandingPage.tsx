@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef, CSSProperties, ReactNode } from "react";
 import { motion, useTransform, AnimatePresence, useInView, useMotionValue, useMotionTemplate } from "motion/react";
 import { useNavigate } from "react-router";
-import Lenis from "lenis";
 import { MASCOTS } from "../store";
 import { Menu, X, ChevronRight, Play, Star, Map, Shield, BookOpen, Crown, ArrowRight, ArrowLeft, Facebook, Instagram, Twitter, MessageCircle, Send, Moon, Sun, ChevronDown, Landmark, Castle, ScrollText, Flame, GraduationCap, Sparkles, ArrowUpRight, Compass, Users, Target, Pickaxe, Trophy, Factory } from "lucide-react";
 
 const EASE_OUT_QUINT = [0.22, 1, 0.36, 1] as const;
-const ENABLE_LENIS = false;
 const ENABLE_HEAVY_MOTION = false;
 
 const CTA_PARTICLES = [
@@ -23,44 +21,7 @@ const CTA_PARTICLES = [
 function useSmoothLandingScroll() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (!ENABLE_LENIS || media.matches) {
-      document.documentElement.classList.remove('lenis', 'ha-smooth-scroll');
-      return;
-    }
-
-    const lenis = new Lenis({
-      duration: 0.58,
-      easing: (t: number) => 1 - Math.pow(1 - t, 2.2),
-      smoothWheel: true,
-      wheelMultiplier: 1.04,
-      touchMultiplier: 1,
-    });
-
-    let frame = 0;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      frame = requestAnimationFrame(raf);
-    };
-
-    const stopForReducedMotion = () => {
-      if (!media.matches) return;
-      cancelAnimationFrame(frame);
-      lenis.destroy();
-      document.documentElement.classList.remove('lenis', 'ha-smooth-scroll');
-    };
-
-    document.documentElement.classList.add('lenis', 'ha-smooth-scroll');
-    media.addEventListener('change', stopForReducedMotion);
-    frame = requestAnimationFrame(raf);
-
-    return () => {
-      media.removeEventListener('change', stopForReducedMotion);
-      cancelAnimationFrame(frame);
-      lenis.destroy();
-      document.documentElement.classList.remove('lenis', 'ha-smooth-scroll');
-    };
+    document.documentElement.classList.remove('lenis', 'ha-smooth-scroll');
   }, []);
 }
 
