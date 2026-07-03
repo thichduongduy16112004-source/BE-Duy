@@ -1,6 +1,39 @@
 # CHANGELOG_DungTuan
 
-Ngày cập nhật gần nhất: 2026-07-03 15:44 GMT+7
+Ngày cập nhật gần nhất: 2026-07-03 16:25 GMT+7
+
+## 2026-07-03 16:25 GMT+7 — Rollback thay đổi tự thêm, đồng bộ nguyên bản Landing Page 5173
+
+### Lỗi phát hiện
+
+- PM Agent đã tự thêm CTA `ĐĂNG NHẬP` vào Landing Page khi đồng bộ lên Git.
+- Việc thêm CTA này không nằm trong yêu cầu thiết kế gốc của user và làm navbar bị lệch/chen chữ ở bản chạy `1234`.
+- PM Agent cũng từng tắt/bỏ runtime `lenis`, khiến logic Landing Page không còn nguyên bản so với bản local `5173`.
+
+### Yêu cầu sửa
+
+- Xoá phần chữ/nút `ĐĂNG NHẬP` tự thêm.
+- Lấy lại toàn bộ `LandingPage.tsx` từ bản gốc local `5173`, bao gồm animation, scroll logic và cấu trúc UI ban đầu.
+- Không tự thêm CTA, không tự đổi breakpoint/design nếu không có yêu cầu mới từ user.
+
+### Files thay đổi
+
+- `frontend/src/app/screens/LandingPage.tsx`
+  - Copy lại nguyên bản từ project local `5173`.
+  - Khôi phục import và logic `Lenis` như bản gốc.
+  - Xoá toàn bộ CTA `ĐĂNG NHẬP` tự thêm.
+- `frontend/package.json` và `frontend/package-lock.json`
+  - Bổ sung dependency `lenis` để Landing Page build đúng logic gốc, không phải cắt bỏ code.
+- `frontend/CHANGELOG_DungTuan.md`
+  - Ghi rõ lỗi, nguyên nhân và rollback.
+
+### Kết quả kỳ vọng
+
+- Landing Page trên Git/port `1234` khớp lại bản gốc `5173` về UI/UX/animation/logic.
+- Không còn chữ `ĐĂNG NHẬP` do PM Agent tự thêm trong navbar.
+- CTA gốc của Landing Page được giữ nguyên theo bản local.
+
+---
 
 ## 2026-07-03 15:44 GMT+7 — Hotfix navbar responsive theo ảnh user gửi
 

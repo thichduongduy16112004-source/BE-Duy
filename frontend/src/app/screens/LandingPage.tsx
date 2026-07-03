@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, CSSProperties, ReactNode } from "react";
 import { motion, useTransform, AnimatePresence, useInView, useMotionValue, useMotionTemplate } from "motion/react";
 import { useNavigate } from "react-router";
+import Lenis from "lenis";
 import { MASCOTS } from "../store";
 import { Menu, X, ChevronRight, Play, Star, Map, Shield, BookOpen, Crown, ArrowRight, ArrowLeft, Facebook, Instagram, Twitter, MessageCircle, Send, Moon, Sun, ChevronDown, Landmark, Castle, ScrollText, Flame, GraduationCap, Sparkles, ArrowUpRight, Compass, Users, Target, Pickaxe, Trophy, Factory } from "lucide-react";
 
@@ -21,8 +22,45 @@ const CTA_PARTICLES = [
 
 function useSmoothLandingScroll() {
   useEffect(() => {
-    if (typeof document === 'undefined') return;
-    document.documentElement.classList.remove('lenis', 'ha-smooth-scroll');
+    if (typeof window === 'undefined') return;
+
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!ENABLE_LENIS || media.matches) {
+      document.documentElement.classList.remove('lenis', 'ha-smooth-scroll');
+      return;
+    }
+
+    const lenis = new Lenis({
+      duration: 0.58,
+      easing: (t: number) => 1 - Math.pow(1 - t, 2.2),
+      smoothWheel: true,
+      wheelMultiplier: 1.04,
+      touchMultiplier: 1,
+    });
+
+    let frame = 0;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      frame = requestAnimationFrame(raf);
+    };
+
+    const stopForReducedMotion = () => {
+      if (!media.matches) return;
+      cancelAnimationFrame(frame);
+      lenis.destroy();
+      document.documentElement.classList.remove('lenis', 'ha-smooth-scroll');
+    };
+
+    document.documentElement.classList.add('lenis', 'ha-smooth-scroll');
+    media.addEventListener('change', stopForReducedMotion);
+    frame = requestAnimationFrame(raf);
+
+    return () => {
+      media.removeEventListener('change', stopForReducedMotion);
+      cancelAnimationFrame(frame);
+      lenis.destroy();
+      document.documentElement.classList.remove('lenis', 'ha-smooth-scroll');
+    };
   }, []);
 }
 
@@ -209,7 +247,7 @@ function Navbar() {
           </div>
 
           {/* Center: Nav Links (Desktop) */}
-          <div className="hidden xl:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          <div className="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             {navLinks.map((item) => (
               <div key={item.id} className="relative group/nav">
                 <a 
@@ -254,18 +292,10 @@ function Navbar() {
               {isDark ? <Sun className="w-4 h-4 group-hover:text-[#fde68a] transition-colors" /> : <Moon className="w-4 h-4 group-hover:text-[#d97706] transition-colors" />}
             </button>
             
-            <button
-              onClick={() => nav("/login")}
-              className="hidden xl:flex items-center gap-2 text-[#2d1400] dark:text-white/85 hover:text-[#d97706] dark:hover:text-[#fde68a] px-4 py-3 rounded-full text-xs font-black tracking-widest uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-1"
-              style={{ fontFamily: '"Nunito", sans-serif' }}
-            >
-              ĐĂNG NHẬP
-            </button>
-
             {/* Get In Touch (Desktop) */}
             <button 
               onClick={() => nav("/register")}
-              className="hidden xl:flex items-center gap-2 border border-[#d97706]/30 dark:border-[#d97706]/50 bg-[#d97706]/5 hover:bg-[#d97706] text-[#92400e] dark:text-[#fde68a] hover:text-white px-7 py-3 rounded-full text-xs font-black tracking-widest uppercase transition-all duration-300 shadow-sm hover:shadow-[0_0_20px_rgba(217,119,6,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-1"
+              className="hidden lg:flex items-center gap-2 border border-[#d97706]/30 dark:border-[#d97706]/50 bg-[#d97706]/5 hover:bg-[#d97706] text-[#92400e] dark:text-[#fde68a] hover:text-white px-7 py-3 rounded-full text-xs font-black tracking-widest uppercase transition-all duration-300 shadow-sm hover:shadow-[0_0_20px_rgba(217,119,6,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-1"
               style={{ fontFamily: '"Nunito", sans-serif' }}
             >
               BẮT ĐẦU NGAY <ArrowUpRight className="w-4 h-4" />
@@ -273,7 +303,7 @@ function Navbar() {
 
             {/* Hamburger (Mobile) */}
             <button 
-              className="xl:hidden flex flex-col items-end justify-center w-10 h-10 space-y-1.5 p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fdf8ef] dark:focus-visible:ring-offset-[#0a0a0a]"
+              className="lg:hidden flex flex-col items-end justify-center w-10 h-10 space-y-1.5 p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-2 focus-visible:ring-offset-[#fdf8ef] dark:focus-visible:ring-offset-[#0a0a0a]"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? "Đóng menu" : "Mở menu điều hướng"}
               aria-expanded={menuOpen}
@@ -290,7 +320,7 @@ function Navbar() {
       {/* Fullscreen Mobile Menu Overlay */}
       <div 
         id="mobile-menu"
-        className={`fixed inset-0 z-40 bg-[#fdfaf2]/98 dark:bg-[#0a0600]/98 backdrop-blur-md transition-all duration-500 xl:hidden flex flex-col justify-center items-center ${
+        className={`fixed inset-0 z-40 bg-[#fdfaf2]/98 dark:bg-[#0a0600]/98 backdrop-blur-md transition-all duration-500 lg:hidden flex flex-col justify-center items-center ${
           menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
       >
@@ -335,20 +365,9 @@ function Navbar() {
               )}
             </div>
           ))}
-          <button
-            onClick={() => { setMenuOpen(false); nav("/login"); }}
-            className="mt-6 text-[#2d1400] dark:text-white text-sm font-black tracking-widest uppercase underline decoration-[#d97706]/50 underline-offset-8 transition-all duration-500 hover:text-[#d97706] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-2"
-            style={{
-              transitionDelay: `${navLinks.length * 80 + 160}ms`,
-              opacity: menuOpen ? 1 : 0,
-              transform: menuOpen ? 'translateY(0)' : 'translateY(20px)'
-            }}
-          >
-            ĐĂNG NHẬP
-          </button>
           <button 
             onClick={() => { setMenuOpen(false); nav("/register"); }}
-            className="mt-3 bg-[#d97706] text-white rounded-full px-10 py-4 text-sm font-black tracking-widest uppercase shadow-lg transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+            className="mt-6 bg-[#d97706] text-white rounded-full px-10 py-4 text-sm font-black tracking-widest uppercase shadow-lg transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
             style={{
               transitionDelay: `${navLinks.length * 80 + 200}ms`,
               opacity: menuOpen ? 1 : 0,
