@@ -454,5 +454,4 @@ body {
   .animate-fade-up-delay-4 { animation: fade-up 0.8s ease-out 0.8s forwards; opacity: 0; }
   .animate-fade-in { animation: fade-in 0.8s ease-out forwards; opacity: 0; }
   .animate-fade-in-delay { animation: fade-in 0.8s ease-out 0.4s forwards; opacity: 0; }
-  .animate-scale-in { animation: scale-in 0.8s ease-out forwards; opacity: 0; }
 }

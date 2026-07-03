@@ -1,6 +1,37 @@
 # CHANGELOG_DungTuan
 
-Ngày cập nhật gần nhất: 2026-07-03 16:25 GMT+7
+Ngày cập nhật gần nhất: 2026-07-03 21:20 GMT+7
+
+## 2026-07-03 21:20 GMT+7 — Hotfix đồng bộ global CSS để khớp UI 5173
+
+### Lỗi phát hiện
+
+- User báo `http://localhost:1234` vẫn lỗi UI, không đồng bộ với bản hiện tại `5173`.
+- Kiểm tra parity cho thấy:
+  - `frontend/src/app/screens/LandingPage.tsx` đã khớp bản `5173`.
+  - `frontend/src/main.tsx` đã khớp bản `5173`.
+  - Nhưng `frontend/src/styles/globals.css` và `frontend/src/styles/index.css` chưa khớp bản `5173`.
+- Vì Landing Page phụ thuộc nhiều vào global CSS/design system, chỉ copy TSX là chưa đủ để UI/animation giống bản gốc.
+
+### Cần thay đổi
+
+- Đồng bộ lại toàn bộ global style support từ bản `5173`.
+- Không tự thêm/xoá CTA hoặc thay đổi layout Landing Page.
+- Sau khi pull, cần restart dev server port `1234` để Vite không dùng bundle/style cũ.
+
+### Files thay đổi
+
+- `frontend/src/styles/globals.css`
+  - Copy lại từ bản local `5173`.
+- `frontend/src/styles/index.css`
+  - Copy lại từ bản local `5173`.
+
+### Kết quả kỳ vọng
+
+- UI/UX/animation của Landing Page trên `1234` khớp bản `5173` hơn vì cả TSX và global CSS đều đã đồng bộ.
+- Không còn tình trạng page đúng component nhưng style/animation bị lệch do CSS cũ.
+
+---
 
 ## 2026-07-03 16:25 GMT+7 — Rollback thay đổi tự thêm, đồng bộ nguyên bản Landing Page 5173
 
