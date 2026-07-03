@@ -1,6 +1,26 @@
 # CHANGELOG_DungTuan
 
-Ngày cập nhật gần nhất: 2026-07-03 15:18 GMT+7
+Ngày cập nhật gần nhất: 2026-07-03 15:40 GMT+7
+
+## 2026-07-03 15:40 GMT+7 — Hotfix khôi phục hiệu ứng Landing Page trên Git
+
+### Lý do
+
+- Sau khi đồng bộ `LandingPage.tsx` lên GitHub, bản chạy từ repo Git/port `1234` bị mất một số hiệu ứng so với bản local `5173`.
+- Nguyên nhân: `LandingPage.tsx` có dùng các utility animation như `animate-fade-up`, `animate-fade-up-delay-*`, `animate-scale-in`, nhưng `frontend/src/styles/globals.css` trên repo Git chưa có block CSS `VANGUARD Animations` tương ứng.
+
+### Files thay đổi
+
+- `frontend/src/styles/globals.css`
+  - Bổ sung lại các keyframes `fade-up`, `fade-in`, `scale-in`.
+  - Bổ sung utility classes `animate-fade-up`, `animate-fade-up-delay-1/2/3/4`, `animate-fade-in`, `animate-fade-in-delay`, `animate-scale-in`.
+
+### Kết quả kỳ vọng
+
+- Landing Page trên Git/port `1234` khôi phục hiệu ứng hero/section như bản local `5173`.
+- Không đổi layout, copy, route, login/register logic hoặc dependency.
+
+---
 
 ## 2026-07-03 15:18 GMT+7 — Đồng bộ Landing Page vào `frontend`
 
