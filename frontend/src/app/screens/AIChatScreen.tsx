@@ -467,8 +467,14 @@ export default function AIChatScreen() {
                 ) : (
                   selectedIcon
                 )
+              ) : user.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt={user.name || "User"}
+                  className="w-full h-full object-cover"
+                />
               ) : (
-                user.avatar || "🦊"
+                "🦊"
               )}
             </div>
 
