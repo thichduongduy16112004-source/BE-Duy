@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from core.database import connect_db, close_db, get_database
-from routers import auth, users, characters, chat, flashcards, lessons, lesson_content, admin, quizzes, payments, progress, teacher
+from routers import auth, users, characters, chat, flashcards, lessons, lesson_content, admin, quizzes, payments, progress, teacher, edu
 from datetime import datetime
 
 scheduler = AsyncIOScheduler(timezone="Asia/Ho_Chi_Minh")
@@ -132,6 +132,10 @@ app.add_middleware(
         "http://localhost:5174",
         "http://localhost:5175",
         "http://localhost:5178",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:5174",
+        "http://127.0.0.1:5175",
+        "http://127.0.0.1:5178",
         "https://historyalive.id.vn",
         "https://www.historyalive.id.vn",
         "https://admin.historyalive.id.vn",
@@ -142,7 +146,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-for r in [auth.router, users.router, characters.router, chat.router, flashcards.router, lessons.router, lesson_content.router, admin.router, quizzes.router, payments.router, progress.router]:
+for r in [auth.router, users.router, characters.router, chat.router, flashcards.router, lessons.router, lesson_content.router, admin.router, quizzes.router, payments.router, progress.router, edu.router]:
     app.include_router(r, prefix="/api/v1")
 
 app.include_router(teacher.router, prefix="/api/v1")

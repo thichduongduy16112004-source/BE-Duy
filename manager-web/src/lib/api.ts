@@ -1,6 +1,12 @@
-﻿import type {
+import type {
+  AssignmentCreate,
+  AssignmentSummary,
   AuthSession,
+  ClassAssignmentsResponse,
+  ClassLessonsResponse,
   ClassStudentsResponse,
+  ImportedLessonCreate,
+  ImportedLessonSummary,
   LoginResponse,
   StudentDetail,
   TeacherClassesResponse,
@@ -93,4 +99,38 @@ export function getClassStudents(classId: string) {
 
 export function getStudentDetail(classId: string, userId: string) {
   return request<StudentDetail>(`/teacher/classes/${classId}/students/${userId}`);
+}
+
+export function getClassLessons(classId: string) {
+  return request<ClassLessonsResponse>(`/teacher/classes/${classId}/lessons`);
+}
+
+export function importClassLesson(classId: string, payload: ImportedLessonCreate) {
+  return request<ImportedLessonSummary>(`/teacher/classes/${classId}/lessons`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function getClassAssignments(classId: string) {
+  return request<ClassAssignmentsResponse>(`/teacher/classes/${classId}/assignments`);
+}
+
+export function createClassAssignment(classId: string, payload: AssignmentCreate) {
+  return request<AssignmentSummary>(`/teacher/classes/${classId}/assignments`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function deleteClassAssignment(classId: string, assignmentId: string) {
+  return request<{ message: string; deleted?: Record<string, number> }>(`/teacher/classes/${classId}/assignments/${assignmentId}`, {
+    method: "DELETE",
+  });
+}
+
+export function deleteClassLesson(classId: string, lessonId: string) {
+  return request<{ message: string; deleted?: Record<string, number> }>(`/teacher/classes/${classId}/lessons/${lessonId}`, {
+    method: "DELETE",
+  });
 }

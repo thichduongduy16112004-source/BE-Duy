@@ -21,8 +21,8 @@ export function Login({ onLogin }: LoginProps) {
 
     try {
       const response = await login(identity, password);
-      if (response.user.role !== "teacher") {
-        setError("Tài khoản này không có quyền giáo viên");
+      if (!["manager", "teacher"].includes(response.user.role)) {
+        setError("Tài khoản này không có quyền quản lý lớp học");
         return;
       }
 

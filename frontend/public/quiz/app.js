@@ -33,7 +33,9 @@ const App = (() => {
     isOutOfHeartsLocked: false,
     lastHeartLoss: null,
     aiHintsUsed: new Set(),
-    aiExplanationOpen: new Set()
+    aiExplanationOpen: new Set(),
+    isAssignmentMode: false,
+    assignmentAnswers: {}
   };
 
   // ===== INIT =====
@@ -83,6 +85,39 @@ const App = (() => {
 
     // Iframe logic
     const params = new URLSearchParams(window.location.search);
+    const assignmentMode = params.get('assignment') === '1';
+
+    if (assignmentMode) {
+      try {
+        const rawAssignment = sessionStorage.getItem('ha_assignment_quiz');
+        const assignmentQuiz = rawAssignment ? JSON.parse(rawAssignment) : null;
+        const questions = Array.isArray(assignmentQuiz?.questions) ? assignmentQuiz.questions : [];
+
+        if (!questions.length) throw new Error('Assignment quiz has no questions');
+
+        state.questions = questions.map((question, index) => ({
+          ...question,
+          globalId: question.globalId || index + 1,
+          topicId: question.topicId || 'assignment',
+          topicName: question.topicName || assignmentQuiz.title || 'Bài tập được giao',
+          topicTitle: question.topicTitle || assignmentQuiz.title || 'Bài tập được giao',
+          topicIcon: question.topicIcon || '📘',
+          topicColor: question.topicColor || '#f59e0b'
+        }));
+        state.modeLabel = assignmentQuiz.title || 'Bài tập được giao';
+        state.currentTopicFilter = 'assignment';
+        state.isAssignmentMode = true;
+        state.assignmentAnswers = {};
+        setChapterBackground(null);
+        document.getElementById('homeScreen').style.display = 'none';
+        beginQuiz();
+        setupKeyboard();
+        return;
+      } catch (error) {
+        console.error('Failed to load assignment quiz', error);
+      }
+    }
+
     const unitId = params.get('unit'); // e.g. "u1"
     const lessonStr = params.get('lesson'); // e.g. "1"
 
@@ -259,13 +294,10 @@ const App = (() => {
     const exitModal = document.getElementById('exitConfirmOverlay');
     if (exitModal) exitModal.remove();
     
-    // Bỏ qua confirm mặc định vì đã có showExitConfirm
-    // Check if launched with specific params (Lesson mode vs Practice mode)
     const params = new URLSearchParams(window.location.search);
-    const hasParams = params.get('unit') && params.get('lesson');
+    const isEmbeddedQuiz = (params.get('unit') && params.get('lesson')) || params.get('assignment') === '1';
 
-    // Iframe return home
-    if (window.parent && window.parent !== window && hasParams) {
+    if (window.parent && window.parent !== window && isEmbeddedQuiz) {
       window.parent.postMessage({ type: 'RETURN_HOME' }, '*');
       return;
     }
@@ -721,6 +753,14 @@ const App = (() => {
       restoreAnswerState(q);
     }
 
+    if (state.isAssignmentMode && state.assignmentAnswers.hasOwnProperty(q.globalId)) {
+      const answerIdx = state.assignmentAnswers[q.globalId];
+      state.selected = answerIdx;
+      const selectedEl = document.getElementById(`opt-${answerIdx}`);
+      if (selectedEl) selectedEl.classList.add('selected', 'selected-pending');
+      renderAssignmentAction();
+    }
+
     renderSidebar();
     updateHeader();
     document.querySelector('.content-area').scrollTop = 0;
@@ -764,14 +804,68 @@ const App = (() => {
     if (state.checked || state.isAnimating) return;
 
     state.selected = idx;
+    const q = state.questions[state.current];
     document.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected', 'selected-pending'));
     const selectedEl = document.getElementById(`opt-${idx}`);
     if (selectedEl) selectedEl.classList.add('selected', 'selected-pending');
+
+    if (state.isAssignmentMode) {
+      state.assignmentAnswers[q.globalId] = idx;
+      const elapsed = state.questionStartTime ? Math.round((Date.now() - state.questionStartTime) / 1000) : 0;
+      state.timePerQuestion[q.globalId] = elapsed;
+      renderAssignmentAction();
+      updateHeader();
+      renderSidebar();
+      return;
+    }
 
     const actions = document.getElementById('optionActions');
     if (actions) {
       actions.innerHTML = `<button class="option-check-button" onclick="App.checkSelectedOption()">KIỂM TRA</button>`;
     }
+  }
+
+  function renderAssignmentAction() {
+    const actions = document.getElementById('optionActions');
+    if (!actions) return;
+    const isLastQuestion = !hasNextQuestion();
+    actions.innerHTML = `
+      <button class="option-check-button" onclick="${isLastQuestion ? 'App.submitAssignmentQuiz()' : 'App.navigate(1)'}">
+        ${isLastQuestion ? 'NỘP BÀI' : 'CÂU TIẾP THEO'}
+      </button>
+    `;
+  }
+
+  function submitAssignmentQuiz() {
+    if (!state.isAssignmentMode || state.isAnimating) return;
+    const unansweredIndex = state.questions.findIndex(question => !state.assignmentAnswers.hasOwnProperty(question.globalId));
+    if (unansweredIndex >= 0) {
+      jumpTo(unansweredIndex);
+      const actions = document.getElementById('optionActions');
+      if (actions) actions.innerHTML = '<div class="assignment-warning">Vui lòng trả lời câu này trước khi nộp bài.</div>';
+      return;
+    }
+
+    state.results = {};
+    state.score = { correct: 0, wrong: 0 };
+    state.streak = 0;
+    state.maxStreak = 0;
+
+    state.questions.forEach((question) => {
+      const answerIdx = state.assignmentAnswers[question.globalId];
+      const correct = answerIdx === getCorrectAnswerIndex(question);
+      state.results[question.globalId] = correct;
+      if (correct) {
+        state.score.correct++;
+        state.streak++;
+        if (state.streak > state.maxStreak) state.maxStreak = state.streak;
+      } else {
+        state.score.wrong++;
+        state.streak = 0;
+      }
+    });
+
+    showFinish();
   }
 
   function checkSelectedOption() {
@@ -1013,6 +1107,10 @@ const App = (() => {
 
   // ===== NAVIGATE =====
   function navigate(dir) {
+    if (state.isAssignmentMode && dir > 0 && !hasNextQuestion()) {
+      submitAssignmentQuiz();
+      return;
+    }
     const newIdx = state.current + dir;
     if (newIdx < 0 || newIdx >= state.questions.length) {
       if (dir > 0 && newIdx >= state.questions.length) showFinish();
@@ -1056,15 +1154,20 @@ const App = (() => {
   function triggerQuizFinished() {
     const modal = document.getElementById('finishCelebrationOverlay');
     if (modal) modal.remove();
-    
-    // Iframe message
-    const params = new URLSearchParams(window.location.search);
-    const hasParams = params.get('unit') && params.get('lesson');
 
-    if (window.parent && window.parent !== window && hasParams) {
-      window.parent.postMessage({ type: 'QUIZ_FINISHED', correct: state.score.correct, total: state.questions.length, maxStreak: state.maxStreak }, '*');
-    } else {
-      renderFinishStats();
+    renderFinishStats();
+    
+    const params = new URLSearchParams(window.location.search);
+    const isEmbeddedQuiz = (params.get('unit') && params.get('lesson')) || params.get('assignment') === '1';
+
+    if (window.parent && window.parent !== window && isEmbeddedQuiz) {
+      window.parent.postMessage({
+        type: 'QUIZ_FINISHED',
+        correct: state.score.correct,
+        total: state.questions.length,
+        maxStreak: state.maxStreak,
+        mode: state.isAssignmentMode ? 'assignment' : 'lesson'
+      }, '*');
     }
   }
 
@@ -1072,19 +1175,28 @@ const App = (() => {
     state.mode = 'finish';
     const total = state.questions.length;
     const pct = total > 0 ? Math.round((state.score.correct / total) * 100) : 0;
-    const totalTime = state.startTime ? Math.round((Date.now() - state.startTime) / 1000) : 0;
-    const avgTime = Object.values(state.timePerQuestion).length > 0
-      ? Math.round(Object.values(state.timePerQuestion).reduce((a,b)=>a+b,0) / Object.values(state.timePerQuestion).length)
-      : 0;
+    const isAssignmentResult = state.isAssignmentMode;
 
     const svgTrophy = `<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent-amber)"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>`;
 
-    let grade = pct >= 90 ? 'Xuất sắc' : pct >= 75 ? 'Giỏi' : pct >= 60 ? 'Khá' : pct >= 40 ? 'Trung bình' : 'Cần cố gắng';
-    let message = pct >= 90 ? 'Bạn đã nắm vững toàn bộ kiến thức Lịch sử 11!'
+    const grade = pct >= 90 ? 'Xuất sắc' : pct >= 75 ? 'Giỏi' : pct >= 60 ? 'Khá' : pct >= 40 ? 'Trung bình' : 'Cần cố gắng';
+    const message = isAssignmentResult
+      ? 'Bài làm đã được ghi nhận. Điểm số sẽ cập nhật ngay cho giáo viên.'
+      : pct >= 90 ? 'Bạn đã nắm vững toàn bộ kiến thức Lịch sử 11!'
       : pct >= 75 ? 'Rất tốt! Xem lại những câu sai để đạt điểm cao hơn.'
       : pct >= 60 ? 'Khá tốt! Đọc kỹ phần giải thích AI để hiểu sâu hơn.'
       : pct >= 40 ? 'Hãy ôn lại từng chương, đặc biệt chú ý dòng thời gian.'
       : 'Đừng nản! Làm lại từng chương nhỏ sẽ giúp bạn tiến bộ nhanh.';
+
+    const restartButton = isAssignmentResult ? '' : `
+      <button class="btn-restart" onclick="App.restartQuiz()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="1,4 1,10 7,10"></polyline>
+          <path d="M3.51 15a9 9 0 1 0 .49-4.95"></path>
+        </svg>
+        Làm lại
+      </button>
+    `;
 
     const zone = document.getElementById('questionZone');
     zone.innerHTML = `
@@ -1115,32 +1227,11 @@ const App = (() => {
           </div>
         </div>
 
-        <div class="finish-extras">
-          <div class="finish-extra-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-            Chuỗi dài nhất: <strong>${state.maxStreak} câu</strong>
-          </div>
-          <div class="finish-extra-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Tổng thời gian: <strong>${formatTime(totalTime)}</strong>
-          </div>
-          <div class="finish-extra-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Trung bình/câu: <strong>${avgTime}s</strong>
-          </div>
-        </div>
-
         <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
-          <button class="btn-restart" onclick="App.restartQuiz()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="1,4 1,10 7,10"></polyline>
-              <path d="M3.51 15a9 9 0 1 0 .49-4.95"></path>
-            </svg>
-            Làm lại
-          </button>
+          ${restartButton}
           <button class="btn-reset" style="padding:14px 24px;font-size:14px;font-weight:600;" onclick="App.returnHome()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            Trang chủ
+            ${isAssignmentResult ? 'Về danh sách bài tập' : 'Trang chủ'}
           </button>
         </div>
       </div>
@@ -1150,8 +1241,6 @@ const App = (() => {
     document.getElementById('btnNext').disabled = true;
     renderSidebar();
     updateHeader();
-
-    // Iframe message logic has moved to triggerQuizFinished
   }
 
   function restartQuiz() {
@@ -1624,7 +1713,7 @@ const App = (() => {
     }
   }
 
-  return { init, startAll, startTopic, filterByTopic, selectOption, checkSelectedOption, navigate, jumpTo, showFinish, restartQuiz, returnHome, toggleBookmark, startBookmarked, handleWordClick, handleBlankClick, checkFillBlankAnswer, handleMatchAClick, handleMatchBClick, checkMatchingAnswer, closeHeartModal, requestFreeHeartRecovery, openPremiumFromHeartModal, showExitConfirm, closeExitConfirm, triggerQuizFinished, renderFinishStats, handleAIHintClick };
+  return { init, startAll, startTopic, filterByTopic, selectOption, checkSelectedOption, submitAssignmentQuiz, navigate, jumpTo, showFinish, restartQuiz, returnHome, toggleBookmark, startBookmarked, handleWordClick, handleBlankClick, checkFillBlankAnswer, handleMatchAClick, handleMatchBClick, checkMatchingAnswer, closeHeartModal, requestFreeHeartRecovery, openPremiumFromHeartModal, showExitConfirm, closeExitConfirm, triggerQuizFinished, renderFinishStats, handleAIHintClick };
 
 })();
 

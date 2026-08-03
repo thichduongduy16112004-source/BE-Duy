@@ -2,9 +2,22 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from core.security import get_current_user
 from core.database import get_database
 from models.user import QuizAttemptCreate, PvPMatchCreate
+from services.teacher_service import get_assignment_lesson, get_student_assignments, mark_assignment_completed
 from datetime import datetime, timedelta
 
 router = APIRouter(prefix="/me", tags=["Progress"])
+
+
+@router.get("/assignments")
+async def list_my_assignments(current_user: dict = Depends(get_current_user)):
+    db = get_database()
+    return await get_student_assignments(db, str(current_user["_id"]))
+
+
+@router.get("/assignments/{assignment_id}")
+async def get_my_assignment(assignment_id: str, current_user: dict = Depends(get_current_user)):
+    db = get_database()
+    return await get_assignment_lesson(db, assignment_id, str(current_user["_id"]))
 
 
 def calculate_lesson_streak(current_streak: int, last_streak_date: str | None, completed_at: datetime) -> int:
@@ -61,11 +74,21 @@ async def start_lesson(current_user: dict = Depends(get_current_user)):
 @router.post("/quiz-attempts")
 async def submit_quiz_attempt(attempt: QuizAttemptCreate, current_user: dict = Depends(get_current_user)):
     db = get_database()
-    
+    user_id = str(current_user["_id"])
+    score_percent = round(attempt.correctAnswers / attempt.totalQuestions * 100) if attempt.totalQuestions else 0
+
+    if attempt.mode == "assignment" and attempt.lessonLegacyId:
+        existing_progress = await db["user_progress"].find_one({"user_id": user_id, "lesson_id": attempt.lessonLegacyId})
+        if existing_progress and (existing_progress.get("completed") or existing_progress.get("status") == "completed"):
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Bài tập này đã được nộp. Học sinh chỉ được làm một lần.",
+            )
+
     attempt_doc = attempt.dict()
-    attempt_doc["user_id"] = current_user["_id"]
+    attempt_doc["user_id"] = user_id
     attempt_doc["created_at"] = datetime.utcnow()
-    
+
     await db["quiz_attempts"].insert_one(attempt_doc)
 
     if attempt.mode == "activity":
@@ -81,10 +104,10 @@ async def submit_quiz_attempt(attempt: QuizAttemptCreate, current_user: dict = D
                 "completedLessons": updated_user.get("completed_lessons", [])
             }
         }
-    
-    update_data = {}
+
+    update_data = {"last_active": datetime.utcnow()}
     inc_data = {}
-    
+
     if not current_user.get("isPremium", False):
         wrong_answers = attempt.totalQuestions - attempt.correctAnswers
         if wrong_answers > 1:
@@ -97,7 +120,7 @@ async def submit_quiz_attempt(attempt: QuizAttemptCreate, current_user: dict = D
 
     xp_gained = attempt.correctAnswers * 10
     gems_gained = attempt.correctAnswers * 2
-    
+
     now = datetime.utcnow()
     if attempt.completed and attempt.mode in ["lesson", "review"]:
         completed_lessons = current_user.get("completed_lessons", [])
@@ -108,51 +131,51 @@ async def submit_quiz_attempt(attempt: QuizAttemptCreate, current_user: dict = D
         )
         update_data["streak"] = next_streak
         update_data["last_streak_date"] = now.date().isoformat()
-        update_data["last_active"] = now
 
         if attempt.lessonLegacyId and attempt.lessonLegacyId not in completed_lessons:
             completed_lessons.append(attempt.lessonLegacyId)
             update_data["completed_lessons"] = completed_lessons
-            inc_data["xp"] = xp_gained + 20 # Bonus complete lesson
+            inc_data["xp"] = xp_gained + 20
             inc_data["gems"] = gems_gained + 5
         else:
             inc_data["xp"] = xp_gained
             inc_data["gems"] = gems_gained
-            
+
     if attempt.mode == "practice":
         inc_data["xp"] = xp_gained // 2
         inc_data["gems"] = gems_gained // 2
-            
+
     update_query = {}
     if update_data:
         update_query["$set"] = update_data
     if inc_data:
         update_query["$inc"] = inc_data
-        
+
     if update_query:
         await db["users"].update_one({"_id": current_user["_id"]}, update_query)
-        
+
     if attempt.lessonLegacyId:
+        progress_set = {
+            "tenant_id": attempt.tenantSlug,
+            "user_id": user_id,
+            "lesson_id": attempt.lessonLegacyId,
+            "status": "completed" if attempt.completed else "in_progress",
+            "completed": attempt.completed,
+            "best_score": score_percent,
+            "last_attempt_date": datetime.utcnow(),
+            "updated_at": datetime.utcnow(),
+        }
         await db["user_progress"].update_one(
+            {"user_id": user_id, "lesson_id": attempt.lessonLegacyId},
             {
-                "tenant_id": attempt.tenantSlug,
-                "user_id": current_user["_id"],
-                "lesson_id": attempt.lessonLegacyId
-            },
-            {
-                "$set": {
-                    "status": "completed" if attempt.completed else "in_progress",
-                    "last_attempt_date": datetime.utcnow()
-                },
-                "$max": {
-                    "best_score": attempt.correctAnswers
-                },
-                "$inc": {
-                    "attempts_count": 1
-                }
+                "$set": progress_set,
+                "$inc": {"attempts_count": 1},
+                "$setOnInsert": {"created_at": datetime.utcnow()},
             },
             upsert=True
         )
+        if attempt.completed and attempt.mode == "assignment":
+            await mark_assignment_completed(db, user_id, attempt.lessonLegacyId, score_percent)
 
     updated_user = await db["users"].find_one({"_id": current_user["_id"]})
     return {

@@ -13,6 +13,7 @@ import KnowledgePage from './pages/KnowledgePage';
 import SettingsPage from './pages/SettingsPage';
 import UsersPage from './pages/UsersPage';
 import LessonsPage from './pages/LessonsPage';
+import ClassesPage from './pages/ClassesPage';
 import { apiService, clearTokens, getAccessToken } from './services/apiService';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -113,6 +114,7 @@ export default function App() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/users" element={<UsersPage />} />
+          <Route path="/classes" element={<ClassesPage />} />
           <Route path="/billing" element={<BillingPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/audit-logs" element={<AuditLogsPage />} />

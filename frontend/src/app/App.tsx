@@ -105,14 +105,18 @@ export default function App() {
   }, []);
 
   const completeLesson = useCallback((id: string, xp: number, attempt?: { correctAnswers: number; totalQuestions: number; maxStreak?: number; mode?: string }) => {
+    const token = localStorage.getItem("ha_token");
+    const mode = attempt?.mode ?? "lesson";
+    const shouldUpdateLocalCompletion = mode !== "assignment";
+
     setUser((u) => {
-      if (u.completedLessons.includes(id)) return u;
+      if (shouldUpdateLocalCompletion && u.completedLessons.includes(id)) return u;
 
       const lastStreakDate = getLocalDateKey();
       const createdAt = new Date().toISOString();
       const activityItem = {
         lessonId: id,
-        mode: attempt?.mode ?? "lesson",
+        mode,
         correctAnswers: attempt?.correctAnswers ?? 1,
         totalQuestions: Math.max(1, attempt?.totalQuestions ?? 1),
         completed: true,
@@ -126,11 +130,11 @@ export default function App() {
       };
       const nextActivitySummary = {
         totalAttempts: currentSummary.totalAttempts + 1,
-        totalCompletedLessons: currentSummary.totalCompletedLessons + 1,
+        totalCompletedLessons: currentSummary.totalCompletedLessons + (shouldUpdateLocalCompletion ? 1 : 0),
         latestActivityAt: createdAt,
         recentItems: [activityItem, ...currentSummary.recentItems].slice(0, 7),
       };
-      const next = {
+      const next = shouldUpdateLocalCompletion ? {
         ...u,
         completedLessons: [...u.completedLessons, id],
         xp: u.xp + xp,
@@ -138,11 +142,13 @@ export default function App() {
         streak: calculateNextLessonStreak(u.streak, u.lastStreakDate),
         lastStreakDate,
         activitySummary: nextActivitySummary,
+      } : {
+        ...u,
+        activitySummary: nextActivitySummary,
       };
       localStorage.setItem("ha_user", JSON.stringify(next));
 
-      const token = localStorage.getItem("ha_token");
-      if (token) {
+      if (token && shouldUpdateLocalCompletion) {
         fetch(`${API_URL}/users/me`, {
           method: "PUT",
           headers: {
@@ -170,27 +176,29 @@ export default function App() {
           }));
         })
         .catch(() => {});
-
-        fetch(`${API_URL}/me/quiz-attempts`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            tenantSlug: "ha-tenant",
-            lessonLegacyId: id,
-            mode: "activity",
-            correctAnswers: activityItem.correctAnswers,
-            totalQuestions: activityItem.totalQuestions,
-            maxStreak: attempt?.maxStreak ?? 0,
-            completed: true,
-          })
-        }).catch(() => {});
       }
 
       return next;
     });
+
+    if (token) {
+      fetch(`${API_URL}/me/quiz-attempts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          tenantSlug: "ha-tenant",
+          lessonLegacyId: id,
+          mode,
+          correctAnswers: attempt?.correctAnswers ?? 1,
+          totalQuestions: Math.max(1, attempt?.totalQuestions ?? 1),
+          maxStreak: attempt?.maxStreak ?? 0,
+          completed: true,
+        })
+      }).catch(() => {});
+    }
   }, []);
 
   const loseHeart = useCallback(() => {

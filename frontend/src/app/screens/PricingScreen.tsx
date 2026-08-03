@@ -247,24 +247,87 @@ export default function PricingScreen() {
 
         </div>
 
-        {/* Edu Plan Banner */}
+        {/* Edu Plan Enrollment */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="mt-6 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4"
-          style={{ background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.06)" }}
+          className="mt-6 rounded-3xl p-5 md:p-6"
+          style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.88), rgba(254,243,199,0.78))", border: "1px solid rgba(180,83,9,0.14)", boxShadow: "0 16px 40px rgba(146,64,14,0.08)" }}
         >
-          <div>
-            <p style={{ color: "#444", fontSize: 15, fontWeight: 700, marginBottom: 4 }}>Edu Plan (Tổ chức & Trường học)</p>
-            <p style={{ color: "#78716c", fontSize: 13 }}>Gói quản lý dành riêng cho giáo viên với công cụ theo dõi tiến độ lớp học.</p>
+          <div className="flex flex-col lg:flex-row lg:items-end gap-4 justify-between">
+            <div className="max-w-md">
+              <p style={{ color: "#92400e", fontSize: 15, fontWeight: 800, marginBottom: 4 }}>Edu Plan (Lớp học & Trường học)</p>
+              <p style={{ color: "#78716c", fontSize: 13 }}>Nhập mã lớp và mật khẩu do giáo viên cung cấp để mở khóa Pro theo lớp.</p>
+            </div>
+            <form
+              className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-3 flex-1 lg:max-w-xl"
+              onSubmit={async (event) => {
+                event.preventDefault();
+                const form = new FormData(event.currentTarget);
+                const classCode = String(form.get("classCode") || "").trim();
+                const classPassword = String(form.get("classPassword") || "").trim();
+                if (!classCode || !classPassword) {
+                  alert("Vui lòng nhập đủ mã lớp và mật khẩu.");
+                  return;
+                }
+                setIsLoading(true);
+                try {
+                  const token = localStorage.getItem("ha_token");
+                  const res = await fetch(`${API_URL}/edu/enroll`, {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ class_code: classCode, class_password: classPassword }),
+                  });
+                  const data = await res.json();
+                  if (!res.ok) {
+                    const messages: Record<string, string> = {
+                      not_found: "Không tìm thấy mã lớp.",
+                      expired: "Lớp học đã hết hạn hoặc bị khóa.",
+                      invalid_password: "Mật khẩu lớp không đúng.",
+                      already_enrolled: "Bạn đã tham gia lớp này rồi.",
+                      full: "Lớp học đã đủ số lượng học sinh.",
+                    };
+                    alert(messages[data.detail] || data.detail || "Không thể tham gia lớp.");
+                    return;
+                  }
+                  upgradeToPremium();
+                  alert(`Đã tham gia lớp ${data.class_name} thành công!`);
+                  nav("/home");
+                } catch (err) {
+                  console.error(err);
+                  alert("Lỗi kết nối khi tham gia lớp.");
+                } finally {
+                  setIsLoading(false);
+                }
+              }}
+            >
+              <input
+                name="classCode"
+                placeholder="Mã lớp: HAL-2026-ABC123"
+                className="rounded-xl px-4 py-3 text-sm font-semibold outline-none bg-white/90"
+                style={{ border: "1px solid rgba(180,83,9,0.22)", color: "#444" }}
+              />
+              <input
+                name="classPassword"
+                type="password"
+                placeholder="Mật khẩu lớp"
+                className="rounded-xl px-4 py-3 text-sm font-semibold outline-none bg-white/90"
+                style={{ border: "1px solid rgba(180,83,9,0.22)", color: "#444" }}
+              />
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="px-5 py-3 rounded-xl font-black text-sm text-white shadow-lg disabled:opacity-60"
+                style={{ background: "linear-gradient(135deg, #92400e, #d97706)" }}
+              >
+                Vào lớp
+              </button>
+            </form>
           </div>
-          <button
-            className="shrink-0 px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-black/5 transition-colors"
-            style={{ border: "1.5px solid #d6d3d1", color: "#57534e" }}
-          >
-            Liên hệ tư vấn
-          </button>
         </motion.div>
 
         {/* Trust signals */}

@@ -1,10 +1,11 @@
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Archive, Banknote, BookMarked, BookOpen, Bot, BrainCircuit, History, LayoutDashboard, LogOut, Settings, Shield, UserCog, Users } from 'lucide-react';
+import { Archive, Banknote, BookMarked, BookOpen, Bot, BrainCircuit, Building2, History, LayoutDashboard, LogOut, Settings, Shield, UserCog, Users } from 'lucide-react';
 import { clearTokens } from '../services/apiService';
 
 const navigation = [
   { to: '/dashboard', label: 'Tổng quan', icon: LayoutDashboard, eyebrow: 'Control Room', title: 'Bảng điều khiển quản trị' },
   { to: '/users', label: 'Người dùng', icon: UserCog, eyebrow: 'User Ops', title: 'Quản lý người dùng và phân quyền' },
+  { to: '/classes', label: 'Lớp học', icon: Building2, eyebrow: 'Class Operations', title: 'Quản lý lớp học' },
   { to: '/billing', label: 'Thanh toán', icon: Banknote, eyebrow: 'Revenue Desk', title: 'Quản lý giao dịch và Pro' },
   { to: '/settings', label: 'Cài đặt', icon: Settings, eyebrow: 'System Settings', title: 'Cấu hình hệ thống' },
   { to: '/audit-logs', label: 'Audit', icon: History, eyebrow: 'Audit Trail', title: 'Nhật ký thao tác quản trị' },

@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { clearSession, getStoredSession } from "./lib/api";
 import { Login } from "./pages/Login";
 import { Overview } from "./pages/Overview";
@@ -16,7 +16,7 @@ function App() {
     setSession(null);
   }
 
-  if (!session || session.user.role !== "teacher") {
+  if (!session || !["manager", "teacher", "admin"].includes(session.user.role)) {
     return <Login onLogin={handleLogin} />;
   }
 

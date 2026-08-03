@@ -14,6 +14,7 @@ from core.database import get_database
 from core.permissions import require_admin
 from core.serializers import serialize_doc, serialize_docs
 from models.lesson import LessonCreate, LessonUpdate
+from models.edu import AdminClassCreate, AdminClassUpdate
 from models.system import SystemSettings, SystemSettingsUpdate
 from services.rag_client import RagServiceError, RagServiceUnavailable, stream_chat, notify_reload_cache
 from services.token_usage_service import TOKEN_USAGE_COLLECTION
@@ -758,3 +759,95 @@ async def delete_lesson(lesson_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Không tìm thấy bài học")
     return {"message": "Xóa bài học thành công ✅"}
+
+
+@router.get("/users/search", response_model=dict)
+async def search_users_for_class(
+    email: str = Query(min_length=1),
+    role: str | None = None,
+    current_admin: dict = Depends(require_admin),
+):
+    db = get_database()
+    allowed_roles = ["teacher", "manager", "admin"] if not role else [role]
+    query = {
+        "email": {"$regex": email.strip(), "$options": "i"},
+        "role": {"$in": allowed_roles},
+    }
+    users = await db["users"].find(query).sort("email", 1).to_list(length=20)
+    return {
+        "users": [
+            {
+                "id": str(user.get("_id", "")),
+                "email": user.get("email", ""),
+                "full_name": user.get("full_name") or user.get("name"),
+                "role": user.get("role", ""),
+            }
+            for user in users
+        ]
+    }
+
+
+@router.get("/classes")
+async def list_admin_classes(current_admin: dict = Depends(require_admin)):
+    from services.edu_service import build_admin_class_summary, ensure_edu_indexes
+
+    db = get_database()
+    await ensure_edu_indexes(db)
+    classes = await db["classes"].find({}).sort("created_at", -1).to_list(length=500)
+    return {"classes": [await build_admin_class_summary(db, class_doc) for class_doc in classes]}
+
+
+@router.post("/classes", status_code=201)
+async def create_admin_class(body: AdminClassCreate, current_admin: dict = Depends(require_admin)):
+    from services.edu_service import create_admin_class as create_class_service
+
+    db = get_database()
+    response = await create_class_service(db, body)
+    await log_admin_action(db, str(current_admin["_id"]), "create_class", response["class_item"]["id"], response["class_item"])
+    return response
+
+
+@router.put("/classes/{class_id}")
+async def update_admin_class(class_id: str, body: AdminClassUpdate, current_admin: dict = Depends(require_admin)):
+    from services.edu_service import build_admin_class_summary
+
+    db = get_database()
+    update_data = body.model_dump(exclude_unset=True)
+    if "teacher_id" in update_data and update_data["teacher_id"]:
+        teacher = await db["users"].find_one({"_id": update_data["teacher_id"], "role": {"$in": ["teacher", "manager", "admin"]}})
+        if not teacher:
+            raise HTTPException(status_code=404, detail="Không tìm thấy teacher/manager/admin")
+    if not update_data:
+        raise HTTPException(status_code=400, detail="Không có dữ liệu cập nhật")
+    update_data["updated_at"] = datetime.utcnow()
+    result = await db["classes"].update_one({"_id": class_id}, {"$set": update_data})
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Không tìm thấy lớp")
+    class_doc = await db["classes"].find_one({"_id": class_id})
+    await log_admin_action(db, str(current_admin["_id"]), "update_class", class_id, update_data)
+    return {"message": "Cập nhật lớp thành công", "class_item": await build_admin_class_summary(db, class_doc)}
+
+
+@router.delete("/classes/{class_id}")
+async def hard_delete_class(class_id: str, current_admin: dict = Depends(require_admin)):
+    from services.edu_service import downgrade_class_code_users
+
+    db = get_database()
+    class_doc = await db["classes"].find_one({"_id": class_id})
+    if not class_doc:
+        raise HTTPException(status_code=404, detail="Không tìm thấy lớp")
+
+    downgraded_users = await downgrade_class_code_users(db, class_id)
+    lesson_ids = await db["lessons"].distinct("_id", {"class_id": class_id})
+    assignment_ids = await db["assignments"].distinct("_id", {"class_id": class_id})
+    deleted = {
+        "classes": (await db["classes"].delete_one({"_id": class_id})).deleted_count,
+        "class_enrollments": (await db["class_enrollments"].delete_many({"class_id": class_id})).deleted_count,
+        "assignments": (await db["assignments"].delete_many({"class_id": class_id})).deleted_count,
+        "lessons": (await db["lessons"].delete_many({"class_id": class_id})).deleted_count,
+        "user_progress": (await db["user_progress"].delete_many({"$or": [{"class_id": class_id}, {"assignment_id": {"$in": assignment_ids}}, {"lesson_id": {"$in": lesson_ids}}]})).deleted_count,
+        "quiz_attempts": (await db["quiz_attempts"].delete_many({"lessonLegacyId": {"$in": lesson_ids}})).deleted_count,
+        "downgraded_users": downgraded_users,
+    }
+    await log_admin_action(db, str(current_admin["_id"]), "hard_delete_class", class_id, deleted)
+    return {"message": "Đã xóa lớp và dữ liệu liên quan", "deleted": deleted}

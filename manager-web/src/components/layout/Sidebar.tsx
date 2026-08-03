@@ -1,15 +1,24 @@
-import { BookOpen, Users, LayoutDashboard, FileText, LogOut } from "lucide-react";
+import { BookOpen, ClipboardList, LayoutDashboard, LogOut, Users } from "lucide-react";
 import type { AuthUser, ClassSummary } from "../../types/teacher";
 
 interface SidebarProps {
   classes: ClassSummary[];
   selectedClassId: string | null;
+  activeTab: string;
   user: AuthUser;
   onSelectClass: (classId: string) => void;
+  onSelectTab: (tabId: string) => void;
   onLogout: () => void;
 }
 
-export function Sidebar({ classes, selectedClassId, user, onSelectClass, onLogout }: SidebarProps) {
+const managementItems = [
+  { id: "dashboard", label: "Tổng quan", icon: LayoutDashboard },
+  { id: "students", label: "Học sinh", icon: Users },
+  { id: "lessons", label: "Bài học", icon: BookOpen },
+  { id: "assignments", label: "Bài tập", icon: ClipboardList },
+];
+
+export function Sidebar({ classes, selectedClassId, activeTab, user, onSelectClass, onSelectTab, onLogout }: SidebarProps) {
   return (
     <aside className="w-64 bg-[var(--color-surface)] border-r border-[var(--color-border)] h-screen flex flex-col fixed left-0 top-0">
       <div className="h-16 flex items-center px-6 border-b border-[var(--color-border)]">
@@ -18,7 +27,7 @@ export function Sidebar({ classes, selectedClassId, user, onSelectClass, onLogou
           Teacher
         </span>
       </div>
-      
+
       <div className="flex-1 py-6 px-4 space-y-1 overflow-y-auto">
         <div className="px-2 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
           Lớp của tôi
@@ -45,32 +54,26 @@ export function Sidebar({ classes, selectedClassId, user, onSelectClass, onLogou
         <div className="px-2 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
           Quản lý
         </div>
-        <nav className="space-y-1">
-          <button type="button" className="w-full flex items-center px-3 py-2 text-sm font-semibold rounded-md text-[var(--color-brand)] bg-[#faf8f3]">
-            <LayoutDashboard className="mr-3 h-5 w-5" />
-            Tổng quan
-          </button>
-          <button type="button" disabled title="Trang Học sinh sẽ được tách riêng ở giai đoạn sau" className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md text-gray-400 cursor-not-allowed">
-            <span className="flex items-center">
-              <Users className="mr-3 h-5 w-5" />
-              Học sinh
-            </span>
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">Sắp có</span>
-          </button>
-          <button type="button" disabled title="Trang Bài học sẽ được tách riêng ở giai đoạn sau" className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md text-gray-400 cursor-not-allowed">
-            <span className="flex items-center">
-              <BookOpen className="mr-3 h-5 w-5" />
-              Bài học
-            </span>
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">Sắp có</span>
-          </button>
-          <button type="button" disabled title="Trang Bài tập sẽ được tách riêng ở giai đoạn sau" className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md text-gray-400 cursor-not-allowed">
-            <span className="flex items-center">
-              <FileText className="mr-3 h-5 w-5" />
-              Bài tập
-            </span>
-            <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">Sắp có</span>
-          </button>
+        <nav className="space-y-1" aria-label="Manager sections">
+          {managementItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => onSelectTab(item.id)}
+                className={`w-full flex items-center px-3 py-2 text-sm rounded-md transition-colors ${
+                  isActive
+                    ? "bg-[#faf8f3] text-[var(--color-brand)] font-semibold"
+                    : "text-gray-500 font-medium hover:bg-gray-50 hover:text-[var(--color-header)]"
+                }`}
+              >
+                <Icon className="mr-3 h-5 w-5" />
+                {item.label}
+              </button>
+            );
+          })}
         </nav>
       </div>
 

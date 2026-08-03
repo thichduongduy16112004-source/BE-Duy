@@ -19,6 +19,7 @@ import AIChatScreen from "./screens/AIChatScreen";
 import StoreScreen from "./screens/StoreScreen";
 import PvPScreen from "./screens/PvPScreen";
 import FlashcardScreen from "./screens/FlashcardScreen";
+import AssignmentsScreen from "./screens/AssignmentsScreen";
 import LandingPage from "./screens/LandingPage";
 
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
@@ -45,6 +46,7 @@ export const router = createBrowserRouter([
       { path: "/onboarding/grade", element: <ChooseGradeScreen /> },
       { path: "/onboarding/time", element: <ChooseStudyTimeScreen /> },
       { path: "/lesson/:id", element: <LessonScreen /> },
+      { path: "/assignment/:assignmentId", element: <LessonScreen /> },
       { path: "/story/:id", element: <StoryScreen /> },
       { path: "/premium", element: <PricingScreen /> },
       { path: "/ai-chat", element: <AIChatScreen /> },
@@ -60,6 +62,7 @@ export const router = createBrowserRouter([
           { path: "/store", element: <StoreScreen /> },
           { path: "/pvp", element: <PvPScreen /> },
           { path: "/flashcard", element: <FlashcardScreen /> },
+          { path: "/assignments", element: <AssignmentsScreen /> },
         ],
       },
 

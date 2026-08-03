@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { useNavigate, useParams } from "react-router";
-import { HEART_POLICY, useApp } from "../store";
+import { API_URL, HEART_POLICY, useApp } from "../store";
 import { getLessonById } from "../content/contentRepository";
 import { motion, AnimatePresence } from "motion/react";
 import { Trophy, Star, Gem, Heart, Crown, Home } from "lucide-react";
@@ -183,17 +183,21 @@ function BossCelebrationModal({ unitId, xp, onContinue }: {
 
 // ─── Main Screen ──────────────────────────────────────────────────────────────
 export default function LessonScreen() {
-  const { id = "" } = useParams();
+  const { id = "", assignmentId = "" } = useParams();
   const nav = useNavigate();
   const { completeLesson, loseHeart, recoverDailyHearts, user } = useApp();
 
   const [unitId, setUnitId] = useState("");
   const [lessonStr, setLessonStr] = useState("");
+  const [assignmentQuizReady, setAssignmentQuizReady] = useState(false);
+  const [assignmentLessonId, setAssignmentLessonId] = useState("");
+  const [assignmentError, setAssignmentError] = useState("");
   const [showBossCelebration, setShowBossCelebration] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const admittedWithEnergyRef = useRef(Boolean(user.isPremium || user.planType === "premium" || (user.hearts ?? 0) > 0));
 
   const lesson = useMemo(() => {
+    if (assignmentId) return null;
     const l = getLessonById(id);
     if (l && l.unit) {
       setUnitId(l.unit.id);
@@ -202,7 +206,78 @@ export default function LessonScreen() {
       return l;
     }
     return null;
-  }, [id]);
+  }, [assignmentId, id]);
+
+  useEffect(() => {
+    if (!assignmentId) return;
+
+    let cancelled = false;
+
+    async function loadAssignment() {
+      const token = localStorage.getItem("ha_token");
+      setAssignmentQuizReady(false);
+      setAssignmentError("");
+
+      try {
+        const response = await fetch(`${API_URL}/me/assignments/${assignmentId}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        if (!response.ok) throw new Error("Không tải được nội dung bài tập được giao");
+
+        const data = await response.json();
+        const rawQuestions = data.lesson?.questions?.length ? data.lesson.questions : data.lesson?.quiz_questions ?? [];
+        const questions = rawQuestions.map((question: any, index: number) => {
+          const rawOptions = Array.isArray(question.options) ? question.options : [];
+          const options = rawOptions.map((option: any) => typeof option === "string" ? option : option.text ?? "");
+          const correctIndex = rawOptions.findIndex((option: any) => Boolean(option?.correct));
+          const answer = typeof question.answer === "number"
+            ? question.answer
+            : typeof question.correctOptionIndex === "number"
+              ? question.correctOptionIndex
+              : correctIndex >= 0
+                ? correctIndex
+                : Math.max(0, ["A", "B", "C", "D"].indexOf(String(question.answer ?? "A").toUpperCase()));
+
+          return {
+            ...question,
+            globalId: question.globalId ?? index + 1,
+            topicId: "assignment",
+            topicName: data.lesson?.title ?? data.assignment?.title ?? "Bài tập được giao",
+            topicTitle: data.lesson?.title ?? data.assignment?.title ?? "Bài tập được giao",
+            topicIcon: "📘",
+            topicColor: "#f59e0b",
+            question: question.question ?? question.text ?? "",
+            options,
+            answer,
+          };
+        });
+
+        if (!questions.length) throw new Error("Bài được giao chưa có câu hỏi. Giáo viên cần import lại bài hoặc sửa dữ liệu bài cũ.");
+
+        sessionStorage.setItem("ha_assignment_quiz", JSON.stringify({
+          assignmentId,
+          lessonId: data.lesson?.id ?? data.assignment?.lesson_id ?? "",
+          title: data.lesson?.title ?? data.assignment?.title ?? "Bài tập được giao",
+          questions,
+        }));
+
+        if (!cancelled) {
+          setAssignmentLessonId(data.lesson?.id ?? data.assignment?.lesson_id ?? "");
+          setAssignmentQuizReady(true);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setAssignmentError(error instanceof Error ? error.message : "Không tải được bài tập");
+        }
+      }
+    }
+
+    loadAssignment();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [assignmentId]);
 
   const handleContinue = useCallback(() => {
     setShowBossCelebration(false);
@@ -302,6 +377,16 @@ export default function LessonScreen() {
       }
 
       if (event.data.type === "QUIZ_FINISHED") {
+        if (assignmentId && assignmentLessonId) {
+          completeLesson(assignmentLessonId, 0, {
+            correctAnswers: event.data.correct ?? 0,
+            totalQuestions: event.data.total ?? 1,
+            maxStreak: event.data.maxStreak ?? 0,
+            mode: "assignment",
+          });
+          return;
+        }
+
         if (lesson) {
           if (lesson.type === "review") {
             if (event.data.correct === 15) {
@@ -342,13 +427,26 @@ export default function LessonScreen() {
 
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [lesson, completeLesson, loseHeart, recoverDailyHearts, nav, syncHeartsToQuiz, user.hearts, user.isPremium, user.planType, user.lastFreeHeartRecoveryDate]);
+  }, [assignmentId, assignmentLessonId, lesson, completeLesson, loseHeart, recoverDailyHearts, nav, syncHeartsToQuiz, user.hearts, user.isPremium, user.planType, user.lastFreeHeartRecoveryDate]);
 
   useEffect(() => {
     syncHeartsToQuiz();
   }, [syncHeartsToQuiz]);
 
-  if (!lesson || !unitId || !lessonStr) {
+  if (assignmentError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-stone-100 px-5">
+        <div className="max-w-md rounded-3xl bg-white p-8 text-center shadow-xl">
+          <p className="mb-5 font-bold text-red-700">{assignmentError}</p>
+          <button onClick={() => nav("/assignments")} className="rounded-full bg-stone-950 px-5 py-3 font-black text-white">
+            Quay lại bài tập
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (assignmentId ? !assignmentQuizReady : (!lesson || !unitId || !lessonStr)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-stone-100">
         <p>Đang tải bài học...</p>
@@ -385,7 +483,7 @@ export default function LessonScreen() {
     <div style={{ width: "100%", height: "100vh", margin: 0, padding: 0, overflow: "hidden", background: "#fff" }}>
       <iframe
         ref={iframeRef}
-        src={`/quiz/index.html?unit=${unitId}&lesson=${lessonStr}&type=${lesson.type}`}
+        src={assignmentId ? `/quiz/index.html?assignment=1&id=${encodeURIComponent(assignmentId)}` : `/quiz/index.html?unit=${unitId}&lesson=${lessonStr}&type=${lesson?.type}`}
         style={{ width: "100%", height: "100%", border: "none" }}
         title="Trắc nghiệm Lịch sử"
         onLoad={() => syncHeartsToQuiz()}

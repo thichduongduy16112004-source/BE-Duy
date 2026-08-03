@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router";
 import { useApp, MASCOTS } from "../store";
-import { Map, Target, Trophy, Award, BookOpen, User, LogOut, Flame, Gem, Heart, Zap, Menu, X, Crown, Bot, Volume2, VolumeX, Swords, GraduationCap } from "lucide-react";
+import { Map, Target, Trophy, Award, BookOpen, User, LogOut, Flame, Gem, Heart, Zap, Menu, X, Crown, Bot, Volume2, VolumeX, Swords, GraduationCap, ClipboardList } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import { useIsPremium } from "../hooks/useIsPremium";
@@ -14,6 +14,7 @@ const NAV = [
   { to: "/flashcard",    icon: GraduationCap, label: "Luyện Thi", sub: "Thẻ ghi nhớ" },
   { to: "/leaderboard",  icon: Trophy,   label: "Xếp Hạng",     sub: "Bảng chiến tích" },
   { to: "/missions",     icon: Target,   label: "Nhiệm Vụ",     sub: "Mục tiêu hàng ngày" },
+  { to: "/assignments",  icon: ClipboardList, label: "Bài Tập", sub: "Giáo viên giao" },
 ];
 
 export default function AppLayout() {

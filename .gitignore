@@ -1,8 +1,27 @@
-backend/.env
-backend/__pycache__/
-**/__pycache__/
-*.pyc
+# Local configuration and secrets
 .env
-node_modules/
+**/.env
+!.env.example
+!**/.env.example
+
+# Agent and scratch workspaces
+.agents/
+scratch/
+.deploy-worktree/
+
+# Python
+**/__pycache__/
+*.py[cod]
 .venv/
 venv/
+.pytest_cache/
+
+# Node and build output
+node_modules/
+dist/
+build/
+
+# Operating system files
+*.lnk
+.DS_Store
+Thumbs.db

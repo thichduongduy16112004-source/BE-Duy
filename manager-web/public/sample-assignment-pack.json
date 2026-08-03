@@ -1,0 +1,1176 @@
+{
+  "title": "History Alive - Bộ bài tập mẫu 10 chương Lịch sử Việt Nam",
+  "description": "Bộ JSON mẫu để giáo viên import vào thư viện lớp và giao bài tập trắc nghiệm cho học sinh.",
+  "lessons": [
+    {
+      "title": "Chương 1: Văn Lang - Âu Lạc và buổi đầu dựng nước",
+      "description": "Nhà nước đầu tiên, đời sống cư dân Việt cổ và truyền thuyết dựng nước.",
+      "content": "Nhà nước đầu tiên, đời sống cư dân Việt cổ và truyền thuyết dựng nước.",
+      "questions": [
+        {
+          "question": "Nhà nước đầu tiên trong lịch sử Việt Nam thường được gọi là gì?",
+          "options": [
+            "Văn Lang",
+            "Đại Cồ Việt",
+            "Đại Việt",
+            "Đại Nam"
+          ],
+          "answer": 0,
+          "explanation": "Văn Lang gắn với thời các vua Hùng và buổi đầu dựng nước."
+        },
+        {
+          "question": "Kinh đô của Âu Lạc dưới thời An Dương Vương là ở đâu?",
+          "options": [
+            "Cổ Loa",
+            "Hoa Lư",
+            "Thăng Long",
+            "Phú Xuân"
+          ],
+          "answer": 0,
+          "explanation": "An Dương Vương xây thành Cổ Loa làm trung tâm Âu Lạc."
+        },
+        {
+          "question": "Đứng đầu nhà nước Văn Lang là ai?",
+          "options": [
+            "Vua Hùng",
+            "Lạc hầu",
+            "Lạc tướng",
+            "Quan lang"
+          ],
+          "answer": 0,
+          "explanation": "Các vua Hùng là người đứng đầu nhà nước Văn Lang."
+        },
+        {
+          "question": "Nghề sản xuất chính của cư dân Văn Lang - Âu Lạc là gì?",
+          "options": [
+            "Trồng lúa nước",
+            "Khai thác dầu mỏ",
+            "Công nghiệp ô tô",
+            "Đánh bắt viễn dương"
+          ],
+          "answer": 0,
+          "explanation": "Cư dân Việt cổ sống chủ yếu bằng nông nghiệp lúa nước."
+        },
+        {
+          "question": "Trống đồng Đông Sơn phản ánh điều gì?",
+          "options": [
+            "Trình độ luyện kim và đời sống văn hóa",
+            "Kỹ thuật in hiện đại",
+            "Công nghiệp điện tử",
+            "Đời sống du mục hoàn toàn"
+          ],
+          "answer": 0,
+          "explanation": "Trống đồng thể hiện kỹ thuật luyện đồng và sinh hoạt cộng đồng phong phú."
+        },
+        {
+          "question": "Thành Cổ Loa nổi bật với đặc điểm nào?",
+          "options": [
+            "Nhiều vòng thành phòng thủ",
+            "Xây bằng kính",
+            "Nằm giữa biển",
+            "Là kinh đô thời Nguyễn"
+          ],
+          "answer": 0,
+          "explanation": "Cổ Loa có cấu trúc nhiều vòng thành, thuận lợi phòng thủ."
+        },
+        {
+          "question": "Truyền thuyết Sơn Tinh - Thủy Tinh phản ánh kinh nghiệm gì?",
+          "options": [
+            "Chống lũ lụt",
+            "Đi biển xa",
+            "Luyện thép",
+            "Khai mỏ than"
+          ],
+          "answer": 0,
+          "explanation": "Truyền thuyết gắn với kinh nghiệm trị thủy của cư dân lúa nước."
+        },
+        {
+          "question": "Công cụ lao động tiêu biểu thời Đông Sơn thường gắn với chất liệu nào?",
+          "options": [
+            "Đồng",
+            "Nhựa",
+            "Xi măng",
+            "Thép không gỉ"
+          ],
+          "answer": 0,
+          "explanation": "Văn hóa Đông Sơn nổi bật với kỹ thuật đúc đồng."
+        },
+        {
+          "question": "Ý nghĩa của thời Văn Lang - Âu Lạc là gì?",
+          "options": [
+            "Đặt nền móng dựng nước",
+            "Mở đầu thời thuộc Pháp",
+            "Kết thúc chế độ phong kiến",
+            "Bắt đầu Đổi mới"
+          ],
+          "answer": 0,
+          "explanation": "Đây là thời kỳ hình thành cộng đồng quốc gia sơ khai."
+        },
+        {
+          "question": "Yếu tố nào gắn kết cư dân Việt cổ thành cộng đồng?",
+          "options": [
+            "Cùng làm lúa nước và chống thiên tai",
+            "Sống hoàn toàn biệt lập",
+            "Không có sản xuất",
+            "Chỉ buôn bán đường biển"
+          ],
+          "answer": 0,
+          "explanation": "Nhu cầu sản xuất và chống thiên tai thúc đẩy cộng đồng gắn bó."
+        }
+      ]
+    },
+    {
+      "title": "Chương 2: Bắc thuộc và các cuộc đấu tranh giành độc lập",
+      "description": "Chính sách cai trị phương Bắc và các cuộc khởi nghĩa tiêu biểu.",
+      "content": "Chính sách cai trị phương Bắc và các cuộc khởi nghĩa tiêu biểu.",
+      "questions": [
+        {
+          "question": "Khởi nghĩa Hai Bà Trưng bùng nổ năm nào?",
+          "options": [
+            "40",
+            "248",
+            "542",
+            "938"
+          ],
+          "answer": 0,
+          "explanation": "Năm 40, Hai Bà Trưng lãnh đạo khởi nghĩa chống Đông Hán."
+        },
+        {
+          "question": "Khởi nghĩa Bà Triệu diễn ra vào năm nào?",
+          "options": [
+            "248",
+            "40",
+            "544",
+            "722"
+          ],
+          "answer": 0,
+          "explanation": "Bà Triệu khởi nghĩa chống quân Ngô năm 248."
+        },
+        {
+          "question": "Lý Bí đặt tên nước là gì sau khi giành thắng lợi?",
+          "options": [
+            "Vạn Xuân",
+            "Đại Việt",
+            "Đại Nam",
+            "Âu Lạc"
+          ],
+          "answer": 0,
+          "explanation": "Tên Vạn Xuân thể hiện mong muốn đất nước trường tồn."
+        },
+        {
+          "question": "Chính sách đồng hóa nhằm mục đích gì?",
+          "options": [
+            "Xóa nhòa bản sắc người Việt",
+            "Trao độc lập",
+            "Phát triển dân chủ",
+            "Tôn trọng tự trị hoàn toàn"
+          ],
+          "answer": 0,
+          "explanation": "Đồng hóa nhằm áp đặt văn hóa và quản lý của phương Bắc."
+        },
+        {
+          "question": "Mai Thúc Loan còn được gọi là gì?",
+          "options": [
+            "Mai Hắc Đế",
+            "Bố Cái Đại Vương",
+            "Dạ Trạch Vương",
+            "Lý Nam Đế"
+          ],
+          "answer": 0,
+          "explanation": "Nhân dân tôn Mai Thúc Loan là Mai Hắc Đế."
+        },
+        {
+          "question": "Phùng Hưng được nhân dân tôn xưng là gì?",
+          "options": [
+            "Bố Cái Đại Vương",
+            "Mai Hắc Đế",
+            "Lê Đại Hành",
+            "Quang Trung"
+          ],
+          "answer": 0,
+          "explanation": "Phùng Hưng được tôn là Bố Cái Đại Vương."
+        },
+        {
+          "question": "Người Việt giữ gìn yếu tố nào trong thời Bắc thuộc?",
+          "options": [
+            "Tiếng nói và phong tục",
+            "Công nghiệp hiện đại",
+            "Quốc hội hiện đại",
+            "Máy hơi nước"
+          ],
+          "answer": 0,
+          "explanation": "Tiếng nói, phong tục và làng xã giúp giữ bản sắc dân tộc."
+        },
+        {
+          "question": "Điểm chung của các cuộc khởi nghĩa thời Bắc thuộc là gì?",
+          "options": [
+            "Khát vọng độc lập",
+            "Ủng hộ đô hộ",
+            "Chỉ tranh chấp thương mại",
+            "Không có nhân dân tham gia"
+          ],
+          "answer": 0,
+          "explanation": "Các cuộc khởi nghĩa đều thể hiện ý chí chống đô hộ."
+        },
+        {
+          "question": "Khởi nghĩa Lý Bí bùng nổ năm nào?",
+          "options": [
+            "542",
+            "544",
+            "722",
+            "938"
+          ],
+          "answer": 0,
+          "explanation": "Lý Bí khởi nghĩa năm 542 và lập nước Vạn Xuân năm 544."
+        },
+        {
+          "question": "Ý nghĩa lâu dài của đấu tranh thời Bắc thuộc là gì?",
+          "options": [
+            "Nuôi dưỡng ý thức dân tộc",
+            "Làm mất bản sắc",
+            "Chấm dứt lịch sử",
+            "Xóa bỏ làng xã"
+          ],
+          "answer": 0,
+          "explanation": "Các phong trào giữ vững tinh thần độc lập tự chủ."
+        }
+      ]
+    },
+    {
+      "title": "Chương 3: Đại Việt thời Ngô - Đinh - Tiền Lê - Lý",
+      "description": "Xây dựng quốc gia độc lập sau năm 938 và phát triển thời Lý.",
+      "content": "Xây dựng quốc gia độc lập sau năm 938 và phát triển thời Lý.",
+      "questions": [
+        {
+          "question": "Chiến thắng Bạch Đằng năm 938 gắn với ai?",
+          "options": [
+            "Ngô Quyền",
+            "Đinh Bộ Lĩnh",
+            "Lê Hoàn",
+            "Lý Công Uẩn"
+          ],
+          "answer": 0,
+          "explanation": "Ngô Quyền đánh bại quân Nam Hán trên sông Bạch Đằng."
+        },
+        {
+          "question": "Đinh Bộ Lĩnh đặt quốc hiệu là gì?",
+          "options": [
+            "Đại Cồ Việt",
+            "Đại Việt",
+            "Vạn Xuân",
+            "Việt Nam"
+          ],
+          "answer": 0,
+          "explanation": "Đại Cồ Việt là quốc hiệu thời Đinh."
+        },
+        {
+          "question": "Kinh đô nhà Đinh đặt ở đâu?",
+          "options": [
+            "Hoa Lư",
+            "Cổ Loa",
+            "Thăng Long",
+            "Huế"
+          ],
+          "answer": 0,
+          "explanation": "Hoa Lư có địa thế hiểm yếu, thuận lợi phòng thủ."
+        },
+        {
+          "question": "Lê Hoàn chống quân xâm lược nào năm 981?",
+          "options": [
+            "Tống",
+            "Nguyên",
+            "Minh",
+            "Thanh"
+          ],
+          "answer": 0,
+          "explanation": "Lê Hoàn lãnh đạo kháng chiến chống Tống thắng lợi."
+        },
+        {
+          "question": "Lý Công Uẩn dời đô ra Đại La năm nào?",
+          "options": [
+            "1010",
+            "1009",
+            "1075",
+            "1226"
+          ],
+          "answer": 0,
+          "explanation": "Năm 1010, ông dời đô và đổi tên là Thăng Long."
+        },
+        {
+          "question": "Tên Thăng Long có nghĩa là gì?",
+          "options": [
+            "Rồng bay lên",
+            "Núi vàng",
+            "Sông lớn",
+            "Biển bạc"
+          ],
+          "answer": 0,
+          "explanation": "Thăng Long biểu tượng cho khát vọng phát triển."
+        },
+        {
+          "question": "Văn Miếu được xây dựng dưới triều nào?",
+          "options": [
+            "Nhà Lý",
+            "Nhà Ngô",
+            "Nhà Đinh",
+            "Nhà Nguyễn"
+          ],
+          "answer": 0,
+          "explanation": "Văn Miếu được xây năm 1070 dưới thời Lý."
+        },
+        {
+          "question": "Lý Thường Kiệt nổi tiếng trong kháng chiến chống quân nào?",
+          "options": [
+            "Tống",
+            "Nguyên",
+            "Minh",
+            "Xiêm"
+          ],
+          "answer": 0,
+          "explanation": "Ông chỉ huy kháng chiến chống Tống thế kỷ XI."
+        },
+        {
+          "question": "Nam quốc sơn hà thường được xem là gì?",
+          "options": [
+            "Tuyên ngôn độc lập đầu tiên",
+            "Bộ luật",
+            "Chiếu dời đô",
+            "Gia phả"
+          ],
+          "answer": 0,
+          "explanation": "Bài thơ khẳng định chủ quyền Đại Việt."
+        },
+        {
+          "question": "Ý nghĩa dời đô ra Thăng Long là gì?",
+          "options": [
+            "Mở trung tâm phát triển lâu dài",
+            "Từ bỏ đồng bằng",
+            "Chuyển kinh đô ra nước ngoài",
+            "Chấm dứt độc lập"
+          ],
+          "answer": 0,
+          "explanation": "Thăng Long trở thành trung tâm chính trị, kinh tế, văn hóa lớn."
+        }
+      ]
+    },
+    {
+      "title": "Chương 4: Đại Việt thời Trần và kháng chiến chống Nguyên - Mông",
+      "description": "Nhà Trần, ba lần kháng chiến và tinh thần đoàn kết dân tộc.",
+      "content": "Nhà Trần, ba lần kháng chiến và tinh thần đoàn kết dân tộc.",
+      "questions": [
+        {
+          "question": "Nhà Trần thành lập năm nào?",
+          "options": [
+            "1226",
+            "1258",
+            "1285",
+            "1400"
+          ],
+          "answer": 0,
+          "explanation": "Năm 1226, nhà Trần thay thế nhà Lý."
+        },
+        {
+          "question": "Đại Việt thời Trần chống Nguyên - Mông mấy lần?",
+          "options": [
+            "Ba lần",
+            "Một lần",
+            "Hai lần",
+            "Bốn lần"
+          ],
+          "answer": 0,
+          "explanation": "Các cuộc kháng chiến diễn ra năm 1258, 1285 và 1287-1288."
+        },
+        {
+          "question": "Vị tướng tiêu biểu thời Trần là ai?",
+          "options": [
+            "Trần Hưng Đạo",
+            "Lê Lợi",
+            "Quang Trung",
+            "Ngô Quyền"
+          ],
+          "answer": 0,
+          "explanation": "Trần Hưng Đạo là tổng chỉ huy kiệt xuất."
+        },
+        {
+          "question": "Hội nghị Diên Hồng thể hiện điều gì?",
+          "options": [
+            "Ý chí quyết chiến toàn dân",
+            "Sự đầu hàng",
+            "Đóng cửa đất nước",
+            "Chia rẽ nội bộ"
+          ],
+          "answer": 0,
+          "explanation": "Hội nghị thể hiện sự đồng lòng chống xâm lược."
+        },
+        {
+          "question": "Bạch Đằng năm 1288 đánh bại quân nào?",
+          "options": [
+            "Nguyên",
+            "Minh",
+            "Thanh",
+            "Xiêm"
+          ],
+          "answer": 0,
+          "explanation": "Trận Bạch Đằng 1288 đánh tan quân Nguyên."
+        },
+        {
+          "question": "Kế sách vườn không nhà trống nhằm gì?",
+          "options": [
+            "Làm địch thiếu lương và bị động",
+            "Tăng lương cho địch",
+            "Xây cung điện",
+            "Mở chợ"
+          ],
+          "answer": 0,
+          "explanation": "Kế sách làm suy yếu quân xâm lược khi tiến sâu."
+        },
+        {
+          "question": "Hịch tướng sĩ do ai viết?",
+          "options": [
+            "Trần Hưng Đạo",
+            "Nguyễn Trãi",
+            "Lý Thường Kiệt",
+            "Lê Thánh Tông"
+          ],
+          "answer": 0,
+          "explanation": "Tác phẩm khích lệ tinh thần quân sĩ thời Trần."
+        },
+        {
+          "question": "Nguyên nhân thắng lợi quan trọng là gì?",
+          "options": [
+            "Đoàn kết và quân sự linh hoạt",
+            "Không chuẩn bị",
+            "Dựa hoàn toàn vào viện trợ",
+            "Địch tự rút"
+          ],
+          "answer": 0,
+          "explanation": "Đoàn kết toàn dân và chiến lược phù hợp tạo nên thắng lợi."
+        },
+        {
+          "question": "Tôn giáo có ảnh hưởng lớn thời Trần là gì?",
+          "options": [
+            "Phật giáo",
+            "Tin Lành",
+            "Hồi giáo",
+            "Ấn Độ giáo hiện đại"
+          ],
+          "answer": 0,
+          "explanation": "Phật giáo có vị trí quan trọng trong đời sống thời Trần."
+        },
+        {
+          "question": "Ý nghĩa kháng chiến chống Nguyên - Mông là gì?",
+          "options": [
+            "Bảo vệ độc lập Đại Việt",
+            "Mở đầu đô hộ",
+            "Xóa văn hóa dân tộc",
+            "Chấm dứt nhà nước"
+          ],
+          "answer": 0,
+          "explanation": "Thắng lợi bảo vệ độc lập và nâng cao vị thế Đại Việt."
+        }
+      ]
+    },
+    {
+      "title": "Chương 5: Đại Việt thời Lê sơ",
+      "description": "Khởi nghĩa Lam Sơn, nhà Lê sơ, luật pháp và giáo dục thế kỷ XV.",
+      "content": "Khởi nghĩa Lam Sơn, nhà Lê sơ, luật pháp và giáo dục thế kỷ XV.",
+      "questions": [
+        {
+          "question": "Khởi nghĩa Lam Sơn bùng nổ năm nào?",
+          "options": [
+            "1418",
+            "1427",
+            "1428",
+            "1471"
+          ],
+          "answer": 0,
+          "explanation": "Lê Lợi dựng cờ khởi nghĩa ở Lam Sơn năm 1418."
+        },
+        {
+          "question": "Ai lãnh đạo khởi nghĩa Lam Sơn?",
+          "options": [
+            "Lê Lợi",
+            "Lý Công Uẩn",
+            "Trần Hưng Đạo",
+            "Nguyễn Huệ"
+          ],
+          "answer": 0,
+          "explanation": "Lê Lợi là thủ lĩnh cuộc khởi nghĩa chống Minh."
+        },
+        {
+          "question": "Nguyễn Trãi gắn với tác phẩm nào?",
+          "options": [
+            "Bình Ngô đại cáo",
+            "Hịch tướng sĩ",
+            "Chiếu dời đô",
+            "Nam quốc sơn hà"
+          ],
+          "answer": 0,
+          "explanation": "Bình Ngô đại cáo tổng kết thắng lợi chống Minh."
+        },
+        {
+          "question": "Nhà Lê sơ thành lập năm nào?",
+          "options": [
+            "1428",
+            "1418",
+            "1471",
+            "1527"
+          ],
+          "answer": 0,
+          "explanation": "Lê Lợi lên ngôi năm 1428, lập nhà Lê sơ."
+        },
+        {
+          "question": "Bộ luật nổi tiếng thời Lê sơ là gì?",
+          "options": [
+            "Luật Hồng Đức",
+            "Luật Gia Long",
+            "Hình thư",
+            "Hoàng Việt luật lệ"
+          ],
+          "answer": 0,
+          "explanation": "Luật Hồng Đức là bộ luật tiêu biểu thời Lê sơ."
+        },
+        {
+          "question": "Vua nào đưa Lê sơ đến thời thịnh trị?",
+          "options": [
+            "Lê Thánh Tông",
+            "Lê Chiêu Thống",
+            "Lê Long Đĩnh",
+            "Lê Đại Hành"
+          ],
+          "answer": 0,
+          "explanation": "Thời Lê Thánh Tông, bộ máy nhà nước và giáo dục phát triển mạnh."
+        },
+        {
+          "question": "Văn bia tiến sĩ phản ánh lĩnh vực nào?",
+          "options": [
+            "Giáo dục khoa cử",
+            "Hàng không",
+            "Công nghiệp ô tô",
+            "Khai thác dầu"
+          ],
+          "answer": 0,
+          "explanation": "Văn bia thể hiện truyền thống trọng hiền tài."
+        },
+        {
+          "question": "Điểm nổi bật nhà nước Lê sơ là gì?",
+          "options": [
+            "Trung ương tập quyền chặt chẽ",
+            "Không có luật",
+            "Không quan tâm giáo dục",
+            "Từ bỏ nông nghiệp"
+          ],
+          "answer": 0,
+          "explanation": "Nhà Lê sơ xây dựng bộ máy quản lý chặt chẽ."
+        },
+        {
+          "question": "Bình Ngô đại cáo khẳng định điều gì?",
+          "options": [
+            "Chủ quyền Đại Việt",
+            "Phụ thuộc nhà Minh",
+            "Bỏ kinh đô",
+            "Chấm dứt giáo dục"
+          ],
+          "answer": 0,
+          "explanation": "Tác phẩm khẳng định nền độc lập và văn hiến Đại Việt."
+        },
+        {
+          "question": "Ý nghĩa khởi nghĩa Lam Sơn là gì?",
+          "options": [
+            "Chấm dứt đô hộ Minh",
+            "Mở đầu Bắc thuộc",
+            "Lập nhà Nguyễn",
+            "Thống nhất thế giới"
+          ],
+          "answer": 0,
+          "explanation": "Thắng lợi khôi phục độc lập và mở ra thời Lê sơ."
+        }
+      ]
+    },
+    {
+      "title": "Chương 6: Đàng Trong - Đàng Ngoài và phong trào Tây Sơn",
+      "description": "Trịnh - Nguyễn phân tranh, Tây Sơn và các chiến thắng cuối thế kỷ XVIII.",
+      "content": "Trịnh - Nguyễn phân tranh, Tây Sơn và các chiến thắng cuối thế kỷ XVIII.",
+      "questions": [
+        {
+          "question": "Trịnh - Nguyễn phân tranh tạo hai vùng nào?",
+          "options": [
+            "Đàng Ngoài và Đàng Trong",
+            "Bắc Kỳ và Nam Kỳ",
+            "Âu Lạc và Văn Lang",
+            "Đại Việt và Vạn Xuân"
+          ],
+          "answer": 0,
+          "explanation": "Đất nước bị chia thành Đàng Ngoài và Đàng Trong."
+        },
+        {
+          "question": "Phong trào Tây Sơn khởi phát ở đâu?",
+          "options": [
+            "Bình Định",
+            "Thăng Long",
+            "Hoa Lư",
+            "Cổ Loa"
+          ],
+          "answer": 0,
+          "explanation": "Phong trào bắt đầu ở vùng Tây Sơn, Bình Định."
+        },
+        {
+          "question": "Ba anh em Tây Sơn gồm Nguyễn Nhạc, Nguyễn Lữ và ai?",
+          "options": [
+            "Nguyễn Huệ",
+            "Nguyễn Trãi",
+            "Nguyễn Ái Quốc",
+            "Nguyễn Bỉnh Khiêm"
+          ],
+          "answer": 0,
+          "explanation": "Nguyễn Huệ là vị tướng kiệt xuất của Tây Sơn."
+        },
+        {
+          "question": "Rạch Gầm - Xoài Mút năm 1785 đánh bại quân nào?",
+          "options": [
+            "Xiêm",
+            "Thanh",
+            "Minh",
+            "Pháp"
+          ],
+          "answer": 0,
+          "explanation": "Nguyễn Huệ đánh tan quân Xiêm năm 1785."
+        },
+        {
+          "question": "Ngọc Hồi - Đống Đa năm 1789 đánh bại quân nào?",
+          "options": [
+            "Thanh",
+            "Xiêm",
+            "Nguyên",
+            "Tống"
+          ],
+          "answer": 0,
+          "explanation": "Quang Trung đại phá quân Thanh mùa xuân 1789."
+        },
+        {
+          "question": "Nguyễn Huệ lên ngôi lấy niên hiệu gì?",
+          "options": [
+            "Quang Trung",
+            "Gia Long",
+            "Minh Mạng",
+            "Tự Đức"
+          ],
+          "answer": 0,
+          "explanation": "Nguyễn Huệ là Hoàng đế Quang Trung."
+        },
+        {
+          "question": "Mục tiêu quan trọng của Tây Sơn là gì?",
+          "options": [
+            "Lật đổ thế lực phong kiến chia cắt",
+            "Khôi phục đô hộ",
+            "Tách nước",
+            "Bỏ nông nghiệp"
+          ],
+          "answer": 0,
+          "explanation": "Tây Sơn chống các tập đoàn phong kiến suy yếu và chia cắt."
+        },
+        {
+          "question": "Chiến thắng Ngọc Hồi - Đống Đa nổi bật vì sao?",
+          "options": [
+            "Nhanh, táo bạo, hiệu quả",
+            "Không giao tranh",
+            "Là trận biển",
+            "Diễn ra thời Lý"
+          ],
+          "answer": 0,
+          "explanation": "Chiến dịch thể hiện tài thao lược của Quang Trung."
+        },
+        {
+          "question": "Đàng Trong mở rộng chủ yếu về hướng nào?",
+          "options": [
+            "Phía Nam",
+            "Bắc Cực",
+            "Châu Âu",
+            "Phía bắc Trung Quốc"
+          ],
+          "answer": 0,
+          "explanation": "Các chúa Nguyễn mở rộng lãnh thổ về phía Nam."
+        },
+        {
+          "question": "Ý nghĩa phong trào Tây Sơn là gì?",
+          "options": [
+            "Góp phần thống nhất và bảo vệ độc lập",
+            "Lệ thuộc hoàn toàn",
+            "Không tác động lịch sử",
+            "Chỉ buôn bán"
+          ],
+          "answer": 0,
+          "explanation": "Tây Sơn có vai trò lớn trong thống nhất và chống ngoại xâm."
+        }
+      ]
+    },
+    {
+      "title": "Chương 7: Việt Nam nửa đầu thế kỷ XIX",
+      "description": "Triều Nguyễn, kinh đô Huế, cải cách hành chính và thách thức thời đại.",
+      "content": "Triều Nguyễn, kinh đô Huế, cải cách hành chính và thách thức thời đại.",
+      "questions": [
+        {
+          "question": "Triều Nguyễn thành lập năm nào?",
+          "options": [
+            "1802",
+            "1789",
+            "1858",
+            "1884"
+          ],
+          "answer": 0,
+          "explanation": "Năm 1802, Nguyễn Ánh lập triều Nguyễn."
+        },
+        {
+          "question": "Vua đầu tiên của triều Nguyễn là ai?",
+          "options": [
+            "Gia Long",
+            "Minh Mạng",
+            "Tự Đức",
+            "Quang Trung"
+          ],
+          "answer": 0,
+          "explanation": "Nguyễn Ánh lấy niên hiệu Gia Long."
+        },
+        {
+          "question": "Kinh đô triều Nguyễn ở đâu?",
+          "options": [
+            "Huế",
+            "Thăng Long",
+            "Hoa Lư",
+            "Cổ Loa"
+          ],
+          "answer": 0,
+          "explanation": "Triều Nguyễn chọn Huế làm kinh đô."
+        },
+        {
+          "question": "Quốc hiệu Việt Nam dùng chính thức dưới thời ai?",
+          "options": [
+            "Gia Long",
+            "Lê Thánh Tông",
+            "Trần Nhân Tông",
+            "Ngô Quyền"
+          ],
+          "answer": 0,
+          "explanation": "Quốc hiệu Việt Nam được sử dụng dưới thời Gia Long."
+        },
+        {
+          "question": "Cải cách chia cả nước thành tỉnh diễn ra thời vua nào?",
+          "options": [
+            "Minh Mạng",
+            "Gia Long",
+            "Tự Đức",
+            "Duy Tân"
+          ],
+          "answer": 0,
+          "explanation": "Minh Mạng cải cách hành chính và chia tỉnh."
+        },
+        {
+          "question": "Bộ luật triều Nguyễn gọi là gì?",
+          "options": [
+            "Hoàng Việt luật lệ",
+            "Luật Hồng Đức",
+            "Hình thư",
+            "Bình Ngô đại cáo"
+          ],
+          "answer": 0,
+          "explanation": "Hoàng Việt luật lệ còn gọi là luật Gia Long."
+        },
+        {
+          "question": "Hạn chế đối ngoại của nhà Nguyễn là gì?",
+          "options": [
+            "Đóng cửa, hạn chế giao thương",
+            "Hội nhập mạnh",
+            "Liên minh toàn cầu",
+            "Trao tự trị"
+          ],
+          "answer": 0,
+          "explanation": "Chính sách đóng cửa làm giảm khả năng tiếp cận tiến bộ mới."
+        },
+        {
+          "question": "Nền tảng kinh tế nửa đầu thế kỷ XIX là gì?",
+          "options": [
+            "Nông nghiệp",
+            "Công nghiệp điện tử",
+            "Dịch vụ số",
+            "Hàng không"
+          ],
+          "answer": 0,
+          "explanation": "Xã hội Việt Nam khi đó chủ yếu dựa vào nông nghiệp."
+        },
+        {
+          "question": "Di sản tiêu biểu của triều Nguyễn là gì?",
+          "options": [
+            "Cố đô Huế",
+            "Thành Cổ Loa",
+            "Văn Miếu",
+            "Thành nhà Hồ"
+          ],
+          "answer": 0,
+          "explanation": "Cố đô Huế là di sản kiến trúc quan trọng của triều Nguyễn."
+        },
+        {
+          "question": "Thách thức lớn thế kỷ XIX là gì?",
+          "options": [
+            "Nguy cơ xâm lược phương Tây",
+            "Quân Nguyên trở lại",
+            "Nam Hán xâm lược",
+            "Bắc thuộc lần đầu"
+          ],
+          "answer": 0,
+          "explanation": "Chủ nghĩa thực dân phương Tây mở rộng xâm lược ở châu Á."
+        }
+      ]
+    },
+    {
+      "title": "Chương 8: Việt Nam dưới ách đô hộ thực dân Pháp",
+      "description": "Pháp xâm lược, phong trào Cần Vương, Yên Thế và xu hướng cứu nước đầu thế kỷ XX.",
+      "content": "Pháp xâm lược, phong trào Cần Vương, Yên Thế và xu hướng cứu nước đầu thế kỷ XX.",
+      "questions": [
+        {
+          "question": "Pháp nổ súng xâm lược Việt Nam ở đâu năm 1858?",
+          "options": [
+            "Đà Nẵng",
+            "Hà Nội",
+            "Huế",
+            "Sài Gòn"
+          ],
+          "answer": 0,
+          "explanation": "Ngày 1/9/1858, Pháp tấn công Đà Nẵng."
+        },
+        {
+          "question": "Hiệp ước năm 1884 đặt Việt Nam dưới bảo hộ Pháp là gì?",
+          "options": [
+            "Pa-tơ-nốt",
+            "Nhâm Tuất",
+            "Giáp Tuất",
+            "Sơ bộ"
+          ],
+          "answer": 0,
+          "explanation": "Hiệp ước Pa-tơ-nốt củng cố chế độ bảo hộ."
+        },
+        {
+          "question": "Phong trào Cần Vương gắn với ai?",
+          "options": [
+            "Tôn Thất Thuyết",
+            "Phan Bội Châu",
+            "Nguyễn Tất Thành",
+            "Hoàng Hoa Thám"
+          ],
+          "answer": 0,
+          "explanation": "Tôn Thất Thuyết nhân danh vua Hàm Nghi ra chiếu Cần Vương."
+        },
+        {
+          "question": "Khởi nghĩa Yên Thế gắn với lãnh tụ nào?",
+          "options": [
+            "Hoàng Hoa Thám",
+            "Phan Châu Trinh",
+            "Nguyễn Trung Trực",
+            "Trương Định"
+          ],
+          "answer": 0,
+          "explanation": "Hoàng Hoa Thám là lãnh tụ tiêu biểu của Yên Thế."
+        },
+        {
+          "question": "Phong trào Đông Du gắn với ai?",
+          "options": [
+            "Phan Bội Châu",
+            "Phan Châu Trinh",
+            "Trần Hưng Đạo",
+            "Lý Bí"
+          ],
+          "answer": 0,
+          "explanation": "Phan Bội Châu chủ trương đưa thanh niên sang Nhật học."
+        },
+        {
+          "question": "Phan Châu Trinh chủ trương gì?",
+          "options": [
+            "Cải cách, nâng dân trí",
+            "Cầu viện Thanh",
+            "Tái lập Bắc thuộc",
+            "Chỉ khởi nghĩa nông dân"
+          ],
+          "answer": 0,
+          "explanation": "Ông đề cao khai dân trí, chấn dân khí, hậu dân sinh."
+        },
+        {
+          "question": "Khai thác thuộc địa của Pháp nhằm mục đích gì?",
+          "options": [
+            "Vơ vét tài nguyên và bóc lột",
+            "Trao độc lập",
+            "Xóa thuế",
+            "Tự chủ công nghiệp"
+          ],
+          "answer": 0,
+          "explanation": "Pháp khai thác thuộc địa phục vụ lợi ích chính quốc."
+        },
+        {
+          "question": "Biến đổi xã hội thời Pháp thuộc là gì?",
+          "options": [
+            "Xuất hiện công nhân, tư sản, tiểu tư sản",
+            "Xóa bỏ nông dân",
+            "Không có đô thị",
+            "Không có giao thông"
+          ],
+          "answer": 0,
+          "explanation": "Khai thác thuộc địa tạo ra lực lượng xã hội mới."
+        },
+        {
+          "question": "Vì sao nhiều phong trào cuối thế kỷ XIX thất bại?",
+          "options": [
+            "Thiếu đường lối đúng và lực lượng bất lợi",
+            "Nhân dân không yêu nước",
+            "Pháp không xâm lược",
+            "Không có đấu tranh"
+          ],
+          "answer": 0,
+          "explanation": "Các phong trào anh dũng nhưng hạn chế về đường lối, tổ chức, vũ khí."
+        },
+        {
+          "question": "Ý nghĩa các phong trào chống Pháp là gì?",
+          "options": [
+            "Giữ lửa yêu nước",
+            "Ủng hộ thuộc địa",
+            "Xóa ý chí độc lập",
+            "Chấm dứt chính trị"
+          ],
+          "answer": 0,
+          "explanation": "Các phong trào thể hiện tinh thần yêu nước và tìm đường cứu nước."
+        }
+      ]
+    },
+    {
+      "title": "Chương 9: Cách mạng tháng Tám và kháng chiến chống Pháp",
+      "description": "Đảng Cộng sản Việt Nam, Cách mạng tháng Tám, Điện Biên Phủ và Giơ-ne-vơ.",
+      "content": "Đảng Cộng sản Việt Nam, Cách mạng tháng Tám, Điện Biên Phủ và Giơ-ne-vơ.",
+      "questions": [
+        {
+          "question": "Đảng Cộng sản Việt Nam thành lập năm nào?",
+          "options": [
+            "1930",
+            "1941",
+            "1945",
+            "1954"
+          ],
+          "answer": 0,
+          "explanation": "Đảng ra đời đầu năm 1930, đánh dấu bước ngoặt cách mạng."
+        },
+        {
+          "question": "Mặt trận Việt Minh thành lập năm nào?",
+          "options": [
+            "1941",
+            "1930",
+            "1945",
+            "1950"
+          ],
+          "answer": 0,
+          "explanation": "Việt Minh thành lập năm 1941 để đoàn kết lực lượng cứu nước."
+        },
+        {
+          "question": "Cách mạng tháng Tám thành công năm nào?",
+          "options": [
+            "1945",
+            "1930",
+            "1946",
+            "1954"
+          ],
+          "answer": 0,
+          "explanation": "Tháng Tám 1945, nhân dân giành chính quyền trên cả nước."
+        },
+        {
+          "question": "Ngày 2/9/1945 Hồ Chí Minh đọc văn kiện nào?",
+          "options": [
+            "Tuyên ngôn Độc lập",
+            "Hịch tướng sĩ",
+            "Bình Ngô đại cáo",
+            "Chiếu dời đô"
+          ],
+          "answer": 0,
+          "explanation": "Tuyên ngôn Độc lập khai sinh nước Việt Nam Dân chủ Cộng hòa."
+        },
+        {
+          "question": "Toàn quốc kháng chiến bùng nổ ngày nào?",
+          "options": [
+            "19/12/1946",
+            "2/9/1945",
+            "7/5/1954",
+            "3/2/1930"
+          ],
+          "answer": 0,
+          "explanation": "Đêm 19/12/1946, toàn quốc kháng chiến chống Pháp bắt đầu."
+        },
+        {
+          "question": "Việt Bắc 1947 có ý nghĩa gì?",
+          "options": [
+            "Phá âm mưu đánh nhanh thắng nhanh",
+            "Kết thúc chiến tranh",
+            "Mở đầu Bắc thuộc",
+            "Trao Đông Dương"
+          ],
+          "answer": 0,
+          "explanation": "Chiến thắng bảo vệ căn cứ địa Việt Bắc."
+        },
+        {
+          "question": "Biên giới 1950 giúp ta đạt gì?",
+          "options": [
+            "Khai thông biên giới và mở rộng căn cứ",
+            "Mất Việt Bắc",
+            "Kết thúc Cách mạng tháng Tám",
+            "Từ bỏ kháng chiến"
+          ],
+          "answer": 0,
+          "explanation": "Chiến dịch tạo bước chuyển mới cho kháng chiến."
+        },
+        {
+          "question": "Điện Biên Phủ thắng lợi năm nào?",
+          "options": [
+            "1954",
+            "1945",
+            "1950",
+            "1975"
+          ],
+          "answer": 0,
+          "explanation": "Chiến dịch Điện Biên Phủ thắng lợi ngày 7/5/1954."
+        },
+        {
+          "question": "Hiệp định Giơ-ne-vơ 1954 công nhận điều gì?",
+          "options": [
+            "Độc lập, chủ quyền, thống nhất, toàn vẹn lãnh thổ",
+            "Việt Nam là thuộc địa",
+            "Pháp cai trị vĩnh viễn",
+            "Mất quyền dân tộc"
+          ],
+          "answer": 0,
+          "explanation": "Hiệp định công nhận các quyền dân tộc cơ bản của Việt Nam."
+        },
+        {
+          "question": "Ý nghĩa Cách mạng tháng Tám là gì?",
+          "options": [
+            "Giành độc lập và lập nhà nước mới",
+            "Mở đầu Bắc thuộc",
+            "Khôi phục thuộc địa",
+            "Chấm dứt vai trò nhân dân"
+          ],
+          "answer": 0,
+          "explanation": "Cách mạng tháng Tám mở ra kỷ nguyên độc lập tự do."
+        }
+      ]
+    },
+    {
+      "title": "Chương 10: Kháng chiến chống Mỹ và Việt Nam sau 1975",
+      "description": "Kháng chiến chống Mỹ, thống nhất đất nước và Đổi mới.",
+      "content": "Kháng chiến chống Mỹ, thống nhất đất nước và Đổi mới.",
+      "questions": [
+        {
+          "question": "Hiệp định Paris về Việt Nam ký năm nào?",
+          "options": [
+            "1973",
+            "1954",
+            "1968",
+            "1975"
+          ],
+          "answer": 0,
+          "explanation": "Hiệp định Paris năm 1973 buộc Mỹ rút quân khỏi Việt Nam."
+        },
+        {
+          "question": "Tổng tiến công Tết Mậu Thân diễn ra năm nào?",
+          "options": [
+            "1968",
+            "1972",
+            "1973",
+            "1975"
+          ],
+          "answer": 0,
+          "explanation": "Tết Mậu Thân 1968 tạo tác động lớn về chính trị và quân sự."
+        },
+        {
+          "question": "Chiến dịch kết thúc kháng chiến chống Mỹ là gì?",
+          "options": [
+            "Chiến dịch Hồ Chí Minh",
+            "Điện Biên Phủ",
+            "Biên giới",
+            "Việt Bắc"
+          ],
+          "answer": 0,
+          "explanation": "Chiến dịch Hồ Chí Minh giải phóng Sài Gòn năm 1975."
+        },
+        {
+          "question": "Ngày 30/4/1975 gắn với sự kiện nào?",
+          "options": [
+            "Giải phóng miền Nam",
+            "Thành lập Đảng",
+            "Ký Giơ-ne-vơ",
+            "Dời đô"
+          ],
+          "answer": 0,
+          "explanation": "Ngày 30/4/1975 đánh dấu giải phóng miền Nam, thống nhất đất nước."
+        },
+        {
+          "question": "Tên nước Cộng hòa xã hội chủ nghĩa Việt Nam có từ năm nào?",
+          "options": [
+            "1976",
+            "1975",
+            "1986",
+            "1954"
+          ],
+          "answer": 0,
+          "explanation": "Năm 1976, Quốc hội quyết định tên nước hiện nay."
+        },
+        {
+          "question": "Công cuộc Đổi mới bắt đầu từ năm nào?",
+          "options": [
+            "1986",
+            "1976",
+            "1995",
+            "2000"
+          ],
+          "answer": 0,
+          "explanation": "Đại hội VI năm 1986 khởi xướng Đổi mới."
+        },
+        {
+          "question": "Trọng tâm ban đầu của Đổi mới là gì?",
+          "options": [
+            "Đổi mới kinh tế",
+            "Đóng cửa hoàn toàn",
+            "Bỏ sản xuất",
+            "Quay lại bao cấp cứng nhắc"
+          ],
+          "answer": 0,
+          "explanation": "Đổi mới trước hết tập trung đổi mới tư duy và cơ chế kinh tế."
+        },
+        {
+          "question": "Việt Nam gia nhập ASEAN năm nào?",
+          "options": [
+            "1995",
+            "1986",
+            "1975",
+            "2007"
+          ],
+          "answer": 0,
+          "explanation": "Việt Nam gia nhập ASEAN năm 1995."
+        },
+        {
+          "question": "Ý nghĩa thắng lợi năm 1975 là gì?",
+          "options": [
+            "Hoàn thành thống nhất đất nước",
+            "Mở đầu Bắc thuộc",
+            "Chia cắt lâu dài",
+            "Khôi phục thuộc địa"
+          ],
+          "answer": 0,
+          "explanation": "Thắng lợi kết thúc chiến tranh và thống nhất lãnh thổ."
+        },
+        {
+          "question": "Bài học lớn từ lịch sử hiện đại Việt Nam là gì?",
+          "options": [
+            "Đoàn kết, độc lập tự chủ và đổi mới",
+            "Từ bỏ độc lập",
+            "Không cần lịch sử",
+            "Chỉ dựa ngoại lực"
+          ],
+          "answer": 0,
+          "explanation": "Đoàn kết dân tộc, độc lập tự chủ và linh hoạt đổi mới là bài học quan trọng."
+        }
+      ]
+    }
+  ]
+}

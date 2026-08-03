@@ -6,9 +6,43 @@ const HISTORY_API_BASE_URL = import.meta.env.VITE_HISTORY_API_BASE_URL || 'http:
 
 export const CHAPTER_BACKGROUND_LESSON_ID = '__chapter_background__';
 
-export type AdminRole = 'admin' | 'manager' | 'student';
+export type AdminRole = 'admin' | 'manager' | 'teacher' | 'student';
 export type UserStatus = 'ACTIVE' | 'BANNED';
 export type ProAction = 'upgrade' | 'downgrade';
+
+export interface AdminClass {
+  id: string;
+  name: string;
+  description?: string;
+  school_name?: string;
+  class_code?: string;
+  code?: string;
+  class_password?: string | null;
+  teacher_id?: string;
+  teacher_name?: string;
+  teacher_email?: string;
+  student_count: number;
+  slot_limit?: number;
+  assignment_count?: number;
+  status?: string;
+  expires_at?: string;
+  created_at?: string;
+}
+
+export interface TeacherSearchResult {
+  id: string;
+  email: string;
+  full_name?: string;
+  role: string;
+}
+
+export interface AdminClassCreatePayload {
+  name: string;
+  school_name: string;
+  teacher_id: string;
+  slot_limit: number;
+  expires_at?: string | null;
+}
 
 export interface User {
   _id?: string;
@@ -499,6 +533,25 @@ export const apiService = {
 
   async updateUserPro(userId: string, action: ProAction): Promise<{ message: string }> {
     return request<{ message: string }>(`/admin/users/${encodeURIComponent(userId)}/pro?action=${encodeURIComponent(action)}`, { method: 'PUT' });
+  },
+
+  async getAdminClasses(): Promise<{ classes: AdminClass[] }> {
+    return request<{ classes: AdminClass[] }>('/admin/classes');
+  },
+
+  async searchTeachersByEmail(email: string): Promise<{ users: TeacherSearchResult[] }> {
+    return request<{ users: TeacherSearchResult[] }>(`/admin/users/search?email=${encodeURIComponent(email)}`);
+  },
+
+  async createAdminClass(payload: AdminClassCreatePayload): Promise<{ message: string; class_item: AdminClass; class_password: string }> {
+    return request<{ message: string; class_item: AdminClass; class_password: string }>('/admin/classes', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async hardDeleteClass(classId: string): Promise<{ message: string }> {
+    return request<{ message: string }>(`/admin/classes/${encodeURIComponent(classId)}`, { method: 'DELETE' });
   },
 
   async getTransactions(): Promise<{ transactions: AdminTransaction[] }> {

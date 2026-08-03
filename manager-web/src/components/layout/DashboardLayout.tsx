@@ -8,8 +8,10 @@ interface DashboardLayoutProps {
   subtitle?: string;
   classes: ClassSummary[];
   selectedClassId: string | null;
+  activeTab: string;
   user: AuthUser;
   onSelectClass: (classId: string) => void;
+  onSelectTab: (tabId: string) => void;
   onLogout: () => void;
 }
 
@@ -19,8 +21,10 @@ export function DashboardLayout({
   subtitle,
   classes,
   selectedClassId,
+  activeTab,
   user,
   onSelectClass,
+  onSelectTab,
   onLogout,
 }: DashboardLayoutProps) {
   return (
@@ -28,8 +32,10 @@ export function DashboardLayout({
       <Sidebar
         classes={classes}
         selectedClassId={selectedClassId}
+        activeTab={activeTab}
         user={user}
         onSelectClass={onSelectClass}
+        onSelectTab={onSelectTab}
         onLogout={onLogout}
       />
       <div className="pl-64 flex flex-col min-h-screen">
